@@ -1,0 +1,18 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Logs & Runtime
+*.log
+borgo_bot_metrics.json
+
+# macOS
+.DS_Store
+
+# Backups
+*.bak
+*_backup_*.yaml

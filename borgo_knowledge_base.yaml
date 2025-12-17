@@ -1,0 +1,1440 @@
+allgemeines:
+  category: basics
+  priority: high
+  synonyms:
+  - grundsätzliches
+  - prinzipien
+  - borgo-werte
+  - gemeinschaft
+  content: 'Grundprinzipien im Borgo Batone:
+
+
+    • Gemeinschaft vor Individualität
+
+    • Respekt vor Menschen, Natur & Kultur
+
+    • Eigenverantwortung für Sauberkeit & Ordnung
+
+    • Rücksichtnahme auf andere (besonders Ruhezeiten!)
+
+    • Borgo ist ein Ort zum Erholen & Zusammenleben
+
+
+    Bei Fragen: Onsite-Gruppe kontaktieren
+
+    '
+anreise:
+  category: basics
+  priority: high
+  synonyms:
+  - arrival
+  - anfahrt
+  - wegbeschreibung
+  - navigation
+  - route
+  - adresse
+  content: 'Anreise zum Borgo Batone:
+
+
+    Adresse für Navi:
+
+    Borgo Batone, Via di Loppeglia, 55064 Pescaglia LU, Italien
+
+
+    Alternative Suche: "Batoni, Pescaglia" (ohne ''e'')
+
+
+    Von Lucca: Ca. 20 Min durch die Berge
+
+    Taxi ab Lucca Bahnhof: ~30€
+
+    Bus-Verbindungen: Ab Lucca Bahnhof verfügbar
+
+
+    WICHTIG: Letzte 2 km enge Bergstraße!
+
+
+    Bei Problemen: Onsite-Gruppe anrufen
+
+    '
+parken:
+  category: basics
+  priority: high
+  synonyms:
+  - auto
+  - parkplatz
+  - parkplätze
+  - vehicle
+  - car
+  - parking
+  - parken
+  content: 'Parken im Borgo:
+
+
+    WICHTIG: Die kleine Straße durchs Borgo sieht nicht aus wie eine Durchgangsstraße
+    - ist es aber!
+
+
+    Regeln:
+
+    • Straße IMMER freihalten (auch zum Wenden)
+
+    • Parken unterhalb der Villa am Straßenrand
+
+    • Zum Ausladen bis zur Villa fahren erlaubt
+
+    • Danach SOFORT Fahrzeug unterhalb des Dorfes parken
+
+    • Pro Haus mehrere Fahrzeuge möglich, aber geordnet
+
+
+    Anlieferungen: Kurzzeitiges Einfahren erlaubt
+
+    '
+wlan:
+  category: basics
+  priority: high
+  synonyms:
+  - wifi
+  - internet
+  - w-lan
+  - netzwerk
+  - passwort
+  - password
+  content: 'WLAN-Informationen:
+
+
+    Verfügbar in:
+
+    • Villa Barsotti
+
+    • Casa Giannotti
+
+    • Casa Inglese 1 & 2
+
+
+    Zugangsdaten:
+
+    • SSID: Borgo
+
+    • Passwort: B3estUs3Cabl3
+
+
+    Router-Standort: Keller der Villa (zentraler Knoten)
+
+    LAN-Zugang: Netzwerkkabel in verschiedenen Gemeinschaftsräumen
+
+
+    Casa Gabriello: Separater LTE-Router
+
+
+    Bei Problemen:
+
+    • Router im Keller der Villa neustarten
+
+    • Onsite-Gruppe kontaktieren
+
+    '
+wasser:
+  category: basics
+  priority: medium
+  synonyms:
+  - water
+  - trinkwasser
+  - wasserhahn
+  - wasserversorgung
+  content: 'Wasserversorgung im Borgo:
+
+
+    Quelle: Bergquelle (Trinkwasserqualität)
+
+
+    Hauptabsperr-Ventil: Im Technikraum
+
+
+    Warmwasser: Benötigt Vorlaufzeit (je nach System)
+
+
+    Bei niedrigem Wasserdruck:
+
+    1. Prüfe ob andere Häuser Wasser haben
+
+    2. Hauptventil im Technikraum checken
+
+    3. Pumpe im Technikraum prüfen
+
+    4. Onsite-Gruppe kontaktieren
+
+
+    Wasserqualität: Regelmäßig getestet
+
+    '
+strom:
+  category: basics
+  priority: medium
+  synonyms:
+  - elektrizität
+  - energie
+  - stromausfall
+  - power
+  content: 'Stromversorgung im Borgo:
+
+
+    Hauptschalter: Im Technikraum der Villa
+
+
+    Unterverteilungen: In jedem Haus
+
+
+    Bei Stromausfall:
+
+    1. Prüfe Sicherungen im eigenen Haus
+
+    2. Checke Hauptsicherung im Technikraum
+
+    3. Prüfe ob andere Häuser auch betroffen sind
+
+    4. Bei Gewitter: Warte kurz, System kann sich selbst resetten
+
+    5. Onsite-Gruppe kontaktieren wenn nichts hilft
+
+
+    Pool nach Gewitter: Sicherung in der Villa prüfen!
+
+    '
+sicherungskasten:
+  category: basics
+  priority: high
+  synonyms:
+  - sicherung
+  - sicherungen
+  - elektrik
+  - fuse box
+  - fusebox
+  - verteiler
+  - stromkasten
+  - fi-schalter
+  - hauptsicherung
+  - elektrischer sicherungskasten
+  content: 'Elektrische Sicherungskästen:
+
+
+    Jedes Haus hat eigene Sicherungskästen
+
+
+    Standorte (typisch):
+
+    • In Eingangsbereichen
+
+    • Im Keller
+
+    • Bei größeren Häusern: Mehrere Verteiler
+
+
+    Hauptsicherung Villa: Im Technikraum
+
+
+    Bei Stromausfall:
+
+    1. Sicherungskasten im eigenen Haus prüfen
+
+    2. FI-Schalter ggf. zurücksetzen
+
+    3. Einzelne Sicherungen checken
+
+    4. Bei Unsicherheit: NICHT selbst manipulieren!
+
+    5. Onsite-Gruppe kontaktieren
+
+
+    WICHTIG:
+
+    • Bei mehrfachem Auslösen nicht ständig zurücksetzen
+
+    • Kann auf Defekt hinweisen → Fachpersonal!
+
+
+    Nach Gewitter:
+
+    • Pool-Sicherung in der Villa prüfen
+
+    • Hauptsicherung im Technikraum checken
+
+    '
+heizung:
+  category: basics
+  priority: medium
+  synonyms:
+  - heating
+  - wärme
+  - warmwasser
+  - temperatur
+  - kalt
+  - warm
+  content: 'Heizung im Borgo:
+
+
+    Systeme variieren je nach Haus:
+
+    • Manche: Wärmepumpe
+
+    • Manche: Gas-Heizung
+
+    • Warmwasser: Unterschiedliche Systeme
+
+
+    Wichtig:
+
+    • Warmwasser kann Vorlaufzeit benötigen
+
+    • Thermostat-Einstellungen beachten
+
+    • Bei Problemen: Onsite-Gruppe fragen
+
+
+    Tipp: Nicht zu hoch einstellen (Energiesparen!)
+
+    '
+gas:
+  category: basics
+  priority: low
+  synonyms:
+  - propangas
+  - flüssiggas
+  content: 'Gas-Versorgung:
+
+
+    Verwendet für: Kochen in manchen Häusern
+
+
+    Bei Fragen zur Gas-Versorgung:
+
+    • Onsite-Gruppe kontaktieren
+
+    • Nicht selbst an Gasanlagen herumbasteln!
+
+
+    Sicherheit: Bei Gas-Geruch sofort melden!
+
+    '
+gastank:
+  category: basics
+  priority: medium
+  synonyms:
+  - flüssiggastank
+  - propangastank
+  - gas-tank
+  - gasflasche
+  content: 'Gastank im Borgo:
+
+
+    Standort: Außenbereich beim Technikraum (Villa Barsotti)
+
+
+    Zuständigkeit: Onsite-Gruppe
+
+
+    Bei leerem Tank:
+
+    • Onsite-Gruppe informieren
+
+    • Nachbestellung wird organisiert
+
+    • NICHT selbst versuchen zu befüllen!
+
+
+    Sicherheit:
+
+    • Kein offenes Feuer in der Nähe
+
+    • Bei Gas-Geruch sofort Onsite-Gruppe alarmieren
+
+    '
+hauptgasanschluss:
+  category: basics
+  priority: medium
+  synonyms:
+  - gasanschluss
+  - gas-hauptleitung
+  - gasventil
+  content: 'Hauptgasanschluss Villa Barsotti:
+
+
+    Standort: Im Technikraum (Keller der Villa)
+
+
+    WICHTIG:
+
+    • Nur von Fachpersonal bedienen!
+
+    • Bei Problemen: Onsite-Gruppe kontaktieren
+
+    • NICHT selbst manipulieren (Sicherheitsrisiko!)
+
+
+    Absperr-Ventil: Im Technikraum markiert
+
+
+    Notfall (Gas-Geruch):
+
+    1. Hauptventil schließen
+
+    2. Fenster öffnen
+
+    3. KEINE Elektrogeräte einschalten
+
+    4. Onsite-Gruppe + Feuerwehr (115) alarmieren
+
+    '
+schluessel:
+  category: basics
+  priority: medium
+  synonyms:
+  - keys
+  - zugang
+  - tresor
+  - schlüsselkasten
+  content: 'Schlüssel-Management:
+
+
+    Tresor-Code: 4711
+
+
+    Check-in: Schlüssel im Tresor abholen
+
+    Check-out: Schlüssel zurück in Tresor
+
+
+    Bei Problemen:
+
+    • Onsite-Gruppe kontaktieren
+
+    • Tresor-Standort erfragen
+
+
+    Wichtig: Schlüssel nicht verlieren!
+
+    '
+haeuser:
+  category: basics
+  priority: medium
+  synonyms:
+  - häuser
+  - unterkünfte
+  - zimmer
+  - wohnungen
+  - gebäude
+  content: 'Bewohnbare Häuser im Borgo:
+
+
+    • Villa Barsotti (Haupthaus)
+
+    • Casa Giannotti
+
+    • Casa Inglese 1 & 2
+
+    • Casa Gabriello
+
+    • Weitere Häuser im Aufbau
+
+
+    Jedes Haus hat eigene Ausstattung.
+
+    Details: Im Benvenuti-Guide oder bei Onsite-Gruppe erfragen.
+
+    '
+pizza:
+  category: facilities
+  priority: high
+  synonyms:
+  - pizzateig
+  - pizzarezept
+  - mehl
+  - teig
+  content: 'Pizza-Rezept für 12-14 Personen:
+
+
+    Zutaten:
+
+    • 1 kg Mehl (Tipo 00)
+
+    • 600 ml lauwarmes Wasser
+
+    • 25g frische Hefe
+
+    • 20g Salz
+
+    • 30ml Olivenöl
+
+
+    Zubereitung:
+
+    1. Hefe in Wasser auflösen
+
+    2. Mehl, Salz hinzufügen
+
+    3. 10 Min kneten
+
+    4. 2-3 Std gehen lassen
+
+    5. Portionieren & ausrollen
+
+
+    Tipp: Teig am Vortag vorbereiten!
+
+    '
+pizzaofen:
+  category: facilities
+  priority: high
+  synonyms:
+  - ofen
+  - backofen
+  - pizza
+  content: 'So benutzt du den Pizzaofen:
+
+
+    1. Großes Feuer auf heißem Stein mittig entfachen
+
+    2. 45-60 Min vorheizen (Steintemperatur wichtig!)
+
+    3. Feuer zur Seite schieben
+
+    4. Pizzen auf heißem Stein backen (2-3 Min)
+
+    5. Nach Nutzung: Asche entfernen, abkühlen lassen
+
+
+    Holz: An markierten Stellen im Borgo
+
+
+    Sicherheit:
+
+    • Kinder nicht unbeaufsichtigt lassen
+
+    • Feuerlöscher bereithalten
+
+    • Nicht bei starkem Wind nutzen
+
+    '
+pool:
+  category: facilities
+  priority: high
+  synonyms:
+  - pool
+  - schwimmbad
+  - schwimmen
+  - baden
+  - swimming
+  - pool regeln
+  - poolregeln
+  - badebecken
+  - swimming pool
+  content: 'Pool im Borgo:
+
+
+    Saison: Mai bis September
+
+    Zeiten: 8:00 - 22:00 Uhr
+
+
+    Regeln:
+
+    • VOR dem Schwimmen duschen (Warmwasser vorhanden!)
+
+    • Kinder nur unter Aufsicht
+
+    • Keine Glasflaschen
+
+    • Nach 22 Uhr leise sein (Ruhezeiten!)
+
+
+    Kleidung: Badekleidung Pflicht
+
+    FKK: Nur nach Absprache mit anderen
+
+
+    Hunde: NICHT im Pool erlaubt
+
+
+    Toilette: Casa Giannotti oder Villa Barsotti
+
+    Dusche: Beim Pool vorhanden (Warmwasser)
+
+
+    Nach Gewitter: Sicherung in der Villa prüfen
+
+
+    Probleme: Onsite-Gruppe kontaktieren
+
+    '
+pool technik:
+  category: facilities
+  priority: high
+  synonyms:
+  - pool technik
+  - pool-technik
+  - pooltechnik
+  - technikraum pool
+  - pool-technikraum
+  - poolraum
+  - pool raum
+  - pool-raum
+  - wasseraufbereitung pool
+  - poolfilter
+  - poolpumpe
+  - chlor dosierung
+  - filteranlage pool
+  content: 'Pool-Technikraum & Wasseraufbereitung:
+
+
+    Standort: Separater Raum neben dem Pool
+
+
+    WICHTIG:
+
+    • NUR Fachpersonal / Onsite-Gruppe
+
+    • NICHT selbst an Technik manipulieren!
+
+
+    Enthält:
+
+    • Filteranlage
+
+    • Pumpen
+
+    • Chlor-Dosierung
+
+    • Steuerung
+
+
+    Bei Pool-Problemen:
+
+    • Onsite-Gruppe kontaktieren
+
+    • NICHT selbst versuchen zu "reparieren"
+
+
+    Wartung: Wird regelmäßig von Fachpersonal durchgeführt
+
+    '
+waschmaschine:
+  category: facilities
+  priority: high
+  synonyms:
+  - wäsche
+  - waschen
+  - washing machine
+  - waschküche
+  - trockner
+  content: 'Waschmaschinen im Borgo:
+
+
+    Standorte:
+
+    • Villa Barsotti
+
+    • Casa Gabriello
+
+
+    Nutzung:
+
+    • Zahlung per PayPal an Betreiber
+
+    • NUR Oceanwash-Waschmittel verwenden!
+
+    • Andere Mittel können Maschine beschädigen
+
+
+    Nach Nutzung:
+
+    • Trommel vollständig leeren
+
+    • Tür offen lassen (zum Trocknen)
+
+    • Gummi-Dichtung abwischen
+
+
+    Bei Problemen: Onsite-Gruppe kontaktieren
+
+    '
+bettwäsche:
+  category: facilities
+  priority: high
+  synonyms:
+  - bettwäsche
+  - bettzeug
+  - laken
+  - bezüge
+  - bettbezug
+  - bettwäschewechsel
+  - sheets
+  - linens
+  content: 'Bettwäsche im Borgo:
+
+
+    Check-in:
+
+    • Bettwäsche ist bereits auf den Betten
+
+    • Falls zusätzlich benötigt: Im Schrank/Lagerraum
+
+
+    Check-out:
+
+    • Bettwäsche ABZIEHEN
+
+    • In bereitgestellten Wäschesack legen
+
+    • Nicht selbst waschen
+
+
+    Während Aufenthalt:
+
+    • Bei Bedarf wechseln (Wäschesäcke vorhanden)
+
+    • Schmutzige Wäsche in Wäschesack
+
+    • Saubere Bettwäsche im Schrank
+
+
+    Standorte der Schränke: Je nach Haus unterschiedlich
+
+    Bei Fragen: Onsite-Gruppe kontaktieren
+
+
+    WICHTIG: Bettwäsche bei Abreise IMMER abziehen!
+
+    '
+muell:
+  category: basics
+  priority: high
+  synonyms:
+  - abfall
+  - recycling
+  - müllentsorgung
+  - trash
+  - garbage
+  - mülltrennung
+  content: 'Müllentsorgung im Borgo:
+
+
+    Trennung nach:
+
+    • Glas (Vetro)
+
+    • Papier/Karton (Carta)
+
+    • Plastik/Metall (Plastica/Metallo)
+
+    • Organisch (Organico/Umido)
+
+    • Restmüll (Secco/Non Riciclabile)
+
+
+    Standorte: Zentrale Müllstationen im Borgo
+
+
+    WICHTIG:
+
+    • IMMER korrekt trennen!
+
+    • Tonnen nicht überfüllen
+
+    • Bei Check-out: Müll vollständig entsorgen
+
+
+    Sperrmüll: NICHT einfach abstellen → Onsite-Gruppe fragen
+
+
+    Prinzip: Gemeinsame Verantwortung für Sauberkeit!
+
+    '
+hunde:
+  category: rules
+  priority: high
+  synonyms:
+  - dogs
+  - haustiere
+  - pets
+  - hundebesitzer
+  content: 'Hunde im Borgo:
+
+
+    Grundsatz: Hunde sind WILLKOMMEN!
+
+
+    Regeln:
+
+    • Auf Gemeinschaftsflächen: LEINE Pflicht
+
+    • Nicht frei herumlaufen lassen
+
+    • Nicht außerhalb Haupttor unbeaufsichtigt
+
+    • Ruhezeiten ab 22 Uhr beachten (kein Bellen!)
+
+
+    Sauberkeit:
+
+    • Hundehaufen IMMER entfernen
+
+    • Tüten bereitstellen/mitbringen
+
+
+    Nach Aufenthalt:
+
+    • Gründlich reinigen
+
+    • Alle Hundehaare entfernen
+
+    • Gründlich durchsaugen
+
+
+    Pool: Hunde NICHT im Pool erlaubt!
+
+
+    Bei Fragen: Borgo-Gruppe kontaktieren
+
+    '
+schlangen:
+  category: safety
+  priority: high
+  synonyms:
+  - snakes
+  - viper
+  - schlange
+  - reptilien
+  - giftig
+  content: 'Schlangen in der Gegend:
+
+
+    Arten:
+
+    1. Zornnatter (UNGIFTIG)
+
+    2. Vipern (GIFTIG)
+
+
+    Bei Sichtung:
+
+    • Abstand halten
+
+    • NICHT provozieren oder bedrängen
+
+    • Foto machen (zur Bestimmung)
+
+    • Andere Personen informieren
+
+
+    Verhalten:
+
+    • Schlangen sind NICHT aggressiv
+
+    • Verteidigen sich nur bei Bedrohung
+
+    • Meist Flucht vor Menschen
+
+
+    Bei Viper-Biss:
+
+    1. Ruhe bewahren
+
+    2. Bewegung minimieren
+
+    3. Betroffene Stelle ruhigstellen
+
+    4. SOFORT ins Krankenhaus Lucca: +39 0583 9701
+
+
+    Vorbeugung:
+
+    • Festes Schuhwerk in Natur
+
+    • Nicht in Gebüsch/Steinhaufen greifen
+
+    • Wege nutzen
+
+
+    Keine Panik - Bisse sind SEHR selten!
+
+    '
+feuer:
+  category: safety
+  priority: high
+  synonyms:
+  - fire
+  - brand
+  - rauch
+  - feuermelder
+  - feuerlöscher
+  content: 'Brandschutz im Borgo:
+
+
+    Feuerlöscher:
+
+    • In Villa Barsotti
+
+    • In anderen Haupthäusern
+
+    • Standorte markiert
+
+
+    Bei Feuer:
+
+    1. Ruhe bewahren
+
+    2. Menschen in Sicherheit bringen
+
+    3. Feuerwehr 115 rufen
+
+    4. Kleine Brände: Feuerlöscher nutzen
+
+    5. Bei Ausbreitung: SOFORT evakuieren
+
+
+    Vorbeugung:
+
+    • Keine Kerzen unbeaufsichtigt
+
+    • Pizzaofen: Asche vollständig abkühlen lassen
+
+    • Rauchen: Zigaretten IMMER vollständig löschen
+
+
+    Waldbrandgefahr im Sommer:
+
+    • Kein offenes Feuer im Wald
+
+    • Besondere Vorsicht bei Trockenheit
+
+
+    Sammelplatz bei Evakuierung: Hauptplatz vor Villa
+
+    '
+regeln:
+  category: rules
+  priority: high
+  synonyms:
+  - hausordnung
+  - rules
+  - regulations
+  - borgo-regeln
+  content: 'Borgo-Regeln:
+
+
+    Ruhezeiten:
+
+    • 22:00 - 08:00 Uhr
+
+    • Musik & laute Gespräche vermeiden
+
+
+    Gemeinschaftsflächen:
+
+    • Sauber hinterlassen
+
+    • Nicht als privaten Lagerplatz nutzen
+
+    • Rücksicht auf andere
+
+
+    Borgo ist KEIN Hotel:
+
+    • Eigenverantwortung für Sauberkeit
+
+    • Gegenseitige Rücksichtnahme
+
+    • Gemeinschaftliche Organisation
+
+
+    Pizzaofen:
+
+    • Vorherige Anmeldung bei Onsite-Gruppe
+
+    • Nach Nutzung vollständig säubern
+
+
+    Müll:
+
+    • Korrekt trennen
+
+    • Regelmäßig entsorgen
+
+
+    Bei Verstößen:
+
+    • Onsite-Gruppe spricht an
+
+    • Borgo lebt von gegenseitigem Respekt!
+
+    '
+checkout:
+  category: faq
+  priority: high
+  synonyms:
+  - abreise
+  - departure
+  - check-out
+  - auschecken
+  - verlassen
+  content: 'Check-out Prozedur:
+
+
+    Zeit: Bis 10:00 Uhr
+
+
+    VOR Abreise:
+
+    1. Zimmer/Haus aufräumen, durchfegen
+
+    2. Müll rausbringen (korrekt getrennt!)
+
+    3. Geschirr spülen, Küche sauber hinterlassen
+
+    4. Bettwäsche abziehen (in Wäschesack)
+
+    5. Fenster schließen
+
+    6. Heizung runterdrehen
+
+    7. Licht & Geräte ausschalten
+
+    8. Schlüssel in Tresor zurücklegen
+
+    9. Gas nachbestellen (falls verbraucht)
+
+    10. Tür abschließen
+
+
+    Grundprinzip: Haus so hinterlassen wie du es vorgefunden hast!
+
+
+    Danke & Gute Heimreise! 🙏
+
+    '
+benvenuti:
+  category: faq
+  priority: high
+  synonyms:
+  - guide
+  - handbook
+  - reiseführer
+  - anleitung
+  - dokumentation
+  content: 'Benvenuti-Guide:
+
+
+    Der umfassende Borgo-Reiseführer!
+
+
+    Enthält:
+
+    • Alle wichtigen Infos
+
+    • Ausführliche Anleitungen
+
+    • Lokale Empfehlungen
+
+    • Notfall-Nummern
+
+
+    Wo: Als PDF in deiner Buchungsbestätigung
+
+    Online: [Link wird bei Buchung verschickt]
+
+
+    Tipp: Vor Anreise durchlesen!
+
+    '
+notfall:
+  category: emergency
+  priority: critical
+  synonyms:
+  - notfälle
+  - emergency
+  - sos
+  - hilfe
+  - dringend
+  - notruf
+  - telefon
+  - nummer
+  - telefonnummer
+  content: '🚨 NOTFALL-NUMMERN ITALIEN:
+
+
+    • Europaweiter Notruf: 112
+
+    • Rettungsdienst (Ambulanza): 118
+
+    • Feuerwehr: 115
+
+    • Polizei: 113
+
+    • Krankenhaus Lucca: +39 0583 9701
+
+
+    Borgo-Kontakte:
+
+    • Onsite-Gruppe: [Nummer im Benvenuti-Guide]
+
+    • Emergency-Kontakt: [Im Benvenuti-Guide]
+
+
+    Bei medizinischen Notfällen IMMER 118 rufen!
+
+    Adresse parat halten: Borgo Batone, Via di Loppeglia, 55064 Pescaglia LU
+
+
+    Erste Hilfe: Verbandskasten in Villa Barsotti
+
+    '
+arzt:
+  category: contact
+  priority: medium
+  synonyms:
+  - doctor
+  - doktor
+  - medizin
+  - ärzte
+  - ärztin
+  content: 'Arzt in der Nähe:
+
+
+    Praxis: Via dei Pubblici Macelli 37, 55100 Lucca LU
+
+
+    Entfernung: Ca. 20 Min Fahrt von Borgo
+
+
+    Für Termine: Onsite-Gruppe fragen (kennt lokale Ärzte)
+
+
+    Notfall: 118 (Krankenwagen) oder 112 (Euronotruf)
+
+    '
+apotheke:
+  category: contact
+  priority: medium
+  synonyms:
+  - pharmacy
+  - medikamente
+  - medicine
+  - apotheken
+  - farmacia
+  content: "Apotheken in der Nähe:\n\n1. Farmacia Comunale Camaiore 3\n   Adresse:\
+    \ Via Roma, 37a\n   \n2. Apotheke Bahnhof Lucca\n   Öffnung: Durchgehend (auch\
+    \ Sonntags!)\n   \nBeide ca. 20-30 Min Fahrt vom Borgo\n\nTipp: Wichtige Medikamente\
+    \ von zuhause mitbringen!\n"
+krankenhaus:
+  category: contact
+  priority: high
+  synonyms:
+  - hospital
+  - klinik
+  - notaufnahme
+  - emergency
+  content: "Krankenhäuser:\n\n1. Ospedale San Luca (Lucca)\n   Adresse: Via Lippi\
+    \ e Mazzei, 55100 Lucca LU\n   Telefon: +39 0583 9701\n   Entfernung: Ca. 30 Min\n\
+    \   \n2. Ospedale Versilia (Lido di Camaiore)\n   Adresse: Via Aurelia 335, 55041\
+    \ Lido di Camaiore LU  \n   Entfernung: Ca. 40 Min\n\nNotfall: 118 (Krankenwagen)\
+    \ oder 112 (Euronotruf)\n"
+einkaufen:
+  category: services
+  priority: high
+  synonyms:
+  - einkauf
+  - shopping
+  - supermarkt
+  - laden
+  - geschäft
+  - store
+  content: "Einkaufsmöglichkeiten:\n\nNahversorgung:\n• \"Alimentari Pini\" (direkt\
+    \ an Hauptstraße, ca. 5 Min Fahrt)\n  Kleine Auswahl, lokale Produkte\n\nSupermärkte:\n\
+    • Carrefour in S. Martino in Freddana (ca. 5 km)\n  Mit Bäckerei, frisches Essen\n\
+    • Esselunga (Lucca oder Viareggio)\n• Coop (Lucca oder Viareggio)\n\nBio-Laden:\n\
+    • NaturaSì (Lucca)\n\nMärkte:\n• Wochenmarkt Lucca (Samstags)\n\nTipp: Großeinkauf\
+    \ vor Anreise oder in Lucca!\n"
+tankstelle:
+  category: services
+  priority: low
+  synonyms:
+  - tanken
+  - benzin
+  - diesel
+  - gas-station
+  - sprit
+  content: 'Tankstelle:
+
+
+    Nächste: An der Hauptstraße (ca. 10 Min Fahrt)
+
+
+    Öffnungszeiten: 24/7 (Automat)
+
+
+    Akzeptiert: Kreditkarten, EC-Karten
+
+
+    Tipp: Nicht mit leerem Tank ins Borgo fahren!
+
+    '
+bus:
+  category: services
+  priority: low
+  synonyms:
+  - öpnv
+  - öffentliche
+  - verkehrsmittel
+  - bus-verbindung
+  content: 'Bus-Verbindungen:
+
+
+    Von: Lucca Bahnhof
+
+    Nach: Richtung Pescaglia / Borgo Batone
+
+
+    Häufigkeit: Begrenzt (vor allem Schulzeiten)
+
+
+    Info: Onsite-Gruppe fragen oder
+
+    Online: Autolinee Toscane (Regionalbusanbieter)
+
+
+    Tipp: Auto ist empfohlen für Borgo-Zugang
+
+    '
+taxi:
+  category: services
+  priority: medium
+  synonyms:
+  - cab
+  - fahrdienst
+  content: 'Taxi-Service:
+
+
+    Radio Taxi Lucca
+
+    Preis ab Bahnhof: Ca. 30€
+
+
+    Vorbestellung empfohlen!
+
+
+    Alternative: Uber/Bolt (in Lucca begrenzt verfügbar)
+
+
+    Tipp: Telefonnummer im Benvenuti-Guide
+
+    '
+strand:
+  category: activities
+  priority: low
+  synonyms:
+  - beach
+  - meer
+  - küste
+  content: 'Strände in der Nähe:
+
+
+    Spiaggia Libera (freier Strand)
+
+    Entfernung: Ca. 35 Min Fahrt
+
+
+    Richtung: Viareggio / Lido di Camaiore
+
+
+    Tipp:
+
+    • Früh kommen im Sommer (voll!)
+
+    • Sonnenschirm & Handtücher mitbringen
+
+    • Parkplätze kostenpflichtig
+
+    '
+wandern:
+  category: activities
+  priority: low
+  synonyms:
+  - hiking
+  - spazieren
+  - trails
+  - berge
+  - natur
+  content: 'Wandern um Borgo Batone:
+
+
+    Umgebung: Toskanische Hügel, schöne Trails
+
+
+    Schwierigkeit: Leicht bis mittel
+
+
+    Ausrüstung: Festes Schuhwerk empfohlen!
+
+
+    Tipp:
+
+    • Onsite-Gruppe nach Routen fragen
+
+    • Wasser mitnehmen
+
+    • Schlangen-Bewusstsein (siehe Schlangen-Eintrag)
+
+    '
+sehenswuerdigkeiten:
+  category: activities
+  priority: low
+  synonyms:
+  - sights
+  - attractions
+  - sehenswürdigkeiten
+  - ausflüge
+  - kultur
+  content: 'Sehenswürdigkeiten:
+
+
+    Lucca Altstadt (20 Min):
+
+    • Stadtmauer (begehbar!)
+
+    • Torre Guinigi (Turm mit Bäumen)
+
+    • Piazza Anfiteatro
+
+    • Dom San Martino
+
+
+    Weitere:
+
+    • Pisa (Schiefer Turm, 45 Min)
+
+    • Florenz (1,5 Std)
+
+    • Cinque Terre (1,5 Std)
+
+    • Viareggio (Strandpromenade, 35 Min)
+
+
+    Tipp: Lucca an einem Tag erkunden!
+
+    '
+fotos:
+  category: activities
+  priority: low
+  synonyms:
+  - photos
+  - bilder
+  - fotografie
+  - celebrate
+  - app
+  - memories
+  content: 'Fotos teilen mit der Community:
+
+
+    Celebrate App
+
+    Code: PJKWNPQE
+
+
+    Damit kannst du:
+
+    • Borgo-Fotos mit Community teilen
+
+    • Erinnerungen hochladen
+
+    • Fotos anderer ansehen
+
+
+    Datenschutz: Freiwillig, nur wenn du möchtest!
+
+    '
+version:
+  category: meta
+  priority: high
+  synonyms:
+  - version
+  - bot version
+  - welche version
+  - software version
+  - update
+  - aktualisierung
+  content: '🤖 Borgo-Bot Information:
+
+
+    Version: 3.6
+
+    Build: December 2025
+
+
+    Aktive Features:
+
+    ✅ Keyword-Extraktion mit Confidence-Scoring
+
+    ✅ Context-Isolation (separate Pool-Entries)
+
+    ✅ Halluzinations-Erkennung
+
+    ✅ Multi-Model-Fallback
+
+    ✅ Fuzzy-Keyword-Matching
+
+
+    Knowledge Base:
+
+    • 48 Themen-Entries
+
+    • Deutsch (primär)
+
+    • DSGVO-konform (lokal gehostet)
+
+
+    Letzte Aktualisierung: 17. Dez 2025
+
+
+    Bei Problemen: Feedback an IT-Gruppe 🙏
+
+    '
+bot_status:
+  category: meta
+  priority: high
+  synonyms:
+  - status
+  - online
+  - verfügbar
+  - aktiv
+  - bereit
+  content: '🤖 Borgo-Bot online!
+
+
+    Version 3.6 | Bereit für deine Fragen.
+
+
+    Ich kann dir helfen bei:
+
+    • WLAN & Internet
+
+    • Pizzaofen & Rezepte
+
+    • Pool-Nutzung & Technik
+
+    • Müll & Recycling
+
+    • Hunde im Borgo
+
+    • Schlangen & Sicherheit
+
+    • Notfälle & Kontakte
+
+    • Check-out Prozedur
+
+    • Und vielem mehr!
+
+
+    Stelle eine konkrete Frage! 😊
+
+    '
