@@ -1,5 +1,5 @@
 """
-Zentrale Konfiguration für Borgo-Bot v3.6
+Zentrale Konfiguration für Borgo-Bot v3.7
 MULTI-BOT ARCHITEKTUR: Drei logisch getrennte Bots in einer Instanz
 """
 
