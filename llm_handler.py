@@ -33,6 +33,9 @@ class LLMHandler:
     
     def __init__(self, ollama_url: str = "http://localhost:11434"):
         self.ollama_url = ollama_url
+        # Models als Instance-Variable (können von außen überschrieben werden)
+        self.models = LLM_MODELS
+        self.primary_model = PRIMARY_MODEL
         self.stats = {
             'total_requests': 0,
             'successful_requests': 0,
@@ -40,7 +43,7 @@ class LLMHandler:
             'retries_used': 0,
             'hallucinations_detected': 0,
             'context_mixing_detected': 0,
-            'model_usage': {model: 0 for model in LLM_MODELS},
+            'model_usage': {model: 0 for model in self.models},
         }
     
     async def generate_response(
@@ -71,7 +74,7 @@ class LLMHandler:
         }
         
         # Versuche Modelle der Reihe nach
-        for attempt, model in enumerate(LLM_MODELS[:max_retries + 1]):
+        for attempt, model in enumerate(self.models[:max_retries + 1]):
             try:
                 logger.info(f"🤖 Attempt {attempt + 1}: Using model '{model}'")
                 
@@ -92,7 +95,7 @@ class LLMHandler:
                 if is_valid:
                     # Erfolg!
                     self.stats['successful_requests'] += 1
-                    self.stats['model_usage'][model] += 1
+                    self.stats['model_usage'][model] = self.stats['model_usage'].get(model, 0) + 1
                     metadata['final_model'] = model
                     
                     duration = (datetime.now() - start_time).total_seconds() * 1000
@@ -113,7 +116,7 @@ class LLMHandler:
                             self.stats['context_mixing_detected'] += 1
             
             except Exception as e:
-                logger.error(f"❌ Model '{model}' failed: {e}")
+                logger.error(f"❌ Model '{model}' failed: {e}", exc_info=True)
                 metadata['attempts'].append({
                     'model': model,
                     'success': False,
@@ -180,7 +183,14 @@ class LLMHandler:
     
     def _build_prompt(self, query: str, context: str) -> str:
         """Baut LLM-Prompt aus Query und Context"""
+        
+        # Für qwen-Modelle: Explizit Deutsch verlangen!
+        language_instruction = ""
+        if hasattr(self, 'primary_model') and 'qwen' in self.primary_model.lower():
+            language_instruction = "WICHTIG: Antworte ausschließlich auf Deutsch!\n\n"
+        
         prompt_parts = [
+            language_instruction,  # NEU: Deutsch-Anweisung
             context,
             "",
             "# USER-FRAGE",
@@ -194,6 +204,11 @@ class LLMHandler:
             "Erfinde keine Details, Zahlen oder Einheiten.",
         ]
         
+        # Entferne leere Strings am Anfang wenn language_instruction leer ist
+        if not language_instruction:
+            prompt_parts = prompt_parts[1:]
+        
+        return "\n".join(prompt_parts)
         return "\n".join(prompt_parts)
     
     def _validate_response(

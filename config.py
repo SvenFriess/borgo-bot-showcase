@@ -1,6 +1,6 @@
 """
-Zentrale Konfiguration für Borgo-Bot v3.5
-UPDATED: Multi-Gruppen Support für DEV + Community-Test
+Zentrale Konfiguration für Borgo-Bot v3.6
+Multi-Umgebungs-Support mit dynamischer Gruppenwahl
 """
 
 # =====================================================================================
@@ -22,18 +22,31 @@ SIGNAL_CLI_PATH = "/opt/homebrew/bin/signal-cli"
 SIGNAL_ACCOUNT = "+4915755901211"
 SIGNAL_PHONE_NUMBER = "+4915755901211"  # Alias
 
-# ✨ NEU: Multi-Gruppen Support
-# Option 1: Liste von Gruppen (DEV + Community-Test)
-SIGNAL_GROUP_ID = [
-    "i4UA7hmoTi1HYq+vO0/NvyR/MEcqKfLTrODlw9W8dDM=",  # Borgo-Bot DEV
-    "GIRAgoi6g+wpsFCliNWoXPXAErU/li2tW8TQ1xKhqcE="   # Borgo-Bot Community-Test
-]
+# ========================================
+# UMGEBUNGS-KONFIGURATION & SIGNAL-GRUPPEN
+# ========================================
 
-# Option 2: Alle Gruppen (keine Filterung)
-# SIGNAL_GROUP_ID = None
+import os
 
-# Option 3: Nur eine Gruppe (alte Methode)
-# SIGNAL_GROUP_ID = "i4UA7hmoTi1HYq+vO0/NvyR/MEcqKfLTrODlw9W8dDM="
+ENVIRONMENT = os.getenv('BORGO_ENV', 'development')
+
+# Signal-Gruppen-IDs nach Umgebung
+SIGNAL_GROUPS = {
+    'development': ['i4UA7hmoTi1HYq+vO0/NvyR/MEcqKfLTrODlw9W8dDM='],  # Borgo-Bot DEV
+    'test': ['21oiqcpO37/ScyKFhmctf/45MQ5QYdN2h/VQp9WMKCM='],        # Borgo-Bot TEST  
+    'production': ['GIRAgoi6g+wpsFCliNWoXPXAErU/li2tW8TQ1xKhqcE='],  # Borgo-Bot Community-Test
+}
+
+# Aktive Gruppen für diese Umgebung (als Liste für Kompatibilität mit Multi-Worker)
+SIGNAL_GROUP_ID = SIGNAL_GROUPS.get(ENVIRONMENT, SIGNAL_GROUPS['development'])
+
+# Socket-Pfad für Daemon-Kommunikation
+SIGNAL_SOCKET_PATH = '/tmp/signal-cli-socket'
+
+# Safety-Logging beim Import
+if __name__ != "__main__":
+    env_name = {'development': 'DEV', 'test': 'TEST', 'production': 'PROD'}.get(ENVIRONMENT, ENVIRONMENT)
+    print(f"🤖 Borgo-Bot v{BOT_VERSION} | {env_name} | → {len(SIGNAL_GROUP_ID)} group(s)")
 
 # Signal-CLI Settings
 SIGNAL_RECEIVE_TIMEOUT = 45
@@ -55,7 +68,7 @@ PRIMARY_MODEL = LLM_MODELS[0]
 SECONDARY_MODEL = 'granite3.3:2b'
 
 MAX_LLM_RETRIES = 2
-LLM_TIMEOUT_SECONDS = 30
+LLM_TIMEOUT_SECONDS = 60
 MODEL_TIMEOUT_SECONDS = 30
 
 # Context-Limits
@@ -170,12 +183,12 @@ FALLBACK_RESPONSES = {
     'no_keywords': """Dazu habe ich leider keine Informationen im Benvenuti-Guide. 
 
 Ich kann dir bei folgenden Themen helfen:
-• WLAN und Internet
-• Pizzaofen Benutzung
-• Müll und Recycling
-• Hunde im Borgo
-• Schlangen und Sicherheit
-• Notfälle und Kontakte
+- WLAN und Internet
+- Pizzaofen Benutzung
+- Müll und Recycling
+- Hunde im Borgo
+- Schlangen und Sicherheit
+- Notfälle und Kontakte
 
 Stelle eine konkrete Frage zu einem dieser Themen!""",
     
@@ -216,9 +229,9 @@ Du kannst auch im Benvenuti-Guide nachschauen: [Link zur Dokumentation]""",
     'too_many_retries': """Nach mehreren Versuchen konnte ich keine zufriedenstellende Antwort generieren.
 
 Das tut mir leid! Bitte:
-• Kontaktiere die Onsite-Gruppe direkt
-• Schaue im Benvenuti-Guide nach
-• Versuche es später nochmal
+- Kontaktiere die Onsite-Gruppe direkt
+- Schaue im Benvenuti-Guide nach
+- Versuche es später nochmal
 
 Ich lerne ständig dazu! 🤖""",
 
@@ -326,11 +339,22 @@ def validate_config():
     if MIN_INPUT_LENGTH < 1:
         errors.append("MIN_INPUT_LENGTH muss >= 1 sein")
     
+    # Environment-Checks
+    if ENVIRONMENT not in SIGNAL_GROUPS:
+        errors.append(f"ENVIRONMENT '{ENVIRONMENT}' nicht in SIGNAL_GROUPS definiert")
+    
+    if not SIGNAL_GROUP_ID:
+        errors.append("SIGNAL_GROUP_ID ist leer - keine Zielgruppe definiert")
+    
     return errors
 
 if __name__ == "__main__":
     print(f"Borgo-Bot v{BOT_VERSION} Configuration")
     print("=" * 50)
+    
+    # Environment Info
+    env_name = {'development': 'DEV', 'test': 'TEST', 'production': 'PROD'}.get(ENVIRONMENT, ENVIRONMENT)
+    print(f"\n🌍 Environment: {env_name} ({ENVIRONMENT})")
     
     status = get_feature_status()
     print(f"\n✅ Aktivierte Features: {len(status['enabled'])}/{status['total']}")
@@ -347,14 +371,18 @@ if __name__ == "__main__":
         print("✅ Konfiguration OK!")
     
     # Zeige Gruppen-Konfiguration
-    print(f"\n📡 Signal-Gruppen:")
-    if SIGNAL_GROUP_ID is None:
-        print("   ALLE Gruppen erlaubt")
-    elif isinstance(SIGNAL_GROUP_ID, list):
-        print(f"   {len(SIGNAL_GROUP_ID)} Gruppen konfiguriert:")
-        for i, gid in enumerate(SIGNAL_GROUP_ID, 1):
-            print(f"   {i}. {gid[:30]}...")
-    else:
-        print(f"   1 Gruppe: {SIGNAL_GROUP_ID[:30]}...")
+    print(f"\n📡 Signal-Gruppen-Konfiguration:")
+    for env, groups in SIGNAL_GROUPS.items():
+        marker = "→" if env == ENVIRONMENT else " "
+        env_label = {'development': 'DEV', 'test': 'TEST', 'production': 'PROD'}.get(env, env)
+        print(f"   {marker} {env_label:12} : {len(groups)} Gruppe(n)")
+    
+    print(f"\n   Aktiv: {len(SIGNAL_GROUP_ID)} Gruppe(n)")
+    for i, gid in enumerate(SIGNAL_GROUP_ID, 1):
+        print(f"   {i}. {gid[:40]}...")
     
     print("\n" + "=" * 50)
+# OVERRIDE für Multi-Bot System:
+#
+# OVERRIDE fuer Multi-Bot System:
+SIGNAL_GROUP_ID = None
