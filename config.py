@@ -7,7 +7,7 @@ Multi-Umgebungs-Support mit dynamischer Gruppenwahl
 # BASIS-INFO
 # =====================================================================================
 
-BOT_VERSION = "3.6"
+BOT_VERSION = "3.7"
 BOT_NAME = "Borgo-Bot"
 BOT_COMMAND_PREFIX = "!bot"
 
