@@ -237,6 +237,143 @@
       line-height: 1.7;
     }
     
+    /* Pipeline Visualization */
+    .pipeline-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 3rem 0;
+      padding: 2rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px var(--shadow);
+    }
+    
+    .pipeline-step {
+      flex: 0 1 auto;
+      min-width: 140px;
+      max-width: 160px;
+      padding: 1.5rem 1rem;
+      background: linear-gradient(135deg, var(--sand), white);
+      border: 2px solid var(--terracotta);
+      border-radius: 16px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .pipeline-step:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 30px var(--shadow);
+      border-color: var(--olive);
+    }
+    
+    .step-number {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 28px;
+      height: 28px;
+      background: var(--terracotta);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 8px rgba(196, 101, 60, 0.4);
+    }
+    
+    .step-icon {
+      font-size: 2.5rem;
+      margin: 0.5rem 0;
+    }
+    
+    .pipeline-step h4 {
+      font-size: 1rem;
+      color: var(--ink);
+      margin: 0.5rem 0;
+    }
+    
+    .pipeline-step p {
+      font-size: 0.8rem;
+      color: var(--stone);
+      line-height: 1.4;
+      margin: 0;
+    }
+    
+    .pipeline-step code {
+      background: rgba(196, 101, 60, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: var(--terracotta);
+    }
+    
+    .pipeline-arrow {
+      font-size: 2rem;
+      color: var(--terracotta);
+      font-weight: 700;
+      flex: 0 0 auto;
+    }
+    
+    .tech-specs {
+      margin: 3rem 0;
+    }
+    
+    .tech-specs h3 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--olive);
+    }
+    
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .spec-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      border-left: 4px solid var(--olive);
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+    
+    .spec-card strong {
+      display: block;
+      color: var(--olive);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .spec-card p {
+      color: var(--stone);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+    
+    @media (max-width: 768px) {
+      .pipeline-container {
+        flex-direction: column;
+      }
+      
+      .pipeline-arrow {
+        transform: rotate(90deg);
+      }
+      
+      .pipeline-step {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+    
     /* Test Commands */
     .test-commands {
       display: grid;
@@ -385,6 +522,32 @@
       margin: 2rem 0;
     }
     
+    .warning-box h4, .info-box h4 {
+      color: var(--olive);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+    
+    .warning-box ol, .info-box ol {
+      margin-top: 1rem;
+      padding-left: 1.5rem;
+      list-style-type: decimal;
+    }
+    
+    .warning-box ol li, .info-box ol li {
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+    
+    .warning-box code, .info-box code {
+      background: rgba(196, 101, 60, 0.1);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--terracotta);
+      font-family: 'Courier New', monospace;
+    }
+    
     .highlight-box {
       background: linear-gradient(135deg, rgba(107, 122, 90, 0.08) 0%, rgba(196, 101, 60, 0.08) 100%);
       border: 2px solid var(--terracotta);
@@ -476,6 +639,7 @@
       <ul class="nav-links">
         <li><a href="#demo">Demo</a></li>
         <li><a href="#features">Features</a></li>
+        <li><a href="#architecture">Architektur</a></li>
         <li><a href="#testing">Testing</a></li>
         <li><a href="#history">Versions</a></li>
       </ul>
@@ -535,6 +699,218 @@
         <div class="feature-icon">📚</div>
         <h3>YAML Knowledge Base</h3>
         <p>40+ Themen, 200+ Keywords. Einfach editierbar, versionskontrolliert, schnell erweiterbar.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture Section -->
+  <section id="architecture">
+    <div class="section-header">
+      <h2>System-Architektur</h2>
+      <p>Datenfluss-Pipeline mit Signal-Integration</p>
+    </div>
+    
+    <div class="pipeline-container">
+      <div class="pipeline-step">
+        <div class="step-number">1</div>
+        <div class="step-icon">📱</div>
+        <h4>Signal User</h4>
+        <p>Nachricht mit <code>!bot</code> senden</p>
+      </div>
+      
+      <div class="pipeline-arrow">→</div>
+      
+      <div class="pipeline-step">
+        <div class="step-number">2</div>
+        <div class="step-icon">📡</div>
+        <h4>Signal-CLI</h4>
+        <p>Nachricht empfangen<br>& Queue weiterleiten</p>
+      </div>
+      
+      <div class="pipeline-arrow">→</div>
+      
+      <div class="pipeline-step">
+        <div class="step-number">3</div>
+        <div class="step-icon">✅</div>
+        <h4>Input Validation</h4>
+        <p>3-500 Zeichen<br>Anti-Spam Checks</p>
+      </div>
+      
+      <div class="pipeline-arrow">→</div>
+      
+      <div class="pipeline-step">
+        <div class="step-number">4</div>
+        <div class="step-icon">🔍</div>
+        <h4>Keyword Extraction</h4>
+        <p>200+ Keywords<br>Fuzzy-Match 80%</p>
+      </div>
+      
+      <div class="pipeline-arrow">→</div>
+      
+      <div class="pipeline-step">
+        <div class="step-number">5</div>
+        <div class="step-icon">📚</div>
+        <h4>YAML Knowledge Base</h4>
+        <p>Context Building<br>40+ Themen</p>
+      </div>
+      
+      <div class="pipeline-arrow">→</div>
+      
+      <div class="pipeline-step">
+        <div class="step-number">6</div>
+        <div class="step-icon">🧠</div>
+        <h4>LLM (Ollama)</h4>
+        <p>mistral:instruct<br>Max 800 words context</p>
+      </div>
+      
+      <div class="pipeline-arrow">→</div>
+      
+      <div class="pipeline-step">
+        <div class="step-number">7</div>
+        <div class="step-icon">🛡️</div>
+        <h4>Response Validation</h4>
+        <p>Anti-Hallucination<br>Context-Mixing Checks</p>
+      </div>
+      
+      <div class="pipeline-arrow">→</div>
+      
+      <div class="pipeline-step">
+        <div class="step-number">8</div>
+        <div class="step-icon">💬</div>
+        <h4>Signal Response</h4>
+        <p>Antwort via Signal-CLI<br>zurück an User</p>
+      </div>
+    </div>
+    
+    <div class="tech-specs">
+      <h3>⚙️ Technische Spezifikationen</h3>
+      
+      <div class="specs-grid">
+        <div class="spec-card">
+          <strong>🖥️ Hardware & Runtime</strong>
+          <p>Mac Mini M4 (16GB RAM) – Hauptknoten<br>
+          Mac Mini M2 – Backup/Support<br>
+          MacBook M3 – Development<br>
+          Betrieb: Headless via SSH & Screen Sharing</p>
+        </div>
+        
+        <div class="spec-card">
+          <strong>⚡ Performance</strong>
+          <p>&lt;60s für 95% aller Queries<br>
+          LLM Timeout: 30s<br>
+          Queue Timeout: 60s<br>
+          Max Context: 800 words</p>
+        </div>
+        
+        <div class="spec-card">
+          <strong>🧠 LLM Stack</strong>
+          <p>Ollama (lokale Runtime)<br>
+          Primary: mistral:7b-instruct<br>
+          Fallback: granite3.1:2b<br>
+          Fallback: llama3.2:3b</p>
+        </div>
+        
+        <div class="spec-card">
+          <strong>👥 Concurrency</strong>
+          <p>3 Worker Threads<br>
+          Parallel Processing<br>
+          Queue Management<br>
+          Deduplizierung aktiv</p>
+        </div>
+        
+        <div class="spec-card">
+          <strong>💬 Signal Integration</strong>
+          <p>signal-cli (Daemon-Mode)<br>
+          Gruppen-Filter aktiv<br>
+          Trigger: <code>!bot</code><br>
+          Retry-Mechanismus</p>
+        </div>
+        
+        <div class="spec-card">
+          <strong>📚 Context Management</strong>
+          <p>YAML Knowledge Base<br>
+          40+ Themen, 200+ Keywords<br>
+          Versionskontrolliert (Git)<br>
+          Single Source of Truth</p>
+        </div>
+        
+        <div class="spec-card">
+          <strong>🛡️ Sicherheit & Compliance</strong>
+          <p>100% lokal, keine Cloud<br>
+          DSGVO-konform<br>
+          Keine externen APIs<br>
+          Audit-fähiges Logging</p>
+        </div>
+        
+        <div class="spec-card">
+          <strong>📊 Monitoring & Logging</strong>
+          <p>Rotierendes Logging<br>
+          Zeitstempel & Quellenzuordnung<br>
+          Performance-Tracking<br>
+          Nachvollziehbare Antworten</p>
+        </div>
+      </div>
+      
+      <div class="info-box" style="margin-top: 2rem;">
+        <h4>🎯 Designprinzipien</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div>
+            <strong>Single Source of Truth</strong>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Wissen liegt im Context, nicht im Modell. LLM ist reine Sprachschicht.</p>
+          </div>
+          <div>
+            <strong>Config-driven</strong>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Verhalten über Dateien steuerbar, keine Hard-coded Logik.</p>
+          </div>
+          <div>
+            <strong>Modular & Wiederverwendbar</strong>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Einsetzbar für KMU-Bots, Steuer-Bots, Community-Projekte.</p>
+          </div>
+          <div>
+            <strong>Erklärbar & Transparent</strong>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Jede Antwort ist technisch nachvollziehbar und auditierbar.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="warning-box" style="margin-top: 2rem;">
+        <h4>⚙️ Message Processing Flow</h4>
+        <ol style="margin-top: 1rem; line-height: 1.8;">
+          <li><strong>Signal-Empfang:</strong> Bot lauscht via signal-cli auf konfigurierte Gruppe</li>
+          <li><strong>Filterung:</strong> Gruppen-Check + Trigger-Keyword (<code>!bot</code>) Validierung</li>
+          <li><strong>Deduplizierung:</strong> Verhindert Mehrfachantworten bei Re-Reads</li>
+          <li><strong>Normalization:</strong> Trigger entfernen, Zitate/Emojis bereinigen</li>
+          <li><strong>Fixe Antworten:</strong> Vordefinierte Commands (Status, Hilfe) ohne LLM</li>
+          <li><strong>Context-Loading:</strong> Relevante YAML-Einträge laden (max 800 words)</li>
+          <li><strong>LLM-Inference:</strong> Prompt + Context → Ollama → Antwort generieren</li>
+          <li><strong>Validation:</strong> Anti-Hallucination + Context-Mixing Checks</li>
+          <li><strong>Signal-Versand:</strong> Antwort zurück an Gruppe mit Retry-Logik</li>
+          <li><strong>Logging:</strong> Timestamp, Quelle, Antworttyp für Audit-Trail</li>
+        </ol>
+      </div>
+    </div>
+    
+    <div class="highlight-box" style="margin-top: 3rem;">
+      <h3>🎯 Architektur-Highlights</h3>
+      <ul>
+        <li><strong>Zero-Cloud-Dependency:</strong> Alle Komponenten laufen lokal auf Mac Mini Cluster – kein SaaS, kein Vendor-Lock-in, keine externen API-Calls</li>
+        <li><strong>Context-First Approach:</strong> LLM hat kein Eigenwissen – arbeitet ausschließlich mit geladenen Context. Wissensarm, aber kontextreich.</li>
+        <li><strong>Anti-Hallucination Pipeline:</strong> 7-Stufen Validierung reduziert Fehler von 30% auf 0% – Context-Mixing Prevention, Pattern Detection</li>
+        <li><strong>Deterministisch + Transparent:</strong> Fixe Antworten für FAQs (Status, Hilfe) umgehen LLM vollständig – sofort, reproduzierbar, kostenfrei</li>
+        <li><strong>Fuzzy Keyword Matching:</strong> 80% Threshold für flexible Keyword-Erkennung über 200+ definierte Begriffe</li>
+        <li><strong>Multi-Model Fallback:</strong> Automatisches Failover bei LLM-Problemen – 3 Modelle mit gestaffelter Komplexität</li>
+        <li><strong>Message Normalization:</strong> Trigger-Entfernung, Emoji-Bereinigung, Zitat-Handling für cleane Prompts</li>
+        <li><strong>Group & Rate Control:</strong> Deduplizierung, Gruppen-Filter, Rate-Stabilität – kein Spam-Verhalten</li>
+        <li><strong>Audit-Ready Logging:</strong> Jede Antwort nachvollziehbar: Warum hat der Bot was gesagt? Timestamp + Quellenzuordnung</li>
+        <li><strong>Config-Driven & Modular:</strong> Verhalten über YAML steuerbar, wiederverwendbar für KMU/Community/Steuer-Bots</li>
+      </ul>
+      
+      <div class="info-box" style="margin-top: 1.5rem; background: rgba(107, 122, 90, 0.05);">
+        <p style="margin: 0; font-style: italic; color: var(--olive);">
+          <strong>Kernphilosophie:</strong> Der Bot denkt nicht – er gibt strukturiert wieder, was definiert wurde. 
+          Das LLM ist reine Sprachschicht, der "Verstand" liegt im Context. 
+          Ideal für skeptische IT-Stakeholder, Governance-Umfelder und datenschutzkritische Projekte.
+        </p>
       </div>
     </div>
   </section>
@@ -709,7 +1085,184 @@
 
         <span class="status-badge">✅ PRODUCTION READY</span>
       </div>
-    </div>
+
+      <div class="version-entry">
+        <h3>v0.9 – Pre-Release Final</h3>
+        <p><strong>Release:</strong> 07. Januar 2026</p>
+        
+        <h4>📋 Minor Version Bump</h4>
+        <p>Letzte Version vor Versionierungsschema-Wechsel zu 0.x</p>
+        <ul>
+          <li>Community-Test läuft erfolgreich (4.1. - 7.1.2026)</li>
+          <li>Keine technischen Änderungen zu v3.9</li>
+          <li>Versionsnummer dokumentiert Test-Abschluss</li>
+        </ul>
+
+        <span class="status-badge" style="background: var(--stone);">📦 SUPERSEDED by v0.99</span>
+      </div>
+
+      <div class="version-entry">
+        <h3>v0.7 – Critical Fixes & Community-Test Ready</h3>
+        <p><strong>Release:</strong> 07. Januar 2026</p>
+        
+        <h4>🐛 8 Critical Fixes</h4>
+        <ul>
+          <li><strong>Anreise-Adresse:</strong> Korrekte Adresse statt Halluzination</li>
+          <li><strong>Lebensmittel-Lagerung:</strong> Keine "Pantry" Halluzination mehr</li>
+          <li><strong>Yoga-Matten:</strong> Keine "Yoga-Halle" Halluzination mehr</li>
+          <li><strong>Pizzaofen-Sicherheit:</strong> Eiseneimer + Asche-Anleitung ergänzt</li>
+          <li><strong>Holz-Stapel:</strong> Konkrete Locations (Leccio, Parkplatz)</li>
+          <li><strong>Bettwäsche:</strong> Schrank-Location in Villa spezifiziert</li>
+          <li><strong>Fahrräder:</strong> 2 Mountainbikes + 2 Rennräder dokumentiert</li>
+          <li><strong>Poolroboter:</strong> Pool-Technik Info hinzugefügt</li>
+        </ul>
+
+        <h4>🔧 Technische Verbesserungen</h4>
+        <ul>
+          <li>YAML-Bereinigung: 94 Zeilen Duplikate entfernt</li>
+          <li>Synonym-Fixes: 26 fehlende Synonyme hinzugefügt</li>
+          <li>LLM_TIMEOUT: 30s → 60s erhöht</li>
+          <li>Signal-CLI Watchdog mit Auto-Restart implementiert</li>
+          <li>Professionelles Startup-System (start_borgo_bot.sh)</li>
+        </ul>
+
+        <h4>🧪 Testing-Erfolg</h4>
+        <ul>
+          <li>Tests durchgeführt: 14/14</li>
+          <li>Tests bestanden: 14/14</li>
+          <li>Erfolgsquote: <strong>100%</strong></li>
+          <li>Halluzinationen: <strong>0</strong></li>
+        </ul>
+
+        <span class="status-badge">✅ COMMUNITY-TEST APPROVED</span>
+      </div>
+
+      <div class="version-entry">
+        <h3>v0.6 – Version Bump & Stability</h3>
+        <p><strong>Release:</strong> 06. Januar 2026</p>
+        
+        <h4>📊 Änderungen</h4>
+        <ul>
+          <li>Version 0.5 → 0.6 upgrade in allen Dateien</li>
+          <li>Backup-System für Version-Updates etabliert</li>
+          <li>5 Core-Dateien synchronisiert (config, bot, validator, watchdog, startup)</li>
+        </ul>
+
+        <h4>✅ Validation</h4>
+        <ul>
+          <li>Alle 0.5 Referenzen erfolgreich auf 0.6 migriert</li>
+          <li>Signal-CLI Watchdog aktiv</li>
+          <li>57 YAML Entries geladen</li>
+        </ul>
+
+        <span class="status-badge" style="background: var(--olive);">🔄 STABLE</span>
+      </div>
+
+      <div class="version-entry">
+        <h3>v0.5 – YAML Knowledge Base Fix</h3>
+        <p><strong>Release:</strong> 30. Dezember 2025</p>
+        
+        <h4>🐛 Critical YAML Fix</h4>
+        <p><strong>Problem:</strong> Code "4711" führte zu Verwirrung und unerwarteten Antworten</p>
+        <ul>
+          <li>Falscher Code "4711" aus YAML entfernt</li>
+          <li>Keyword "schlüssel" korrekt formuliert</li>
+          <li>51 YAML Entries validiert</li>
+        </ul>
+
+        <h4>✅ Validation Results</h4>
+        <ul>
+          <li>YAML erfolgreich geladen (51 entries)</li>
+          <li>15/16 Checks bestanden</li>
+          <li>Deployment-ready Status erreicht</li>
+        </ul>
+
+        <h4>📁 Files Changed</h4>
+        <ul>
+          <li><code>borgo_knowledge_base.yaml</code> – Code "4711" entfernt</li>
+          <li><code>validate_yaml.py</code> – Enhanced validation</li>
+          <li><code>config.py</code> – Version bump zu 3.71</li>
+        </ul>
+
+        <span class="status-badge" style="background: var(--olive);">🔄 STABLE</span>
+      </div>
+
+      <div class="version-entry">
+        <h3>v0.3 – Meta-Query Detection & Anti-Hallucination</h3>
+        <p><strong>Release:</strong> 30. Dezember 2025</p>
+        
+        <h4>🎯 Neue Features</h4>
+        <ul>
+          <li><strong>Meta-Query Detector:</strong> Erkennt Bot-bezogene Fragen</li>
+          <li><strong>Erweiterte Anti-Hallucination:</strong> Pattern-based detection</li>
+          <li><strong>Hallucination Rate:</strong> &lt;5% Target erreicht</li>
+        </ul>
+
+        <h4>🔧 User Experience Improvements</h4>
+        <ul>
+          <li>Generic Fallback-Dumps eliminiert</li>
+          <li>Meta-Queries werden zu 100% erkannt</li>
+          <li>Fabricated Codes/Details verhindert</li>
+        </ul>
+
+        <h4>🧪 Community Feedback</h4>
+        <p>Positive Rückmeldungen von Marion und Andreas – "Hmmm🤔" Momente eliminiert</p>
+
+        <span class="status-badge" style="background: var(--olive);">🔄 STABLE</span>
+      </div>
+
+      <div class="version-entry">
+        <h3>v0.2 – Robuste Bot-Architektur</h3>
+        <p><strong>Release:</strong> Dezember 2025</p>
+        
+        <h4>🏗️ Architektur-Updates</h4>
+        <ul>
+          <li>Multi-Bot Setup (DEV/TEST/PROD)</li>
+          <li>Fehlerbehandlung verbessert</li>
+          <li>Modell-Hierarchie für Fallback implementiert</li>
+        </ul>
+
+        <h4>⚙️ Konfiguration</h4>
+        <ul>
+          <li>LLM Models: mistral:7b-instruct (Primary)</li>
+          <li>Fallback: granite3.1:2b, llama3.2:3b</li>
+          <li>Context Limits: 800 words, 3 entries max</li>
+        </ul>
+
+        <span class="status-badge" style="background: var(--olive);">🔄 STABLE</span>
+      </div>
+
+      <div class="version-entry">
+        <h3>v0.1 – Foundation Release</h3>
+        <p><strong>Release:</strong> Dezember 2025</p>
+        
+        <h4>🎯 Kern-Features</h4>
+        <ul>
+          <li>Zentrale Konfiguration (config.py)</li>
+          <li>Input Validierung (3-500 Zeichen)</li>
+          <li>Keyword Extraction mit Fuzzy-Match (80%)</li>
+          <li>Halluzinations-Erkennung implementiert</li>
+          <li>Response Validierung (10-2000 Zeichen)</li>
+        </ul>
+
+        <h4>📚 Knowledge Base</h4>
+        <ul>
+          <li>YAML-basierte Knowledge Base</li>
+          <li>10 Kategorien definiert</li>
+          <li>Confidence-basiertes Keyword-Matching</li>
+        </ul>
+
+        <h4>🔧 Infrastructure</h4>
+        <ul>
+          <li>Signal-CLI Integration</li>
+          <li>Ollama LLM Runtime</li>
+          <li>Worker-basierte Architektur (3 Workers)</li>
+          <li>Logging & Monitoring System</li>
+        </ul>
+
+        <span class="status-badge" style="background: var(--stone);">📦 INITIAL RELEASE</span>
+      </div>
+
   </section>
 
   <!-- Footer -->
