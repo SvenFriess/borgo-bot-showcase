@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Borgo-Bot Tester Guide</title>
+  <meta name="description" content="Anleitung zum Testen des Borgo Batone Chatbots für die Community." />
+  <style>
+    :root{
+      --bg:#0b2530; --brand:#0e6ba8; --ink:#0d1b2a; --muted:#667a86;
+      --card:#f2f7fa; --ok:#0a7a46; --warn:#b98900; --info:#0e6ba8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.7;background:#fafafa;color:var(--ink)}
+    header{background:var(--bg);color:#fff;padding:1.5rem;text-align:center}
+    header h1{margin:0;font-size:2rem}
+    header p{margin:.5rem 0 0;color:#cfe8f3;font-size:1.1rem}
+    main{max-width:800px;margin:2rem auto;padding:1.5rem;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+    h2{color:var(--brand);margin-top:2rem;border-bottom:2px solid #e3e8ef;padding-bottom:.5rem}
+    .highlight{background:#e8fef3;border-left:6px solid var(--ok);padding:1rem;border-radius:10px;margin:1rem 0}
+    .warning{background:#fefae8;border-left:6px solid var(--warn);padding:1rem;border-radius:10px;margin:1rem 0}
+    .info-box{background:#edf6ff;border-left:6px solid var(--info);padding:1rem;border-radius:10px;margin:1rem 0}
+    .command{display:inline-block;padding:.3rem .6rem;border:1px solid #cbd5e1;border-bottom-width:2px;border-radius:6px;background:#f8fafc;font-family:monospace;font-size:1rem;margin:.2rem 0}
+    .test-card{background:var(--card);padding:1rem;border-radius:10px;margin:1rem 0}
+    .test-card h3{margin:0 0 .5rem;color:var(--brand)}
+    .badge{display:inline-block;padding:.2rem .6rem;border-radius:999px;background:var(--ok);color:#fff;font-weight:700;font-size:.85rem}
+    .new{background:#0e6ba8}
+    ul{padding-left:1.5rem}
+    li{margin:.5rem 0}
+    footer{margin:2rem auto 1rem;text-align:center;color:var(--muted);font-size:.9rem}
+    a{color:var(--brand)}
+    .emoji{font-size:1.3rem;margin-right:.3rem}
+    .keyword-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.5rem;margin:1rem 0}
+    .keyword{background:#f0f7ff;border:1px solid #c5ddf5;padding:.4rem .7rem;border-radius:8px;font-size:.95rem;text-align:center}
+    .keyword-new{background:#e8fef3;border-color:#a3e4c1}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🤖 Borgo-Bot Tester Guide</h1>
+    <p>Version 3.6 – So testest du den Bot richtig!</p>
+  </header>
+
+  <main>
+    <div class="highlight">
+      <strong>🎉 Neu in Version 3.6:</strong>
+      <ul style="margin:.5rem 0 0">
+        <li>Pool-Fragen funktionieren jetzt 100% konsistent</li>
+        <li>Neue Themen: Sicherungskasten, Bettwäsche</li>
+        <li>Keine "Halluzinationen" mehr (erfundene Antworten)</li>
+      </ul>
+    </div>
+
+    <div class="warning">
+      <strong>⚠️ Wichtig zu wissen:</strong>
+      <p style="margin:.5rem 0 0">Der Bot hat <strong>keinen Zugriff auf das Internet</strong>. Er kann nur Fragen beantworten, die in seiner Wissensdatenbank (dem "Benvenuti-Guide") enthalten sind. Fragen zu aktuellen Nachrichten, Wetter oder anderen externen Informationen kann er nicht beantworten.</p>
+    </div>
+
+    <h2>📚 Darüber weiß der Bot Bescheid</h2>
+    <p>Der Bot kennt aktuell <strong>40 Themen</strong> mit über <strong>200 Stichwörtern</strong>. Hier sind alle Themen:</p>
+    
+    <div class="keyword-grid">
+      <div class="keyword">wlan</div>
+      <div class="keyword">internet</div>
+      <div class="keyword">wifi</div>
+      <div class="keyword">pool</div>
+      <div class="keyword keyword-new">pool technik ✨</div>
+      <div class="keyword">schwimmbad</div>
+      <div class="keyword">pizzaofen</div>
+      <div class="keyword">pizza</div>
+      <div class="keyword">backofen</div>
+      <div class="keyword">müll</div>
+      <div class="keyword">recycling</div>
+      <div class="keyword">abfall</div>
+      <div class="keyword">mülltrennung</div>
+      <div class="keyword">hunde</div>
+      <div class="keyword">haustiere</div>
+      <div class="keyword">tiere</div>
+      <div class="keyword">schlangen</div>
+      <div class="keyword">vipern</div>
+      <div class="keyword">giftschlangen</div>
+      <div class="keyword">notfall</div>
+      <div class="keyword">notruf</div>
+      <div class="keyword">emergency</div>
+      <div class="keyword">arzt</div>
+      <div class="keyword">krankenhaus</div>
+      <div class="keyword">apotheke</div>
+      <div class="keyword">einkaufen</div>
+      <div class="keyword">supermarkt</div>
+      <div class="keyword">lebensmittel</div>
+      <div class="keyword keyword-new">bettwäsche ✨</div>
+      <div class="keyword">handtücher</div>
+      <div class="keyword">wäsche</div>
+      <div class="keyword keyword-new">sicherungskasten ✨</div>
+      <div class="keyword">strom</div>
+      <div class="keyword">stromausfall</div>
+      <div class="keyword">elektrik</div>
+      <div class="keyword">check-in</div>
+      <div class="keyword">check-out</div>
+      <div class="keyword">anreise</div>
+      <div class="keyword">abreise</div>
+      <div class="keyword">schlüssel</div>
+      <div class="keyword">parken</div>
+      <div class="keyword">parkplatz</div>
+      <div class="keyword">auto</div>
+      <div class="keyword">grillen</div>
+      <div class="keyword">bbq</div>
+      <div class="keyword">feuer</div>
+      <div class="keyword">wasser</div>
+      <div class="keyword">trinkwasser</div>
+      <div class="keyword">heizung</div>
+      <div class="keyword">warmwasser</div>
+      <div class="keyword">ruhezeiten</div>
+      <div class="keyword">lärm</div>
+      <div class="keyword">nachtruhe</div>
+      <div class="keyword">kinder</div>
+      <div class="keyword">spielplatz</div>
+      <div class="keyword">restaurant</div>
+      <div class="keyword">essen</div>
+      <div class="keyword">frühstück</div>
+      <div class="keyword">kontakt</div>
+      <div class="keyword">onsite</div>
+      <div class="keyword">hilfe</div>
+    </div>
+    <p class="muted" style="font-size:.9rem;color:var(--muted)">✨ = Neu in v3.6</p>
+
+    <h2>🚀 So benutzt du den Bot</h2>
+    <p>Schreibe in der Signal-Gruppe <strong>"Borgo-Bot Community-Test"</strong> eine Nachricht mit <span class="command">!bot</span> am Anfang:</p>
+    
+    <div class="test-card">
+      <h3>Beispiel</h3>
+      <p><span class="command">!bot Wie funktioniert der Pizzaofen?</span></p>
+      <p>→ Der Bot antwortet mit Infos zum Pizzaofen</p>
+    </div>
+
+    <div class="info-box">
+      <strong>💡 Tipp:</strong> Du kannst Fragen ganz natürlich stellen! Der Bot versteht auch:
+      <ul style="margin:.5rem 0 0">
+        <li>"!bot Wo finde ich das WLAN-Passwort?"</li>
+        <li>"!bot Wie heiß muss der Pizzaofen sein?"</li>
+        <li>"!bot Ich habe eine Schlange gesehen, was soll ich tun?"</li>
+      </ul>
+    </div>
+
+    <h2>✅ Test-Befehle zum Ausprobieren</h2>
+    
+    <div class="test-card">
+      <h3><span class="emoji">🏊</span> Pool</h3>
+      <p><span class="command">!bot pool</span> → Öffnungszeiten & Regeln</p>
+      <p><span class="command">!bot pool technik</span> <span class="badge new">Neu</span> → Technikraum-Info</p>
+    </div>
+
+    <div class="test-card">
+      <h3><span class="emoji">🔌</span> Strom & Elektrik</h3>
+      <p><span class="command">!bot sicherungskasten</span> <span class="badge new">Neu</span> → Wo sind die Sicherungen?</p>
+      <p><span class="command">!bot stromausfall</span> → Was tun bei Stromausfall?</p>
+    </div>
+
+    <div class="test-card">
+      <h3><span class="emoji">🛏️</span> Unterkunft</h3>
+      <p><span class="command">!bot bettwäsche</span> <span class="badge new">Neu</span> → Check-in/out Infos</p>
+      <p><span class="command">!bot wlan</span> → WLAN-Passwort & Infos</p>
+    </div>
+
+    <div class="test-card">
+      <h3><span class="emoji">🍕</span> Einrichtungen</h3>
+      <p><span class="command">!bot pizzaofen</span> → Anleitung Pizzaofen</p>
+      <p><span class="command">!bot müll</span> → Müll & Recycling</p>
+      <p><span class="command">!bot einkaufen</span> → Wo kann ich einkaufen?</p>
+    </div>
+
+    <div class="test-card">
+      <h3><span class="emoji">🐕</span> Tiere & Sicherheit</h3>
+      <p><span class="command">!bot hunde</span> → Regeln für Hunde</p>
+      <p><span class="command">!bot schlangen</span> → Was tun bei Schlangen?</p>
+    </div>
+
+    <div class="test-card">
+      <h3><span class="emoji">🚨</span> Notfälle</h3>
+      <p><span class="command">!bot notfall</span> → Notfallnummern</p>
+      <p><span class="command">!bot arzt</span> → Ärzte in der Nähe</p>
+    </div>
+
+    <div class="test-card">
+      <h3><span class="emoji">ℹ️</span> Bot-Status</h3>
+      <p><span class="command">!bot status</span> → Läuft der Bot?</p>
+      <p><span class="command">!bot version</span> → Welche Version?</p>
+    </div>
+
+    <h2>🚫 Das kann der Bot NICHT</h2>
+    <div class="warning">
+      <ul style="margin:0">
+        <li>Aktuelle Wetter-Infos abrufen</li>
+        <li>Im Internet nach Informationen suchen</li>
+        <li>Restaurant-Reservierungen machen</li>
+        <li>Fragen zu Themen außerhalb des Borgo beantworten</li>
+        <li>Sich an vorherige Gespräche erinnern</li>
+      </ul>
+      <p style="margin:.5rem 0 0"><strong>Bei solchen Fragen:</strong> Der Bot sagt dir, dass er dazu keine Infos hat, und verweist auf die Onsite-Gruppe.</p>
+    </div>
+
+    <h2>🧪 Test-Szenarien</h2>
+    <p>Probiere diese Situationen aus und schau ob die Antworten hilfreich sind:</p>
+    
+    <ol>
+      <li><strong>Ankunft im Borgo:</strong> Frag nach WLAN, Check-in, Bettwäsche</li>
+      <li><strong>Abend-Aktivität:</strong> Frag nach Pizzaofen und Pool</li>
+      <li><strong>Problem:</strong> Frag nach Stromausfall oder Sicherungskasten</li>
+      <li><strong>Notfall:</strong> Frag nach Notfallnummern oder Arzt</li>
+      <li><strong>Natürliche Fragen:</strong> Stell Fragen so wie du sie wirklich stellen würdest</li>
+    </ol>
+
+    <h2>💬 Feedback geben</h2>
+    <div class="highlight">
+      <strong>Dein Feedback ist wichtig!</strong> Wenn etwas nicht stimmt oder fehlt:
+      <ul style="margin:.5rem 0 0">
+        <li>Schreib direkt in die Signal-Gruppe was nicht funktioniert hat</li>
+        <li>Sag uns welche Frage du gestellt hast</li>
+        <li>Sag uns was du erwartet hättest</li>
+        <li><strong>Besonders hilfreich:</strong> Echte Fragen, die Gäste stellen würden!</li>
+      </ul>
+    </div>
+
+    <h2>❓ FAQ</h2>
+    
+    <p><strong>Der Bot antwortet nicht?</strong><br>
+    → Prüfe ob du <span class="command">!bot</span> am Anfang geschrieben hast (mit Leerzeichen danach)</p>
+    
+    <p><strong>Die Antwort ist falsch?</strong><br>
+    → Bitte in der Gruppe melden! Wir verbessern den Bot ständig.</p>
+    
+    <p><strong>Mein Thema fehlt?</strong><br>
+    → Sag uns Bescheid, dann fügen wir es hinzu.</p>
+
+    <p><strong>Der Bot sagt "Dazu habe ich keine Infos"?</strong><br>
+    → Das Thema ist noch nicht in der Wissensdatenbank. Melde es uns!</p>
+
+    <h2>📜 Was ist neu?</h2>
+    <table style="width:100%;border-collapse:collapse">
+      <tr style="background:#f6fbff">
+        <td style="padding:.5rem;border:1px solid #e3e8ef"><strong>v3.6</strong></td>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">17.12.2025</td>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">Pool-Fix, Sicherungskasten, Bettwäsche</td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">v3.5</td>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">13.12.2025</td>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">Bessere Antworten, weniger Fehler</td>
+      </tr>
+      <tr>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">v3.0</td>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">03.12.2025</td>
+        <td style="padding:.5rem;border:1px solid #e3e8ef">Komplett neues System</td>
+      </tr>
+    </table>
+
+    <h2>🙏 Danke!</h2>
+    <p>Vielen Dank an alle Tester! Euer Feedback macht den Bot besser für die ganze Community.</p>
+    <p><strong>Aktive Tester:</strong> Boris, Alex, Carla, Andreas und alle anderen! 💪</p>
+
+  </main>
+
+  <footer>
+    &copy; 2025 Borgo Batone · Tester Guide · Stand: 17.12.2025
+  </footer>
+</body>
+</html>

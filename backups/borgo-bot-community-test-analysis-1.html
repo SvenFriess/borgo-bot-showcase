@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borgo-Bot v3.8 | Community Test Analyse</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e14;
+            --bg-secondary: #151b24;
+            --bg-card: #1a2332;
+            --text-primary: #e6e9f0;
+            --text-secondary: #8b92a8;
+            --accent-success: #7fd962;
+            --accent-warning: #f0c674;
+            --accent-error: #f47067;
+            --accent-info: #6cb6ff;
+            --border: #2a3444;
+            --shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, var(--border) 1px, transparent 1px),
+                linear-gradient(var(--border) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.03;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            border-bottom: 2px solid var(--border);
+            padding: 4rem 0 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '🤖';
+            position: absolute;
+            right: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 300px;
+            opacity: 0.02;
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-info) 0%, var(--accent-success) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-family: 'IBM Plex Mono', monospace;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px var(--shadow);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-color);
+        }
+
+        .stat-card.success { --accent-color: var(--accent-success); }
+        .stat-card.warning { --accent-color: var(--accent-warning); }
+        .stat-card.error { --accent-color: var(--accent-error); }
+        .stat-card.info { --accent-color: var(--accent-info); }
+
+        .stat-value {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Section */
+        section {
+            margin: 4rem 0;
+        }
+
+        h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-info), transparent);
+        }
+
+        h3 {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-info);
+            margin: 2rem 0 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Problem Cards */
+        .problem-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .problem-card {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-error);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            background: var(--bg-secondary);
+            box-shadow: 0 4px 16px var(--shadow);
+        }
+
+        .problem-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent-error);
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .code-block.wrong {
+            border-left: 3px solid var(--accent-error);
+        }
+
+        .code-block.correct {
+            border-left: 3px solid var(--accent-success);
+        }
+
+        .emoji {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Fix Cards */
+        .fix-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .fix-card {
+            background: var(--bg-card);
+            border-left: 4px solid var(--accent-success);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .fix-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--accent-success);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+            margin: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--accent-info), var(--accent-success));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3.3rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-info);
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-date {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-info);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Quote */
+        .quote {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-warning);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--accent-info) 0%, var(--accent-success) 100%);
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .cta h2 {
+            color: var(--bg-primary);
+            margin-bottom: 1rem;
+        }
+
+        .cta h2::after {
+            display: none;
+        }
+
+        .cta p {
+            color: rgba(10, 14, 20, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 2rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="subtitle">Community Test Analyse</div>
+            <h1>Borgo-Bot v3.8</h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; margin-top: 1rem;">
+                Intensive Testing Session | 4. Januar 2026 | Wiebke-Anka Koch & Marion Cremer-Zwikla
+            </p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Executive Summary -->
+        <section>
+            <h2>Executive Summary</h2>
+            <div class="stats-grid">
+                <div class="stat-card info">
+                    <div class="stat-value">26</div>
+                    <div class="stat-label">Queries Getestet</div>
+                </div>
+                <div class="stat-card error">
+                    <div class="stat-value">35%</div>
+                    <div class="stat-label">Negatives Feedback</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Kritische Hallucinations</div>
+                </div>
+            </div>
+
+            <div class="quote">
+                "Nach intensivem Testing mit 2 engagierten Community-Mitgliedern wurden kritische Hallucinations und Knowledge-Gaps identifiziert. Die Analyse zeigt: Der Bot funktioniert gut für Basis-Anfragen, aber erfundene Informationen und fehlende Details verhindern einen sofortigen Production-Rollout."
+            </div>
+        </section>
+
+        <!-- Kritische Probleme -->
+        <section>
+            <h2>Kritische Probleme</h2>
+            
+            <h3><span class="emoji">🚨</span>Hallucinations (Schwerwiegend)</h3>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-title">1. Alimentari Pini - Erfundene Adresse</div>
+                    <div class="problem-description">
+                        <strong>User-Frage:</strong> "Wo genau ist der Alimentari Pini?"
+                    </div>
+                    <div class="code-block wrong">
+<strong>❌ Bot-Antwort:</strong> "Via Fillungo 138 in Lucca" 😂
+
+<strong>Problem:</strong> KOMPLETT ERFUNDEN! Via Fillungo ist eine Haupt-Einkaufsstraße in Lucca, 
+nicht der Standort des kleinen Ladens.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-title">2. Transport-Hallucinations</div>
+                    <div class="problem-description">
+                        <strong>User-Frage:</strong> "Wie kommt man ohne Auto von Lucca ins Borgo?"
+                    </div>
+                    <div class="code-block wrong">
+<strong>❌ Bot-Antwort:</strong> "Lucca-Borgo Shuttle", "Zug bis Lucca/Pisa"
+
+<strong>Problem:</strong> NICHT IM GUIDE! Bot erfindet Transport-Optionen die nicht existieren.
+                    </div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-title">3. Keyword-Matching Versagen</div>
+                    <div class="problem-description">
+                        <strong>User-Frage:</strong> "Wo sind die markanten Orte für Holz?"
+                    </div>
+                    <div class="code-block wrong">
+<strong>❌ Bot-Antwort:</strong> [Info über SCHLÜSSEL-Standorte]
+
+<strong>Problem:</strong> Keyword-Extraktion komplett versagt - verwechselt Holz mit Schlüssel!
+                    </div>
+                </div>
+            </div>
+
+            <h3><span class="emoji">⚠️</span>Knowledge Base Gaps</h3>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <div class="problem-title">Fehlende Informationen</div>
+                    <div class="problem-description">User bekamen keine zufriedenstellenden Antworten zu:</div>
+                    <ul style="margin-left: 1.5rem; color: var(--text-secondary); line-height: 2;">
+                        <li>Transport ohne Auto (Bus-Verbindungen, genaue Anreise)</li>
+                        <li>Bettwäsche-Notfall-Policies (Ausleihen möglich?)</li>
+                        <li>Heizung-Details pro Haus</li>
+                        <li>Pool-Reinigungsplan</li>
+                        <li>Holz-Stapel konkrete Locations</li>
+                        <li>Zelten/Camping-Policies</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Korrekturen -->
+        <section>
+            <h2>Community-Korrekturen</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                Anja und Marion ergänzten wichtige Details, die in der Knowledge Base fehlten:
+            </p>
+
+            <div class="fix-grid">
+                <div class="fix-card">
+                    <div class="fix-title">Pizzaofen - Glut-Entsorgung (von Anja)</div>
+                    <div class="code-block correct">
+<strong>✅ Richtige Antwort:</strong>
+"Auf keinen Fall die Glut im Ofen mit Wasser löschen - beschädigt den Ofen!
+
+Option 1: Glut auseinanderziehen, in Eiseneimer füllen, dort ablöschen
+Option 2: Asche im Ofen verteilt auskühlen lassen, nächsten Tag im Restmüll entsorgen"
+                    </div>
+                </div>
+
+                <div class="fix-card">
+                    <div class="fix-title">Holz-Stapel Standorte (von Anja)</div>
+                    <div class="code-block correct">
+<strong>✅ Richtige Antwort:</strong>
+"Holz-Stapel vor dem Leccio und auf dem Parkplatz. 
+Schilder zeigen Schnitt-Datum und Verwendungs-Jahr.
+2026: Diese Stapel nutzen."
+                    </div>
+                </div>
+
+                <div class="fix-card">
+                    <div class="fix-title">Hunde-Reinigung (von Marion)</div>
+                    <div class="code-block correct">
+<strong>✅ Richtige Antwort:</strong>
+"Gesamte Unterkunft (Zimmer, Treppen, Flur, Bad) durch SAUGEN UND WISCHEN 
+von Hundehaaren befreien - nicht nur durchsaugen!"
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lösungen -->
+
+
+    <footer>
+        <div class="container">
+            <p>Borgo-Bot Community Test Analyse | v3.8.1 | 4. Januar 2026</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                GDPR-Compliant AI Assistant | Signal-Based | Local Hosting
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

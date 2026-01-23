@@ -1,0 +1,173 @@
+"""
+Borgo-Bot v3.8 - Basis-Konfiguration
+Kombiniert aus v3.5 config.py + config_multi_bot.py
+"""
+
+import re
+from pathlib import Path
+
+# ========================================
+# GRUNDLEGENDE EINSTELLUNGEN
+# ========================================
+
+BOT_VERSION = "3.8"
+BOT_NAME = "Borgi 🤖"
+BOT_COMMAND_PREFIX = "!bot"
+
+# ========================================
+# SIGNAL KONFIGURATION
+# ========================================
+
+SIGNAL_ACCOUNT = "+4915755901211"
+SIGNAL_CLI_PATH = "/opt/homebrew/bin/signal-cli"
+SIGNAL_PHONE_NUMBER = "+4915755901211"
+MAX_MESSAGE_LENGTH = 4096
+
+# ========================================
+# LLM KONFIGURATION
+# ========================================
+
+LLM_MODELS = [
+    'mistral:instruct',
+    'granite3.1:2b',
+    'qwen2.5:7b'
+]
+
+PRIMARY_MODEL = LLM_MODELS[0]
+MAX_LLM_RETRIES = 2
+LLM_TIMEOUT_SECONDS = 60
+
+# Context-Limits
+MAX_CONTEXT_WORDS = 800
+MAX_CONTEXT_ENTRIES = 3
+
+# ========================================
+# INPUT VALIDIERUNG
+# ========================================
+
+MIN_INPUT_LENGTH = 3
+MAX_INPUT_LENGTH = 500
+
+# Problematische Patterns erkennen
+PROBLEMATIC_PATTERNS = [
+    r'^\s*$',
+    r'^[!?.,;:\-_/\\]+$',
+    r'^(.)\1{20,}',
+    r'^[0-9]{50,}',
+]
+
+# ========================================
+# KEYWORD EXTRAKTION
+# ========================================
+
+KEYWORD_CONFIDENCE = {
+    'high': 0.95,
+    'medium': 0.75,
+    'low': 0.50
+}
+
+FUZZY_MATCH_THRESHOLD = 0.80
+MIN_KEYWORDS_REQUIRED = 0
+
+# ========================================
+# HALLUZINATIONS-ERKENNUNG
+# ========================================
+
+HALLUCINATION_PATTERNS = [
+    (r'\d+\s*Viertel\s*Tonne', 'Viertel Tonne'),
+    (r'\d+\.\d{3,}\s*kg', 'Zu präzise Gewichtsangabe'),
+]
+
+CONTEXT_MIXING_RULES = {
+    'pizza': ['rasenmäher', 'benzin', 'startleine', 'motor'],
+    'hunde': ['säureabfalltüchel'],
+}
+
+# ========================================
+# RESPONSE VALIDIERUNG
+# ========================================
+
+MIN_RESPONSE_LENGTH = 10
+MAX_RESPONSE_LENGTH = 2000
+
+QUALITY_CHECKS = {
+    'too_short': MIN_RESPONSE_LENGTH,
+    'too_long': MAX_RESPONSE_LENGTH,
+    'hallucination': True,
+    'context_mixing': True,
+    'incomplete': True,
+}
+
+# ========================================
+# FALLBACK SYSTEM
+# ========================================
+
+FALLBACK_RESPONSES = {
+    'no_keywords': """Dazu habe ich leider keine Informationen im Benvenuti-Guide.""",
+    'llm_error': """Entschuldigung, ich hatte ein technisches Problem.""",
+    'ambiguous': """Deine Frage ist mir nicht ganz klar. Bitte formuliere sie konkreter.""",
+    'out_of_scope': """Diese Frage gehört nicht zu meinen Themen.""",
+    'validation_failed': """Ich konnte leider keine sichere Antwort formulieren.""",
+    'too_many_retries': """Nach mehreren Versuchen konnte ich keine Antwort generieren.""",
+}
+
+# ========================================
+# MONITORING & LOGGING
+# ========================================
+
+LOG_LEVEL = "INFO"
+LOG_FILE = "borgo_bot_multi.log"
+LOG_ROTATION_MB = 10
+LOG_RETENTION_DAYS = 30
+
+TRACK_METRICS = {
+    'query_processing_time': True,
+    'llm_response_time': True,
+    'keyword_extraction_time': True,
+    'validation_time': True,
+    'signal_send_time': True,
+}
+
+ALERT_THRESHOLDS = {
+    'slow_response_seconds': 10,
+    'high_error_rate_percent': 20,
+    'hallucination_count_per_hour': 5,
+}
+
+# ========================================
+# YAML KNOWLEDGE BASE
+# ========================================
+
+YAML_DB_PATH = Path("borgo_knowledge_base.yaml")
+YAML_CATEGORIES = [
+    'basics',
+    'facilities',
+    'safety',
+    'rules',
+    'contact',
+    'emergency',
+    'faq',
+]
+
+# ========================================
+# FEATURES FLAGS
+# ========================================
+
+FEATURES = {
+    'input_validation': True,
+    'keyword_confidence_scoring': True,
+    'context_isolation': True,
+    'hallucination_detection': True,
+    'multi_model_fallback': True,
+    'fuzzy_keyword_matching': True,
+    'response_validation': True,
+    'detailed_logging': True,
+}
+
+# ========================================
+# DEVELOPMENT & TESTING
+# ========================================
+
+DEBUG_MODE = False
+TEST_MODE = False
+DRY_RUN = False

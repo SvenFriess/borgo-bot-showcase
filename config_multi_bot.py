@@ -9,7 +9,7 @@ import os
 # BASIS-INFO
 # =====================================================================================
 
-BOT_VERSION = "3.7"
+BOT_VERSION = "0.99"
 BOT_COMMAND_PREFIX = "!bot"
 
 # =====================================================================================
@@ -47,9 +47,9 @@ ALLOWED_GROUP_IDS = list(GROUP_IDS.values())
 
 # Bot-Namen pro Gruppe
 BOT_NAMES = {
-    'dev': 'Borgi-DEV 🔧',
-    'test': 'Borgi-TEST 🧪',
-    'community_test': 'Borgi 🤖',
+    'dev': 'Borgo-Bot-DEV 🔧',
+    'test': 'Borgo-Bot-TEST 🧪',
+    'community_test': 'Borgo-Bot 🤖',
 }
 
 # =====================================================================================
@@ -67,13 +67,13 @@ DEV_BOT_CONFIG = {
         'mistral:instruct',     # Fallback
         'granite3.3:2b',
     ],
-    'primary_model': 'qwen2.5:7b',
+    'primary_model': 'mistral:instruct',
     'max_llm_retries': 3,
     'llm_timeout_seconds': 45,
     
     # Context Settings
-    'max_context_words': 1000,  # Mehr Context für DEV-Tests
-    'max_context_entries': 5,
+    'max_context_words': 800,  # Mehr Context für DEV-Tests
+    'max_context_entries': 3,
     
     # Features (kannst du einzeln togglen)
     'features': {
@@ -195,9 +195,23 @@ INVALID_INPUT_PATTERNS = [
 
 QUICK_RESPONSES = {
     "ping": "pong",
-    "test": "Borgo-Bot läuft.",
-    "status": "Borgo-Bot online und bereit.",
+    "test": f"Borgo-Bot v{BOT_VERSION} läuft.",
+    "status": f"Borgo-Bot v{BOT_VERSION} online und bereit.",
+    "version": f"Borgo-Bot v{BOT_VERSION}",
 }
+
+# Meta/Playful Queries (questions about the bot itself, not Borgo topics)
+META_QUERY_PATTERNS = [
+    r'\bferien\b',
+    r'\burlaub\b',
+    r'\bpause\b',
+    r'\bfrei\b',
+    r'\bschlafen\b',
+    r'\bmüde\b',
+    r'\bausruhen\b',
+    r'\bwochenende\b',
+    r'\bfreizeit\b',
+]
 
 # Keyword Extraction
 KEYWORD_CONFIDENCE = {
@@ -230,6 +244,13 @@ YAML_CATEGORIES = [
 
 # Hallucination Detection
 HALLUCINATION_PATTERNS = [
+    # Erfundene spezifische Details (KRITISCH!)
+    (r'\bCode\s+\d{4,}\b', 'Spezifischer Zahlencode (wahrscheinlich erfunden)'),
+    (r'\bTresor.*Code\b', 'Tresor-Code Details (nicht verifiziert)'),
+    (r'\b\d{1,2}:\d{2}\s*Uhr\b', 'Spezifische Uhrzeit (möglicherweise erfunden)'),
+    (r'\bZimmer\s+\d+\b', 'Spezifische Zimmernummer (möglicherweise erfunden)'),
+    (r'\bTelefon:?\s*\+?\d{6,}', 'Spezifische Telefonnummer (möglicherweise erfunden)'),
+    
     (r'\d+\s*Viertel\s*Tonne', 'Viertel Tonne'),
     (r'\d+\.\d{3,}\s*kg', 'Zu präzise Gewichtsangabe'),
     (r'\d+\s*Gallone[n]?', 'Gallonen (falsche Einheit)'),
@@ -258,6 +279,11 @@ FORBIDDEN_PHRASES = [
     "OpenAI",
     "ChatGPT",
     "Ich bin Claude",
+    "Ich bin Mistral",
+    "Ich bin ein AI",
+    "künstliche Intelligenz",
+    "Ich mache Ferien nicht",
+    "Ich mache keine Ferien",
 ]
 
 # Fallback System
@@ -273,6 +299,13 @@ Ich kann dir bei folgenden Themen helfen:
 • Notfälle und Kontakte
 
 Stelle eine konkrete Frage zu einem dieser Themen!""",
+    
+    'meta_query': """Ich bin 24/7 für euch da! 🤖
+
+Für Borgo-Fragen stehe ich immer zur Verfügung. Stelle mir gerne eine konkrete Frage zu:
+• Einrichtungen (Pizzaofen, Pools, WLAN)
+• Hausregeln und Check-in/out
+• Notfälle und Sicherheit""",
     
     'llm_error': """Entschuldigung, ich hatte ein technisches Problem beim Verarbeiten deiner Frage.
 
@@ -352,6 +385,24 @@ QUEUE_TIMEOUT_SECONDS = 60
 
 # =====================================================================================
 # HILFSFUNKTIONEN
+
+def is_meta_query(text):
+    """
+    Prüft ob eine Frage über den Bot selbst ist (Ferien, Müdigkeit, etc.)
+    statt über Borgo-Themen.
+    
+    Returns:
+        bool: True wenn Meta-Query erkannt wurde
+    """
+    import re
+    text_lower = text.lower()
+    
+    for pattern in META_QUERY_PATTERNS:
+        if re.search(pattern, text_lower):
+            return True
+    return False
+
+
 # =====================================================================================
 
 def get_bot_config(group_id: str) -> dict:
@@ -431,3 +482,103 @@ if __name__ == "__main__":
         print("✅ Konfiguration OK!")
     
     print("\n" + "=" * 50)
+
+# =====================================================================================
+# SHARED CONSTANTS (für backward compatibility mit alten Modulen)
+# =====================================================================================
+
+# Input Validierung
+MIN_INPUT_LENGTH = 3
+MAX_INPUT_LENGTH = 500
+
+PROBLEMATIC_PATTERNS = [
+    r'^\s*$',
+    r'^[!?.,;:\-_/\\]+$',
+    r'^(.)\1{20,}',
+    r'^[0-9]{50,}',
+]
+
+# Keyword Extraktion
+KEYWORD_CONFIDENCE = {
+    'high': 0.95,
+    'medium': 0.75,
+    'low': 0.50
+}
+FUZZY_MATCH_THRESHOLD = 0.80
+MIN_KEYWORDS_REQUIRED = 0
+
+# Context Limits (Defaults)
+MAX_CONTEXT_WORDS = 800
+MAX_CONTEXT_ENTRIES = 3
+
+# LLM Defaults
+LLM_MODELS = ['mistral:instruct', 'granite3.1:2b', 'qwen2.5:7b']
+PRIMARY_MODEL = 'mistral:instruct'
+MAX_LLM_RETRIES = 2
+LLM_TIMEOUT_SECONDS = 60
+
+# Response Validierung
+MIN_RESPONSE_LENGTH = 10
+MAX_RESPONSE_LENGTH = 2000
+
+# Hallucination Detection
+HALLUCINATION_PATTERNS = []
+CONTEXT_MIXING_RULES = {}
+QUALITY_CHECKS = {
+    'too_short': MIN_RESPONSE_LENGTH,
+    'too_long': MAX_RESPONSE_LENGTH,
+    'hallucination': True,
+    'context_mixing': True,
+    'incomplete': True,
+}
+
+# Fallback Responses
+
+# Logging & Monitoring
+LOG_LEVEL = "DEBUG"
+LOG_FILE = "borgo_bot_multi.log"
+LOG_ROTATION_MB = 10
+LOG_RETENTION_DAYS = 30
+
+TRACK_METRICS = {
+    'query_processing_time': True,
+    'llm_response_time': True,
+    'keyword_extraction_time': True,
+    'validation_time': True,
+    'signal_send_time': True,
+}
+
+ALERT_THRESHOLDS = {
+    'slow_response_seconds': 10,
+    'high_error_rate_percent': 20,
+    'hallucination_count_per_hour': 5,
+}
+
+# YAML
+from pathlib import Path
+YAML_DB_PATH = Path("borgo_knowledge_base.yaml")
+YAML_CATEGORIES = [
+    'basics',
+    'facilities',
+    'safety',
+    'rules',
+    'contact',
+    'emergency',
+    'faq',
+]
+
+# Features
+FEATURES = {
+    'input_validation': True,
+    'keyword_confidence_scoring': True,
+    'context_isolation': True,
+    'hallucination_detection': True,
+    'multi_model_fallback': True,
+    'fuzzy_keyword_matching': True,
+    'response_validation': True,
+    'detailed_logging': True,
+}
+
+DEBUG_MODE = False
+TEST_MODE = False
+DRY_RUN = False

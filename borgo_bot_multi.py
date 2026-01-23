@@ -142,6 +142,17 @@ class BorgoBotInstance:
                 
                 message = cleaned_message
             
+            # PHASE 1.5: Meta-Query Check
+            from config_multi_bot import is_meta_query, FALLBACK_RESPONSES
+            if is_meta_query(message):
+                logger.info(f"🎭 Meta-query detected: {message[:50]}")
+                response = FALLBACK_RESPONSES['meta_query']
+                log_entry.success = True
+                log_entry.fallback_used = True
+                log_entry.fallback_reason = 'meta_query'
+                self._finalize_log(log_entry, response, start_time)
+                return response, True
+            
             # PHASE 2: Keyword Extraction
             if self.features['keyword_confidence_scoring']:
                 extraction = self.keyword_extractor.extract(message)

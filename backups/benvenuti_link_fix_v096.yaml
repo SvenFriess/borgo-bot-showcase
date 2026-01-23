@@ -1,0 +1,66 @@
+# ========================================
+# BORGO-BOT v0.96 - BENVENUTI LINK FIX
+# ========================================
+# Korrektur: Richtiger Piazza-Link statt Buchungsbestätigung
+# Datum: 7. Januar 2026
+# ========================================
+
+benvenuti_guide:
+  category: basics
+  keywords:
+    - benvenuti
+    - guide
+    - anleitung
+    - handbuch
+    - dokumentation
+    - gästeinformation
+    - guest guide
+    - willkommen
+    - infos
+    - informationen
+  synonyms:
+    - "benvenuti guide"
+    - "guest guide"
+    - "gästehandbuch"
+    - "borgo handbuch"
+    - "willkommens guide"
+    - "info dokument"
+    - "borgo guide"
+    - "benvenuti pdf"
+    - "gästeinfo"
+  confidence: high
+  answer: |
+    Das Benvenuti-Guide findest du auf der Piazza:
+    https://piazza.borgo-batone.com/node/819?language_content_entity=en
+    
+    Ich empfehle dir, es vor der Anreise durchzulesen!
+  
+  notes: |
+    WICHTIG: Nicht mehr auf "Buchungsbestätigung" verweisen!
+    Der Link ist immer auf der Piazza verfügbar.
+    Keine Aussagen über "wird bei Buchung verschickt".
+
+# ========================================
+# ALTERNATIVE ANTWORT (falls kürzer gewünscht)
+# ========================================
+
+benvenuti_guide_short:
+  category: basics
+  keywords:
+    - wo benvenuti
+    - benvenuti link
+    - guide link
+  confidence: high
+  answer: |
+    Das Benvenuti-Guide steht auf der Piazza:
+    https://piazza.borgo-batone.com/node/819?language_content_entity=en
+
+# ========================================
+# INSTALLATION INSTRUCTIONS
+# ========================================
+# 1. Backup der aktuellen borgo_knowledge_base.yaml machen
+# 2. Alte "benvenuti_guide" Einträge entfernen/ersetzen
+# 3. Diese Einträge einfügen
+# 4. Bot neu starten
+# 5. Testen mit: "Wo finde ich das Benvenuti?"
+# ========================================

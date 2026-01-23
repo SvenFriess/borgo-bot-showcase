@@ -6,7 +6,7 @@ Phase 1: Robuste Input-Validierung und Sanitization
 import re
 import logging
 from typing import Tuple, Optional, List, Dict
-from config import (
+from config_multi_bot import (
     MIN_INPUT_LENGTH,
     MAX_INPUT_LENGTH,
     PROBLEMATIC_PATTERNS,
@@ -194,8 +194,8 @@ class QuickResponder:
 Beispiel: "Wie funktioniert der Pizzaofen?" """,
         
         # Status
-        r'\b(ping|status|alive)\b':
-            f"🤖 Borgo-Bot online! Version 3.6 | Bereit für deine Fragen.",
+        r'\b(ping|status|alive|version)\b':
+            f"🤖 Borgo-Bot online! Version 0.99 | Bereit für deine Fragen.",
     }
     
     def __init__(self):

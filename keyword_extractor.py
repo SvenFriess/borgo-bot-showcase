@@ -9,7 +9,7 @@ from typing import List, Dict, Set, Tuple, Optional
 from difflib import SequenceMatcher
 from collections import defaultdict
 
-from config import (
+from config_multi_bot import (
     KEYWORD_CONFIDENCE,
     FUZZY_MATCH_THRESHOLD,
     MIN_KEYWORDS_REQUIRED

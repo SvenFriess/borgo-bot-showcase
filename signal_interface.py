@@ -16,17 +16,17 @@ logger = logging.getLogger(__name__)
 
 # Konfiguration aus config.py
 try:
-    from config import SIGNAL_ACCOUNT
+    from config_multi_bot import SIGNAL_ACCOUNT
 except Exception:
     SIGNAL_ACCOUNT = None
 
 try:
-    from config import SIGNAL_GROUP_ID
+    from config_multi_bot import SIGNAL_GROUP_ID
 except Exception:
     SIGNAL_GROUP_ID = None
 
 try:
-    from config import SIGNAL_CLI_PATH
+    from config_multi_bot import SIGNAL_CLI_PATH
 except Exception:
     SIGNAL_CLI_PATH = "signal-cli"
 

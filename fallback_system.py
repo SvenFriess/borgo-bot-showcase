@@ -7,7 +7,7 @@ import logging
 from typing import Optional, Dict, List
 from enum import Enum
 
-from config import FALLBACK_RESPONSES
+from config_multi_bot import FALLBACK_RESPONSES
 
 logger = logging.getLogger(__name__)
 
@@ -267,7 +267,7 @@ class ResponseQualityChecker:
             True wenn hilfreich, False wenn Fallback besser wäre
         """
         # Zu kurz = wahrscheinlich nicht hilfreich
-        if len(response) < 20:
+        if len(response) < 10:
             return False
         
         # Enthält "weiß ich nicht" = nicht hilfreich

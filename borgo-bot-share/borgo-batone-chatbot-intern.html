@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Borgo Batone Chatbot v3.6 – Intern</title>
+  <meta name="description" content="Interne Dokumentation für den Borgo Batone Bot (B3) v3.6: Betrieb, Konfiguration, Knowledge Base, Backups, Incident-Handling." />
+  <style>
+    :root{
+      --bg:#0b2530; --brand:#0e6ba8; --ink:#0d1b2a; --muted:#667a86; --paper:#fff;
+      --card:#f2f7fa; --accent:#edf6ff; --ok:#0a7a46; --warn:#b98900; --err:#a1191a;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,sans-serif;line-height:1.6;background:#fafafa;color:var(--ink)}
+    header{background:var(--bg);color:#fff;padding:1.2rem}
+    header h1{margin:0;font-size:1.9rem}
+    header p{margin:.25rem 0 0;color:#cfe8f3}
+    nav a{color:#cfe8f3;margin-right:1rem;text-decoration:none;font-weight:600}
+    main{max-width:1000px;margin:2rem auto;padding:1.25rem;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.08)}
+    h2{color:var(--brand);margin-top:2rem}
+    h3{color:var(--ink);margin-top:1.25rem}
+    .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+    .card{background:var(--card);border-left:6px solid var(--brand);padding:1rem;border-radius:10px}
+    .kbd{display:inline-block;padding:.15rem .4rem;border:1px solid #cbd5e1;border-bottom-width:2px;border-radius:6px;background:#f8fafc;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:.95em}
+    code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    pre{background:#0f172a;color:#e2e8f0;padding:1rem;border-radius:10px;overflow:auto}
+    .badge{display:inline-block;padding:.15rem .5rem;border-radius:999px;background:var(--accent);color:#073b63;font-weight:700;font-size:.8rem;vertical-align:middle}
+    .badge-version{background:#0a7a46;color:#fff}
+    .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
+    .table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e3e8ef;border-radius:10px;overflow:hidden}
+    .table th,.table td{padding:.6rem .75rem;border-bottom:1px solid #e3e8ef;text-align:left}
+    .table thead th{background:#f6fbff;color:#074e78}
+    .small{font-size:.92rem;color:var(--muted)}
+    footer{margin:2rem auto 1rem;text-align:center;color:var(--muted)}
+    .callout{background:#fefae8;border-left:6px solid var(--warn);padding:.8rem 1rem;border-radius:10px;margin:.5rem 0}
+    .callout-ok{background:#e8fef3;border-left-color:var(--ok)}
+    .topnav{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .switcher a{color:#fff;text-decoration:none;font-weight:700;border:1px solid rgba(255,255,255,.35);padding:.35rem .6rem;border-radius:999px}
+    .switcher a:hover{background:rgba(255,255,255,.08)}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Borgo Batone Chatbot <span class="badge">Intern</span> <span class="badge badge-version">v3.6</span></h1>
+    <p>Interne Seite für Mitwirkende (Betrieb, Pflege & Weiterentwicklung von Borgi 🤖).</p>
+    <nav class="topnav">
+      <div>
+        <a href="#">Dokumentation</a>
+        <a href="#">GitHub Repo</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="grid">
+      <div class="card">
+        <h3>Steckbrief</h3>
+        <ul>
+          <li><strong>Name:</strong> Borgi 🤖 (Borgo Batone Bot)</li>
+          <li><strong>Version:</strong> 3.6 (Dezember 2025)</li>
+          <li><strong>Kanäle:</strong> Signal-Gruppen (Trigger <span class="kbd">!bot</span>)</li>
+          <li><strong>Modelle:</strong> lokale LLMs via Ollama</li>
+          <li><strong>Compliance:</strong> DSGVO-konform, lokal betrieben</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>System</h3>
+        <ul>
+          <li><strong>Host:</strong> Mac mini M4 16GB (Prod), Mac mini M2 (Fallback)</li>
+          <li><strong>Runtime:</strong> Python venv, <code>signal-cli</code> (Daemon), Ollama</li>
+          <li><strong>Repo:</strong> <code>~/Projekte/borgobatone-04</code></li>
+          <li><strong>GitHub:</strong> <code>SvenFriess/borgobatone.de-4</code></li>
+          <li><strong>Knowledge Base:</strong> <code>borgo_knowledge_base.yaml</code></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Performance v3.6</h3>
+        <ul>
+          <li><strong>Halluzinationen:</strong> <span class="ok">0%</span> (vorher 30%)</li>
+          <li><strong>Konsistenz:</strong> <span class="ok">100%</span></li>
+          <li><strong>Response-Zeit:</strong> ~6 Sekunden</li>
+          <li><strong>Knowledge Base:</strong> 40 Entries, 205 Synonyme</li>
+        </ul>
+      </div>
+    </section>
+
+    <h2>Gesundheitscheck</h2>
+    <div class="callout callout-ok">
+      <strong>Quick-Tests in Signal:</strong>
+      <ul style="margin:0.5rem 0 0">
+        <li><span class="kbd">!bot status</span> → Bot-Status & Version</li>
+        <li><span class="kbd">!bot version</span> → Versionsinfo</li>
+        <li><span class="kbd">!bot wlan</span> → WLAN-Info</li>
+        <li><span class="kbd">!bot pool</span> → Pool-Nutzung</li>
+        <li><span class="kbd">!bot pool technik</span> → Pool-Technikraum</li>
+      </ul>
+    </div>
+
+    <h2>LLM-Modelle (Fallback-Hierarchie)</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Priorität</th>
+          <th>Modell</th>
+          <th>RAM</th>
+          <th>Hinweise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1 (Primär)</td>
+          <td><code>mistral:instruct</code></td>
+          <td>~4-5 GB</td>
+          <td>Beste Qualität, Standard für M4</td>
+        </tr>
+        <tr>
+          <td>2 (Fallback)</td>
+          <td><code>granite3.3:2b</code></td>
+          <td>~2 GB</td>
+          <td>Gut für M2 Backup</td>
+        </tr>
+        <tr>
+          <td>3 (Fallback)</td>
+          <td><code>llama3.2:latest</code></td>
+          <td>~3 GB</td>
+          <td>Alternative</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Betrieb & Steuerung</h2>
+    <h3>Bot starten (2 Terminals benötigt)</h3>
+    <pre># Terminal 1: Signal-CLI Daemon
+signal-cli -a +4915755901211 daemon --socket /tmp/signal-cli-socket
+
+# Terminal 2: Bot starten
+cd ~/Projekte/borgobatone-04
+source venv/bin/activate
+python3 borgo_bot_v3_5.py</pre>
+
+    <h3>Bot stoppen</h3>
+    <pre># Bot-Prozess beenden
+pkill -f "borgo_bot_v3_5.py"
+
+# Signal-Daemon beenden (falls nötig)
+pkill -f "signal-cli.*daemon"</pre>
+
+    <h2>Projektstruktur</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Datei</th>
+          <th>Funktion</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>borgo_bot_v3_5.py</code></td>
+          <td>Hauptskript</td>
+        </tr>
+        <tr>
+          <td><code>config.py</code></td>
+          <td>Zentrale Konfiguration (Version, Modelle, Schwellenwerte)</td>
+        </tr>
+        <tr>
+          <td><code>borgo_knowledge_base.yaml</code></td>
+          <td>Knowledge Base (40 Entries, 205 Synonyme)</td>
+        </tr>
+        <tr>
+          <td><code>keyword_extractor.py</code></td>
+          <td>Keyword-Extraktion & Matching</td>
+        </tr>
+        <tr>
+          <td><code>context_manager.py</code></td>
+          <td>Context-Verwaltung für LLM</td>
+        </tr>
+        <tr>
+          <td><code>llm_handler.py</code></td>
+          <td>Ollama-Integration & Fallback</td>
+        </tr>
+        <tr>
+          <td><code>signal_interface.py</code></td>
+          <td>Signal-CLI Daemon-Kommunikation</td>
+        </tr>
+        <tr>
+          <td><code>input_validator.py</code></td>
+          <td>Input-Validierung & Quick-Responses</td>
+        </tr>
+        <tr>
+          <td><code>fallback_system.py</code></td>
+          <td>Fallback-Antworten</td>
+        </tr>
+        <tr>
+          <td><code>monitoring.py</code></td>
+          <td>Performance-Tracking & Metriken</td>
+        </tr>
+        <tr>
+          <td><code>.env</code></td>
+          <td>Secrets (Signal-Account, Gruppen-IDs) – nicht im Git!</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Knowledge Base bearbeiten</h2>
+    <p>Die Knowledge Base liegt in <code>borgo_knowledge_base.yaml</code>. Format:</p>
+    <pre>pool:
+  keywords:
+    - pool
+    - schwimmbad
+    - baden
+  synonyms:
+    - schwimmen
+    - planschbecken
+  answer: |
+    Der Pool ist von Mai bis September geöffnet...
+  category: facilities</pre>
+    
+    <div class="callout">
+      <strong>Wichtig:</strong> YAML-Keys müssen exakt so geschrieben sein, wie User sie tippen!
+      <ul style="margin:0.5rem 0 0">
+        <li>✅ <code>pool technik:</code> (mit Leerzeichen)</li>
+        <li>✅ <code>bettwäsche:</code> (mit Umlaut)</li>
+        <li>❌ <code>pool_technik:</code> (Underscore funktioniert nicht)</li>
+      </ul>
+    </div>
+
+    <h2>Git-Workflow</h2>
+    <pre># Änderungen committen
+cd ~/Projekte/borgobatone-04
+git add .
+git commit -m "Beschreibung der Änderung"
+git push
+
+# Auf anderem Mac (M2/M3) aktualisieren
+git pull</pre>
+
+    <h2>Troubleshooting</h2>
+    <ul>
+      <li class="callout"><strong>Signal-Daemon läuft nicht:</strong> <code>ps aux | grep signal-cli</code> prüfen, ggf. neu starten.</li>
+      <li class="callout"><strong>Bot findet Keywords nicht:</strong> YAML-Key prüfen – muss mit User-Input übereinstimmen.</li>
+      <li class="callout"><strong>LLM reagiert nicht:</strong> <code>ollama list</code> prüfen, Modell ggf. mit <code>ollama pull mistral:instruct</code> laden.</li>
+      <li class="callout"><strong>Cache-Probleme:</strong> <code>find . -name "__pycache__" -exec rm -rf {} +</code></li>
+    </ul>
+
+    <h2>Systemübersicht</h2>
+    <pre>┌─────────────────────────────────────────┐
+│ Mac Mini M4 (16GB) - PRODUCTION         │
+├─────────────────────────────────────────┤
+│                                         │
+│ Terminal 1: Signal-CLI Daemon           │
+│   └─ JSON-RPC Socket Mode               │
+│                                         │
+│ Terminal 2: Borgo-Bot v3.6              │
+│   ├─ Python Bot-Code                    │
+│   ├─ Ollama (mistral:instruct)          │
+│   └─ YAML Knowledge Base (40 entries)   │
+│                                         │
+│ Signal Gruppen:                         │
+│   ├─ Borgo-Bot DEV                      │
+│   └─ Borgo-Bot Community-Test           │
+│                                         │
+└─────────────────────────────────────────┘
+
+BACKUP SYSTEMS:
+├─ Mac Mini M2 (8GB) - Standby
+└─ MacBook M3 - Development</pre>
+
+    <h2>Sicherheit & Datenschutz</h2>
+    <ul>
+      <li>Keine Weitergabe von Chatdaten an Drittserver; ausschließlich lokale Verarbeitung.</li>
+      <li>Secrets (<code>.env</code>) sind via <code>.gitignore</code> vom Repository ausgeschlossen.</li>
+      <li>Zugriff auf Server/Signal-Account nur für autorisierte Mitwirkende.</li>
+    </ul>
+
+    <h2>Version History</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Version</th>
+          <th>Datum</th>
+          <th>Änderungen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>v3.6</strong></td>
+          <td>17.12.2025</td>
+          <td>Pool-Duplikate entfernt, Sicherungskasten/Bettwäsche hinzugefügt, 0% Halluzinationen</td>
+        </tr>
+        <tr>
+          <td>v3.5</td>
+          <td>13.12.2025</td>
+          <td>Keyword-Extraktion, Context-Isolation, Multi-Model-Fallback</td>
+        </tr>
+        <tr>
+          <td>v3.4</td>
+          <td>10.12.2025</td>
+          <td>YAML Knowledge Base, Halluzinations-Erkennung</td>
+        </tr>
+        <tr>
+          <td>v3.0</td>
+          <td>03.12.2025</td>
+          <td>Signal-CLI Daemon-Mode, JSON-RPC Socket</td>
+        </tr>
+        <tr>
+          <td>v2.x</td>
+          <td>Sep-Nov 2025</td>
+          <td>Fixed Responses, erste LLM-Integration</td>
+        </tr>
+        <tr>
+          <td>v1.0</td>
+          <td>Aug 2025</td>
+          <td>Erster Prototyp, Signal-Integration</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Roadmap</h2>
+    <ul>
+      <li>☐ Web-basiertes Admin-Panel für Knowledge Base</li>
+      <li>☐ Automatische Backups & Watchdog</li>
+      <li>☐ M2 als Hot-Standby konfigurieren</li>
+      <li>☐ B2B Demo-Instanz für potenzielle Kunden</li>
+    </ul>
+  </main>
+
+  <footer>
+    &copy; 2025 Borgo Batone · Strategix-AI · Interne Dokumentation – Stand: 17.12.2025
+  </footer>
+</body>
+</html>

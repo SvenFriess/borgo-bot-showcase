@@ -11,7 +11,7 @@ from pathlib import Path
 from collections import defaultdict, deque
 from dataclasses import dataclass, asdict
 
-from config import (
+from config_multi_bot import (
     LOG_LEVEL,
     LOG_FILE,
     TRACK_METRICS,

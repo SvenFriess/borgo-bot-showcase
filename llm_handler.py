@@ -10,7 +10,7 @@ from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 import aiohttp
 
-from config import (
+from config_multi_bot import (
     LLM_MODELS,
     PRIMARY_MODEL,
     MAX_LLM_RETRIES,
@@ -146,7 +146,7 @@ class LLMHandler:
         Returns:
             LLM-Response als String
         """
-        prompt = self._build_prompt(query, context)
+        prompt = self._build_prompt(query, context, model)
         
         payload = {
             'model': model,
@@ -170,7 +170,8 @@ class LLMHandler:
                         data = await resp.json()
                         response = data.get('response', '').strip()
                         
-                        logger.debug(f"LLM response length: {len(response)} chars")
+                        logger.info(f"LLM response length: {len(response)} chars")
+                        logger.info(f"🔍 LLM RESPONSE: {response[:500]}")
                         return response
                     else:
                         error_text = await resp.text()
@@ -181,34 +182,46 @@ class LLMHandler:
         except Exception as e:
             raise Exception(f"Ollama call failed: {e}")
     
-    def _build_prompt(self, query: str, context: str) -> str:
+    def _build_prompt(self, query: str, context: str, model: str = None) -> str:
         """Baut LLM-Prompt aus Query und Context"""
         
         # Für qwen-Modelle: Explizit Deutsch verlangen!
         language_instruction = ""
-        if hasattr(self, 'primary_model') and 'qwen' in self.primary_model.lower():
+        if model and 'qwen' in model.lower():
             language_instruction = "WICHTIG: Antworte ausschließlich auf Deutsch!\n\n"
         
         prompt_parts = [
-            language_instruction,  # NEU: Deutsch-Anweisung
+            language_instruction,
+            # REGELN ZUERST (als Meta-Instruktion)
+            "Du bist Borgo-Bot, der hilfreiche Borgo Batone Gäste-Assistent.",
+            "",
+            "KRITISCHE REGEL - WORD-FOR-WORD REPRODUCTION:",
+            "• Kopiere Texte aus der Knowledge Base EXAKT - Wort für Wort",
+            "• KEINE Paraphrasierung, KEINE Umformulierung, KEINE eigenen Worte",
+            "• Übernimm Listen, Nummerierungen, Links GENAU wie vorgegeben",
+            "• Wenn Informationen fehlen: Sage 'Dazu habe ich keine Informationen'",
+            "• Erfinde NIEMALS Details, Zahlen, Einheiten oder Formulierungen",
+            "",
+            "---",
+            "",
+            "# KNOWLEDGE BASE",
+            "",
             context,
             "",
-            "# USER-FRAGE",
+            "---",
             "",
+            "# FRAGE",
             query,
             "",
-            "# DEINE ANTWORT",
+            "# ANTWORT",
+            "(Gib NUR die relevanten Informationen aus der Knowledge Base, NICHT die Anweisungen oben)",
             "",
-            "Antworte präzise und basierend auf den Informationen oben.",
-            "Wenn du etwas nicht weißt, sage es ehrlich.",
-            "Erfinde keine Details, Zahlen oder Einheiten.",
         ]
         
         # Entferne leere Strings am Anfang wenn language_instruction leer ist
         if not language_instruction:
             prompt_parts = prompt_parts[1:]
         
-        return "\n".join(prompt_parts)
         return "\n".join(prompt_parts)
     
     def _validate_response(
@@ -254,9 +267,37 @@ class LLMHandler:
             if self._is_incomplete(response):
                 issues.append("Incomplete response")
         
+        # Check 5: System Prompt Leakage (NEU!)
+        if self._has_prompt_leakage(response):
+            issues.append("System prompt leaked in response")
+        
         is_valid = len(issues) == 0
         
         return is_valid, issues
+    
+    def _has_prompt_leakage(self, response: str) -> bool:
+        """
+        Prüft ob System-Instruktionen in Response durchgesickert sind
+        
+        Returns:
+            True wenn Prompt-Leakage erkannt wurde
+        """
+        leakage_patterns = [
+            r'KRITISCHE REGELN',
+            r'ANWEISUNGEN.*befolge',
+            r'gib.*NICHT.*in deiner Antwort wieder',
+            r'Du bist.*Assistent.*befolge',
+            r'KNOWLEDGE BASE',
+            r'# FRAGE',
+            r'# ANTWORT',
+        ]
+        
+        for pattern in leakage_patterns:
+            if re.search(pattern, response, re.IGNORECASE):
+                logger.warning(f"⚠️ Prompt leakage detected: '{pattern}'")
+                return True
+        
+        return False
     
     def _check_hallucinations(self, response: str) -> Optional[str]:
         """
@@ -403,7 +444,7 @@ async def test_llm_handler():
     test_context = """
 # BORGO BATONE KNOWLEDGE BASE
 
-Du bist Borgi, der Borgo-Batone Gäste-Assistent.
+Du bist Borgo-Bot, der Borgo-Batone Gäste-Assistent.
 
 ## PIZZA
 

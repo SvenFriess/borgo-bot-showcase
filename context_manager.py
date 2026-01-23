@@ -9,7 +9,7 @@ from typing import List, Dict, Set, Optional, Tuple
 from pathlib import Path
 from dataclasses import dataclass
 
-from config import (
+from config_multi_bot import (
     MAX_CONTEXT_WORDS,
     MAX_CONTEXT_ENTRIES,
     YAML_DB_PATH,
@@ -38,6 +38,7 @@ class ContextManager:
     def __init__(self, yaml_path: Path = YAML_DB_PATH):
         self.yaml_path = yaml_path
         self.knowledge_base = self._load_yaml()
+        self.synonym_map = self._build_synonym_map()
         self.stats = {
             'contexts_built': 0,
             'entries_loaded': 0,
@@ -56,42 +57,46 @@ class ContextManager:
             logger.error(f"❌ Failed to load YAML: {e}")
             return {}
     
+    def _build_synonym_map(self) -> Dict[str, str]:
+        """Baut Mapping: Synonym zu Entry-Name"""
+        synonym_map = {}
+        
+        for entry_name, entry_data in self.knowledge_base.items():
+            synonym_map[entry_name.lower()] = entry_name
+            
+            if 'synonyms' in entry_data:
+                for synonym in entry_data['synonyms']:
+                    synonym_map[synonym.lower()] = entry_name
+        
+        logger.debug(f"Built synonym map with {len(synonym_map)} mappings")
+        return synonym_map
+    
     def get_available_keywords(self) -> Set[str]:
         """Gibt alle verfügbaren Keywords zurück"""
-        return set(self.knowledge_base.keys())
-    
+        all_keywords = set()
+        
+        for entry_name, entry_data in self.knowledge_base.items():
+            all_keywords.add(entry_name)
+            
+            if 'synonyms' in entry_data:
+                all_keywords.update(entry_data['synonyms'])
+        
+        return all_keywords
+
     def build_context(
         self, 
         keywords: List[str], 
         query: str,
         max_entries: int = MAX_CONTEXT_ENTRIES
     ) -> Tuple[str, Dict]:
-        """
-        Baut Context aus Keywords
-        
-        Args:
-            keywords: Liste von Keywords (priorisiert)
-            query: Original User-Query
-            max_entries: Max Anzahl Entries zu laden
-        
-        Returns:
-            (context_string, metadata)
-        """
+        """Baut Context aus Keywords"""
         self.stats['contexts_built'] += 1
         
-        # 1. Lade Entries für Keywords
         entries = self._load_entries(keywords, max_entries)
-        
-        # 2. Prüfe auf Context-Mixing
         entries = self._prevent_context_mixing(entries, query)
-        
-        # 3. Begrenze auf Word-Count
         entries = self._truncate_by_word_count(entries)
-        
-        # 4. Formatiere Context
         context_string = self._format_context(entries)
         
-        # Metadata
         metadata = {
             'total_entries': len(entries),
             'total_words': sum(e.word_count for e in entries),
@@ -110,16 +115,22 @@ class ContextManager:
     ) -> List[ContextEntry]:
         """Lädt YAML-Entries für Keywords"""
         entries = []
+        seen_entries = set()
         
         for keyword in keywords[:max_entries]:
-            if keyword in self.knowledge_base:
-                data = self.knowledge_base[keyword]
+            entry_name = self.synonym_map.get(keyword.lower(), keyword)
+            
+            if entry_name in seen_entries:
+                continue
+            
+            if entry_name in self.knowledge_base:
+                data = self.knowledge_base[entry_name]
                 
                 entry = ContextEntry(
-                    keyword=keyword,
+                    keyword=entry_name,
                     category=data.get('category', 'unknown'),
-                    content=data.get('content', ''),
-                    word_count=len(data.get('content', '').split()),
+                    content=data.get('answer', ''),
+                    word_count=len(data.get('answer', '').split()),
                     metadata={
                         'synonyms': data.get('synonyms', []),
                         'priority': data.get('priority', 'normal'),
@@ -127,9 +138,10 @@ class ContextManager:
                 )
                 
                 entries.append(entry)
+                seen_entries.add(entry_name)
                 self.stats['entries_loaded'] += 1
                 
-                logger.debug(f"Loaded entry: {keyword} ({entry.word_count} words)")
+                logger.debug(f"Loaded entry: {entry_name} from keyword: {keyword}")
         
         return entries
     
@@ -138,31 +150,23 @@ class ContextManager:
         entries: List[ContextEntry], 
         query: str
     ) -> List[ContextEntry]:
-        """
-        Verhindert Context-Mixing (z.B. Pizza + Rasenmäher)
-        Entfernt inkonsistente Entries
-        """
+        """Verhindert Context-Mixing"""
         if not entries:
             return entries
         
         query_lower = query.lower()
-        
-        # Prüfe für jedes Topic ob Verbotswörter in anderen Entries sind
         filtered_entries = []
         
         for entry in entries:
             should_keep = True
             
-            # Prüfe ob dieses Entry ein bekanntes Topic ist
             if entry.keyword in CONTEXT_MIXING_RULES:
                 forbidden_words = CONTEXT_MIXING_RULES[entry.keyword]
                 
-                # Prüfe andere Entries auf Verbotswörter
                 for other_entry in entries:
                     if other_entry.keyword == entry.keyword:
                         continue
                     
-                    # Prüfe ob forbidden words in content sind
                     other_content_lower = other_entry.content.lower()
                     for forbidden in forbidden_words:
                         if forbidden in other_content_lower:
@@ -186,10 +190,7 @@ class ContextManager:
         self, 
         entries: List[ContextEntry]
     ) -> List[ContextEntry]:
-        """
-        Begrenzt Entries auf MAX_CONTEXT_WORDS
-        Verhindert Context-Overload
-        """
+        """Begrenzt Entries auf MAX_CONTEXT_WORDS"""
         total_words = 0
         truncated_entries = []
         
@@ -198,7 +199,6 @@ class ContextManager:
                 truncated_entries.append(entry)
                 total_words += entry.word_count
             else:
-                # Kann nicht mehr hinzugefügt werden
                 logger.warning(
                     f"Truncating context: '{entry.keyword}' would exceed limit "
                     f"({total_words + entry.word_count} > {MAX_CONTEXT_WORDS})"
@@ -209,18 +209,16 @@ class ContextManager:
         return truncated_entries
     
     def _format_context(self, entries: List[ContextEntry]) -> str:
-        """
-        Formatiert Entries zu LLM-Context-String
-        Klare Strukturierung für LLM
-        """
+        """Formatiert Entries zu LLM-Context-String"""
         if not entries:
             return ""
         
         context_parts = [
             "# BORGO BATONE KNOWLEDGE BASE",
             "",
-            "Du bist Borgi, der Borgo-Batone Gäste-Assistent.",
-            "Antworte NUR basierend auf folgenden Informationen:",
+            "Du bist Borgo-Bot, der Borgo-Batone Gäste-Assistent.",
+            "WICHTIG: Kopiere die Antworten unten WORT-FÜR-WORT - keine Paraphrasierung!",
+            "Antworte EXAKT mit dem Text aus der Knowledge Base:",
             ""
         ]
         
@@ -246,12 +244,7 @@ class ContextManager:
         return "\n".join(context_parts)
     
     def get_fallback_context(self, category: Optional[str] = None) -> str:
-        """
-        Gibt Fallback-Context wenn keine Keywords gefunden
-        
-        Args:
-            category: Optional Kategorie für gezielten Fallback
-        """
+        """Gibt Fallback-Context wenn keine Keywords gefunden"""
         logger.info(f"Using fallback context (category: {category})")
         
         fallback = [
@@ -275,9 +268,10 @@ class ContextManager:
         return "\n".join(fallback)
     
     def reload_knowledge_base(self) -> bool:
-        """Lädt Knowledge Base neu (für Updates)"""
+        """Lädt Knowledge Base neu"""
         try:
             self.knowledge_base = self._load_yaml()
+            self.synonym_map = self._build_synonym_map()
             logger.info("✅ Knowledge base reloaded")
             return True
         except Exception as e:
@@ -289,6 +283,7 @@ class ContextManager:
         return {
             **self.stats,
             'total_entries_in_db': len(self.knowledge_base),
+            'total_synonym_mappings': len(self.synonym_map),
             'avg_entries_per_context': (
                 self.stats['entries_loaded'] / self.stats['contexts_built']
                 if self.stats['contexts_built'] > 0 else 0
@@ -297,36 +292,24 @@ class ContextManager:
 
 
 class ContextValidator:
-    """
-    Validiert generierten Context auf Qualität
-    Erkennt potentielle Probleme
-    """
+    """Validiert generierten Context auf Qualität"""
     
     @staticmethod
     def validate(context: str, metadata: Dict) -> Tuple[bool, List[str]]:
-        """
-        Validiert Context
-        
-        Returns:
-            (is_valid, list_of_issues)
-        """
+        """Validiert Context"""
         issues = []
         
-        # Check 1: Nicht leer
         if not context or len(context.strip()) < 50:
             issues.append("Context zu kurz oder leer")
         
-        # Check 2: Nicht zu groß
         word_count = len(context.split())
-        if word_count > MAX_CONTEXT_WORDS * 1.2:  # 20% Toleranz
+        if word_count > MAX_CONTEXT_WORDS * 1.2:
             issues.append(f"Context zu groß: {word_count} Wörter")
         
-        # Check 3: Keine doppelten Keywords
         keywords = metadata.get('keywords_used', [])
         if len(keywords) != len(set(keywords)):
             issues.append("Doppelte Keywords im Context")
         
-        # Check 4: Konsistente Kategorien
         categories = metadata.get('categories', [])
         if len(categories) > 2:
             issues.append(f"Zu viele Kategorien gemischt: {categories}")
@@ -337,103 +320,3 @@ class ContextValidator:
             logger.warning(f"Context validation failed: {issues}")
         
         return is_valid, issues
-
-
-# ========================================
-# TESTS
-# ========================================
-
-def test_context_manager():
-    """Test-Suite für Context Manager"""
-    
-    # Erstelle Test-YAML
-    test_yaml_path = Path("/home/claude/borgo_bot_v3_5/test_knowledge.yaml")
-    
-    test_data = {
-        'pizza': {
-            'category': 'facilities',
-            'content': 'Der Pizzaofen steht bei Casa Gabriello. Für 24 Personen brauchst du 3 kg Mehl.',
-            'priority': 'high'
-        },
-        'pizzaofen': {
-            'category': 'facilities',
-            'content': 'Feuer 1 Stunde brennen lassen. Temperatur ca. 250°C. Pizza 9 Minuten backen.',
-            'priority': 'high'
-        },
-        'hunde': {
-            'category': 'rules',
-            'content': 'Hunde sind erlaubt. Onsite-Gruppe vorher informieren. Nach 22 Uhr Ruhezeiten beachten.',
-            'priority': 'medium'
-        },
-        'schlangen': {
-            'category': 'safety',
-            'content': 'Vipern sind giftig. Bei Biss sofort ins Krankenhaus Lucca. Geschlossene Schuhe tragen.',
-            'priority': 'high'
-        },
-    }
-    
-    with open(test_yaml_path, 'w', encoding='utf-8') as f:
-        yaml.dump(test_data, f, allow_unicode=True)
-    
-    # Test Context Manager
-    manager = ContextManager(test_yaml_path)
-    validator = ContextValidator()
-    
-    print("=" * 70)
-    print("CONTEXT MANAGER TESTS")
-    print("=" * 70)
-    
-    test_cases = [
-        (['pizza', 'pizzaofen'], "Wie funktioniert der Pizzaofen?"),
-        (['hunde'], "Sind Hunde erlaubt?"),
-        (['schlangen'], "Ich sah eine Schlange"),
-        (['pizza', 'hunde', 'schlangen'], "Alles über Borgo"),  # Zu viele
-        ([], "Keine Keywords"),  # Fallback
-    ]
-    
-    for keywords, query in test_cases:
-        print(f"\n📝 Query: '{query}'")
-        print(f"   Keywords: {keywords}")
-        
-        if keywords:
-            context, metadata = manager.build_context(keywords, query)
-            
-            print(f"\n   Metadata:")
-            for key, value in metadata.items():
-                print(f"      {key}: {value}")
-            
-            # Validierung
-            is_valid, issues = validator.validate(context, metadata)
-            status = "✅ VALID" if is_valid else "❌ INVALID"
-            print(f"\n   {status}")
-            if issues:
-                for issue in issues:
-                    print(f"      ⚠️  {issue}")
-            
-            # Context Preview
-            print(f"\n   Context Preview (erste 300 Zeichen):")
-            print("   " + "-" * 66)
-            preview = context[:300].replace('\n', '\n   ')
-            print(f"   {preview}...")
-        else:
-            # Fallback
-            context = manager.get_fallback_context()
-            print(f"\n   📁 Using Fallback Context")
-            preview = context[:200].replace('\n', '\n   ')
-            print(f"   {preview}...")
-    
-    # Statistiken
-    print("\n" + "=" * 70)
-    print("STATISTIKEN")
-    print("=" * 70)
-    stats = manager.get_stats()
-    for key, value in stats.items():
-        print(f"  {key}: {value}")
-    print("=" * 70)
-    
-    # Cleanup
-    test_yaml_path.unlink()
-
-
-if __name__ == "__main__":
-    test_context_manager()
