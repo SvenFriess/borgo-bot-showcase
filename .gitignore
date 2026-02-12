@@ -17,3 +17,4 @@ borgo_bot_metrics.json
 *.bak
 *_backup_*.yaml
 99_delete/
+.env.save

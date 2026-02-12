@@ -69,7 +69,7 @@ DEV_BOT_CONFIG = {
     ],
     'primary_model': 'mistral:instruct',
     'max_llm_retries': 3,
-    'llm_timeout_seconds': 45,
+    'llm_timeout_seconds': 60,
     
     # Context Settings
     'max_context_words': 800,  # Mehr Context für DEV-Tests
@@ -109,7 +109,7 @@ TEST_BOT_CONFIG = {
     ],
     'primary_model': 'mistral:instruct',
     'max_llm_retries': 2,
-    'llm_timeout_seconds': 30,
+    'llm_timeout_seconds': 60,
     
     # Context Settings
     'max_context_words': 800,
@@ -149,7 +149,7 @@ COMMUNITY_TEST_BOT_CONFIG = {
     ],
     'primary_model': 'mistral:instruct',
     'max_llm_retries': 2,
-    'llm_timeout_seconds': 30,
+    'llm_timeout_seconds': 60,
     
     # Context Settings
     'max_context_words': 800,

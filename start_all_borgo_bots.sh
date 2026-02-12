@@ -9,7 +9,7 @@ set -e  # Beende bei Fehler
 # ============================================
 
 # Basis-Verzeichnis für Borgo-Bot (alle Bots laufen hier)
-BORGO_DIR="/Users/svenfriess/borgobatone-04"
+BORGO_DIR="/Users/svenfriess/Projekte/borgobatone-04"
 
 # Haupt-Script
 BOT_SCRIPT="borgo_bot_multi.py"
@@ -138,27 +138,27 @@ total_count=0
 
 # Starte DEV-Bot
 if [ "$START_DEV" = true ]; then
-    ((total_count++))
+    ((total_count++)) || true
     if start_bot "DEV-Bot" "${BOT_ENVS[DEV]}"; then
-        ((success_count++))
+        ((success_count++)) || true
     fi
     echo ""
 fi
 
 # Starte TEST-Bot
 if [ "$START_TEST" = true ]; then
-    ((total_count++))
+    ((total_count++)) || true
     if start_bot "TEST-Bot" "${BOT_ENVS[TEST]}"; then
-        ((success_count++))
+        ((success_count++)) || true
     fi
     echo ""
 fi
 
 # Starte Community-Test-Bot
 if [ "$START_COMMUNITY" = true ]; then
-    ((total_count++))
+    ((total_count++)) || true
     if start_bot "Community-Test-Bot" "${BOT_ENVS[COMMUNITY]}"; then
-        ((success_count++))
+        ((success_count++)) || true
     fi
     echo ""
 fi
