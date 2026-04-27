@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Borgo-Bot KB Editor", version="1.0")
 from fastapi.staticfiles import StaticFiles
-app.mount("/static", StaticFiles(directory="/Users/svenfriess/Projekte/borgobatone-04/static"), name="static")
+app.mount("/static", StaticFiles(directory="/home/bot/borgo-bot/static"), name="static")
 
 # ─── Models ───────────────────────────────────────────────────────────────────
 
