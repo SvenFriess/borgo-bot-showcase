@@ -6,7 +6,9 @@ Strikte Isolation basierend auf Signal group_id
 
 import asyncio
 import logging
+from collections import defaultdict
 from pathlib import Path
+from time import monotonic
 from typing import Optional
 
 # Multi-Bot Config
@@ -25,7 +27,11 @@ from config_multi_bot import (
 )
 
 from signal_interface import SignalInterface
+from kb_manager import KBManager
 from message_deduplication import MessageDeduplicator
+
+# ── Approval System ───────────────────────────────────────────────────────────
+from approval_handler import is_approval_command, handle_approval_command
 
 # Logging Setup
 logging.basicConfig(
@@ -39,22 +45,36 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+class RateLimiter:
+    """Begrenzt Anfragen pro Absender (sliding window)."""
+
+    def __init__(self, max_requests: int = 5, window_seconds: int = 60):
+        self.max_requests = max_requests
+        self.window = window_seconds
+        self._timestamps: dict = defaultdict(list)
+
+    def is_allowed(self, sender: str) -> bool:
+        now = monotonic()
+        ts = self._timestamps[sender]
+        # Alte Einträge außerhalb des Fensters entfernen
+        self._timestamps[sender] = [t for t in ts if now - t < self.window]
+        if len(self._timestamps[sender]) >= self.max_requests:
+            return False
+        self._timestamps[sender].append(now)
+        return True
+
+
 class BorgoBotInstance:
     """
     Einzelne Bot-Instanz mit spezifischer Konfiguration
     """
     
     def __init__(self, config: dict):
-        """
-        Args:
-            config: Bot-Config dict (z.B. DEV_BOT_CONFIG)
-        """
         self.config = config
         self.name = config['name']
         
         logger.info(f"🤖 Initializing {self.name}...")
         
-        # Import Bot-Komponenten erst hier (für Isolation)
         from input_validator import InputValidator, QuickResponder
         from keyword_extractor import KeywordExtractor, CategoryMatcher
         from context_manager import ContextManager, ContextValidator
@@ -62,7 +82,6 @@ class BorgoBotInstance:
         from fallback_system import FallbackSystem, ResponseQualityChecker
         from monitoring import MonitoringSystem
         
-        # Komponenten mit bot-spezifischer Config initialisieren
         self.input_validator = InputValidator()
         self.quick_responder = QuickResponder()
         self.context_manager = ContextManager(Path(config['yaml_path']))
@@ -71,11 +90,9 @@ class BorgoBotInstance:
         )
         self.category_matcher = CategoryMatcher()
         
-        # LLM Handler mit bot-spezifischen Modellen
         self.llm_handler = LLMHandler(
             ollama_url=config['ollama_url']
         )
-        # Setze bot-spezifische Modelle
         self.llm_handler.models = config['llm_models']
         self.llm_handler.primary_model = config['primary_model']
         
@@ -85,18 +102,11 @@ class BorgoBotInstance:
         self.monitoring = MonitoringSystem()
         self.context_validator = ContextValidator()
         
-        # Features aus Config laden
         self.features = config['features']
         
         logger.info(f"✅ {self.name} initialized")
     
     async def process_message(self, message: str, user_id: Optional[str] = None):
-        """
-        Verarbeitet Message mit bot-spezifischer Logik
-        
-        Returns:
-            (response, success)
-        """
         from datetime import datetime
         from monitoring import InteractionLog
         from fallback_system import FallbackReason
@@ -234,7 +244,6 @@ class BorgoBotInstance:
             return response, False
     
     def _finalize_log(self, log_entry, response: str, start_time):
-        """Finalisiert Log Entry"""
         from datetime import datetime
         
         duration = (datetime.now() - start_time).total_seconds() * 1000
@@ -253,14 +262,26 @@ async def multi_bot_signal_loop():
     logger.info("=" * 80)
     logger.info(f"🚀 Starting Borgo-Bot v{BOT_VERSION} MULTI-BOT System")
     logger.info("=" * 80)
-    
-    # Initialisiere Signal Interface
-    si = SignalInterface(group_id=None)  # Keine Filterung - Handler entscheidet!
-    
-    # Message Deduplication (shared über alle Bots)
+
+    unique_ids = set(GROUP_IDS.values())
+    placeholder_ids = {v for v in GROUP_IDS.values() if 'EINTRAGEN' in v}
+    if len(unique_ids) < len(GROUP_IDS):
+        logger.error("❌ KONFIGURATIONSFEHLER: Mehrere Bots haben dieselbe group_id!")
+        raise SystemExit(1)
+    if placeholder_ids:
+        logger.error("❌ KONFIGURATIONSFEHLER: Platzhalter-IDs gefunden — bitte ersetzen:")
+        for key, val in GROUP_IDS.items():
+            if 'EINTRAGEN' in val:
+                logger.error(f"   GROUP_IDS['{key}'] = '{val}'")
+        raise SystemExit(1)
+
+    kb_manager = KBManager(Path(DEV_BOT_CONFIG['yaml_path']))
+    logger.info("✅ KBManager initialisiert")
+
+    si = SignalInterface(group_id=None)
     deduplicator = MessageDeduplicator(ttl_seconds=300)
+    rate_limiter = RateLimiter(max_requests=5, window_seconds=60)
     
-    # Erstelle DREI separate Bot-Instanzen
     logger.info("\n🤖 Initializing Bot Instances...")
     
     dev_bot = BorgoBotInstance(DEV_BOT_CONFIG)
@@ -279,25 +300,46 @@ async def multi_bot_signal_loop():
         """
         Message Handler mit striktem Group-Routing
         """
+        # ── Approval-Befehle (Admin-DM, keine Gruppe) ────────────────────────
+        if not group_id and is_approval_command(text, sender):
+            logger.info(f"🔐 Approval-Befehl von Admin: {text[:40]}")
+            response = handle_approval_command(text, sender)
+            await si.send(response, recipient=sender)
+            return
+
+        # !kb Kommandos (nur in DEV-Gruppe)
+        if text.strip().lower().startswith("!kb"):
+            if group_id == GROUP_IDS['dev']:
+                logger.info(f"📚 KB-Kommando von {sender[:10]}...: {text[:60]}")
+                response = kb_manager.handle(text)
+                await si.send(response, group_id=group_id)
+            else:
+                logger.info(f"⛔ !kb nur in DEV erlaubt, ignoriere aus Gruppe {group_id[:20]}...")
+            return
+
         # Nur auf !bot Kommandos reagieren
         if not text.lower().startswith(BOT_COMMAND_PREFIX):
             return
         
         # STRIKTE VALIDIERUNG: Nur erlaubte Gruppen
         if not is_allowed_group(group_id):
-            logger.warning(f"⛔ Message from unauthorized group: {group_id[:20]}... - IGNORING")
+            logger.warning(f"⛔ Message from unauthorized group: {str(group_id)[:20]}... - IGNORING")
             return
         
-        # Deduplizierung (verhindert Multi-Worker Duplikate)
+        # Deduplizierung
         if deduplicator.is_duplicate(text, sender):
             logger.info(f"⏭️  Skipping duplicate message from {sender}")
+            return
+
+        # Rate-Limiting
+        if not rate_limiter.is_allowed(sender):
+            logger.warning(f"⛔ Rate limit exceeded for {sender[:15]}... — message dropped")
             return
         
         # ROUTING basierend auf group_id
         bot_name = get_bot_name_for_group(group_id)
         logger.info(f"💬 [{bot_name}] Incoming from {sender[:10]}... in group {group_id[:20]}...")
         
-        # Wähle die richtige Bot-Instanz
         if group_id == GROUP_IDS['dev']:
             bot = dev_bot
         elif group_id == GROUP_IDS['test']:
@@ -308,11 +350,8 @@ async def multi_bot_signal_loop():
             logger.error(f"❌ Unknown group_id: {group_id} - This should never happen!")
             return
         
-        # Verarbeite Message mit gewähltem Bot
         try:
             response, success = await bot.process_message(text, sender)
-            
-            # KRITISCH: Sende Antwort NUR an ursprüngliche Gruppe!
             await si.send(response, group_id=group_id)
             
             status = "✅ SUCCESS" if success else "⚠️ FALLBACK"
@@ -321,12 +360,9 @@ async def multi_bot_signal_loop():
         except Exception as e:
             logger.error(f"❌ [{bot_name}] Error processing message: {e}", exc_info=True)
     
-    # Starte Listener
     await si.run_listener(handler)
 
 
 if __name__ == "__main__":
     import sys
-    
-    # Für jetzt nur Multi-Bot Modus
     asyncio.run(multi_bot_signal_loop())
