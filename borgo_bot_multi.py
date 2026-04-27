@@ -304,7 +304,7 @@ async def multi_bot_signal_loop():
         if not group_id and is_approval_command(text, sender):
             logger.info(f"🔐 Approval-Befehl von Admin: {text[:40]}")
             response = handle_approval_command(text, sender)
-            await si.send(response, recipient=sender)
+            await si.send(response, group_id=GROUP_IDS['dev'])
             return
 
         # !kb Kommandos (nur in DEV-Gruppe)
