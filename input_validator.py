@@ -22,14 +22,6 @@ class InputValidator:
     Verhindert Spam, leere Anfragen und Probleminputs
     """
     
-    def __init__(self):
-        self.problematic_patterns = [re.compile(p) for p in PROBLEMATIC_PATTERNS]
-        self.stats = {
-            'total_validations': 0,
-            'rejected_inputs': 0,
-            'sanitized_inputs': 0,
-        }
-    
     def validate(self, message: str) -> Tuple[Optional[str], Optional[str]]:
         """
         Hauptvalidierung der User-Eingabe
@@ -111,22 +103,53 @@ class InputValidator:
         
         return None
     
+    # Klassische Prompt-Injection-Muster
+    INJECTION_PATTERNS = [
+        r'ignorier[e]?\s+(alle?|die|vorherigen|obigen)',
+        r'vergiss\s+(alles|alle|deine)',
+        r'new\s+instructions?',
+        r'system\s*prompt',
+        r'du\s+bist\s+jetzt\b',
+        r'act\s+as\b',
+        r'jailbreak',
+        r'pretend\s+(you|to)',
+        r'role\s*play',
+        r'<\s*/?instructions?\s*>',
+        r'\[INST\]',
+        r'###\s*(system|instruction)',
+    ]
+
+    def __init__(self):
+        self.problematic_patterns = [re.compile(p) for p in PROBLEMATIC_PATTERNS]
+        self.injection_patterns = [re.compile(p, re.IGNORECASE) for p in self.INJECTION_PATTERNS]
+        self.stats = {
+            'total_validations': 0,
+            'rejected_inputs': 0,
+            'sanitized_inputs': 0,
+        }
+
     def _check_content(self, text: str) -> Optional[str]:
-        """Prüft Inhalt auf Mindestanforderungen"""
-        
+        """Prüft Inhalt auf Mindestanforderungen und Injection-Versuche"""
+
+        # Prompt-Injection-Erkennung
+        for pattern in self.injection_patterns:
+            if pattern.search(text):
+                logger.warning(f"Prompt injection attempt blocked: '{text[:80]}'")
+                return "Diese Anfrage kann ich nicht verarbeiten. Bitte stelle eine normale Frage zum Borgo."
+
         # Mindestens ein Buchstabe
         if not re.search(r'[a-zA-ZäöüÄÖÜß]', text):
             return "Ich verstehe nur Fragen mit Worten. Bitte formuliere deine Frage mit Text."
-        
+
         # Mindestens ein Wort (3+ Buchstaben)
         words = re.findall(r'[a-zA-ZäöüÄÖÜß]{3,}', text)
         if len(words) < 1:
             return "Bitte stelle eine vollständige Frage mit mindestens einem richtigen Wort."
-        
+
         # Nur Zahlen? (ohne Kontext)
         if re.match(r'^[\d\s.,-]+$', text):
             return "Ich sehe nur Zahlen. Bitte stelle eine Frage in Worten, z.B. 'Wie viele Personen passen in Casa Gabriello?'"
-        
+
         return None
     
     def _sanitize(self, text: str) -> str:

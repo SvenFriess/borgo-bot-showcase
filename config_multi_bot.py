@@ -4,6 +4,9 @@ MULTI-BOT ARCHITEKTUR: Drei logisch getrennte Bots in einer Instanz
 """
 
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # =====================================================================================
 # BASIS-INFO
@@ -19,9 +22,9 @@ BOT_COMMAND_PREFIX = "!bot"
 # Voller Pfad zur signal-cli Installation
 SIGNAL_CLI_PATH = "/opt/homebrew/bin/signal-cli"
 
-# Account-Nummer des Bots
-SIGNAL_ACCOUNT = "+4915755901211"
-SIGNAL_PHONE_NUMBER = "+4915755901211"  # Alias
+# Account-Nummer des Bots (aus .env laden)
+SIGNAL_ACCOUNT = os.environ.get("SIGNAL_ACCOUNT", "")
+SIGNAL_PHONE_NUMBER = SIGNAL_ACCOUNT  # Alias
 
 # Socket-Pfad für Daemon-Kommunikation
 SIGNAL_SOCKET_PATH = '/tmp/signal-cli-socket'
@@ -35,15 +38,19 @@ MAX_MESSAGE_LENGTH = 4096  # Signal-Limit
 # GRUPPEN-ROUTING & BOT-DEFINITIONEN
 # =====================================================================================
 
-# Signal-Gruppen-IDs (aus listGroups)
+# Signal-Gruppen-IDs (aus .env laden)
+# So bekommst du die IDs:
+#   signal-cli -a +49... listGroups
+# Jede Gruppe MUSS eine eigene, eindeutige ID haben!
 GROUP_IDS = {
-    'dev': 'i4UA7hmoTi1HYq+vO0/NvyR/MEcqKfLTrODlw9W8dDM=',
-    'test': '21oiqcpO37/ScyKFhmctf/45MQ5QYdN2h/VQp9WMKCM=',
-    'community_test': 'GIRAgoi6g+wpsFCliNWoXPXAErU/li2tW8TQ1xKhqcE=',
+    'dev': os.environ.get("SIGNAL_GROUP_DEV", ""),
+    'test': os.environ.get("SIGNAL_GROUP_TEST", ""),
+    'community_test': os.environ.get("SIGNAL_GROUP_COMMUNITY", ""),
 }
 
 # Erlaubte Gruppen (für strikte Kontrolle)
-ALLOWED_GROUP_IDS = list(GROUP_IDS.values())
+# Dedupliziert — verhindert doppelte Einträge wenn IDs noch gleich sind
+ALLOWED_GROUP_IDS = list(set(GROUP_IDS.values()))
 
 # Bot-Namen pro Gruppe
 BOT_NAMES = {
@@ -220,7 +227,7 @@ KEYWORD_CONFIDENCE = {
     'low': 0.50
 }
 
-FUZZY_MATCH_THRESHOLD = 80
+FUZZY_MATCH_THRESHOLD = 0.80  # SequenceMatcher.ratio() erwartet 0.0–1.0
 MIN_KEYWORDS_REQUIRED = 0
 
 # Context Management
@@ -504,7 +511,6 @@ KEYWORD_CONFIDENCE = {
     'medium': 0.75,
     'low': 0.50
 }
-FUZZY_MATCH_THRESHOLD = 0.80
 MIN_KEYWORDS_REQUIRED = 0
 
 # Context Limits (Defaults)
@@ -521,9 +527,8 @@ LLM_TIMEOUT_SECONDS = 60
 MIN_RESPONSE_LENGTH = 10
 MAX_RESPONSE_LENGTH = 2000
 
-# Hallucination Detection
-HALLUCINATION_PATTERNS = []
-CONTEXT_MIXING_RULES = {}
+# Hallucination Detection — Verweise auf die oben definierten Werte (nicht überschreiben!)
+# HALLUCINATION_PATTERNS und CONTEXT_MIXING_RULES sind bereits oben korrekt definiert.
 QUALITY_CHECKS = {
     'too_short': MIN_RESPONSE_LENGTH,
     'too_long': MAX_RESPONSE_LENGTH,

@@ -2385,27 +2385,23 @@ yoga_matten:
   - entspannung
   - gymnastik
   title: Yoga-Matten Ausleihe
-weingüter:
-  answer: 'Fattoria Sari (https://www.fattoriasardi.com/)
 
-
-    Ein Weingut mit Agritourismo und Restaurant ca 15 Auto-Minuten von Borgo, kurz
-    vor Lucca gelegen.
-
-
-    Weinführungen auf Englisch inkl. Verkostung für 15 Euro pro Person. Online Buchungen
-    auf der Website möglich.
-
-
-    Bio-Wein, aktuell 9 Weine (Stand: 5/2026)'
+"weingüter":
+  kategorie: general
+  priorität: low
   keywords:
-  - wein
-  - weingüter
-  - weingut
-  - weinführung
-  - fattoria
-  - verkostung
-  - freizeit
-  title: Weingüter in der Umgebung
-  last_changed: 29.04.2026 13:18
-  last_changed_by: Sven
+    - wein
+    - weingüter
+    - weingut
+    - weinführung
+    - führungen
+    - freizeit
+    - unternehmungen rund um borgo
+    - fattoria
+    - verkostung
+  antwort: |
+    Fattoria Sari (https://www.fattoriasardi.com/)
+
+    Ein Weingut mit Agritourismo und Restaurant ca 15 Auto-Minuten von Borgo, kurz vor Lucca gelegen.
+    Es gibt Weinführungen auf Englisch inkl. Verkostung für 15 Euro pro Person. Online Buchungen auf der Website sind möglich.
+    Der Wein ist Bio-Wein und es werden 9 Weine aktuell produziert (Stand: 5/2026)

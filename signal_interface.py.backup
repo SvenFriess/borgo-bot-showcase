@@ -115,16 +115,10 @@ class SignalInterface:
                 logger.info(f"📡 Verbinde mit JSON-RPC daemon: {self.socket_path}")
 
                 reader, writer = await asyncio.open_unix_connection(self.socket_path)
-
-                # Subscribe nötig damit Daemon Messages pushed
-                subscribe_request = {
-                    "jsonrpc": "2.0",
-                    "method": "subscribeReceive",
-                    "id": 1
-                }
-                writer.write((json.dumps(subscribe_request) + "\n").encode())
-                await writer.drain()
-                logger.info("✅ Mit Daemon verbunden — subscribeReceive gesendet, warte auf Messages...")
+                
+                # FIX: Kein subscribe nötig in single-account mode
+                # signal-cli 0.13.18 sendet Messages direkt nach Verbindung
+                logger.info("✅ Mit Daemon verbunden — warte auf eingehende Messages...")
 
                 async for line_bytes in reader:
                     line = line_bytes.decode("utf-8", errors="ignore").strip()
@@ -194,16 +188,8 @@ class SignalInterface:
     async def run_listener(self, handler):
         """
         Startet einen Listener-Loop und ruft für jede eingehende Nachricht
-        den übergebenen Handler als nicht-blockierenden Task auf.
-        Der Listener wartet NICHT auf die Verarbeitung — neue Nachrichten
-        werden sofort empfangen, auch wenn LLM noch läuft.
+        den übergebenen Handler auf.
         """
-        async def _safe_handle(text, sender, group_id):
-            try:
-                await handler(text, sender, group_id)
-            except Exception as e:
-                logger.error(f"❌ Fehler im Signal-Handler: {e}", exc_info=True)
-
         async for msg in self.listen():
             text = msg.get("text")
             sender = msg.get("sender")
@@ -227,7 +213,10 @@ class SignalInterface:
                     )
                     continue
 
-            asyncio.create_task(_safe_handle(text, sender, group_id))
+            try:
+                await handler(text, sender, group_id)
+            except Exception as e:
+                logger.error(f"❌ Fehler im Signal-Handler: {e}", exc_info=True)
 
     # ========================================================
     # Senden: JSON-RPC send via Unix Socket

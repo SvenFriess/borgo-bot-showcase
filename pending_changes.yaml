@@ -1,0 +1,526 @@
+changes:
+- id: 18fe60f2-2bec-48da-b928-d7cb32e69fc8
+  short_id: 18FE60
+  action: update
+  entry_key: test
+  new_data:
+    answer: Moto Guzzi
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T09:58:14.434594'
+  resolved_at: null
+- id: 010113c9-f91d-4226-b8c4-1eb69431f4d4
+  short_id: '010113'
+  action: update
+  entry_key: test
+  new_data:
+    answer: Moto Guzzi
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T10:01:54.654706'
+  resolved_at: null
+- id: c5cad39e-4581-4a5d-af8c-da912b251d8f
+  short_id: C5CAD3
+  action: update
+  entry_key: test
+  new_data:
+    answer: Moto Guzzi
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T13:56:49.463196'
+  resolved_at: null
+- id: 370047e2-f562-4853-b5f4-552ae7e0b13b
+  short_id: '370047'
+  action: update
+  entry_key: test
+  new_data:
+    answer: Moto Guzzi
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T13:56:51.850549'
+  resolved_at: null
+- id: 33ce7b23-44e2-43cd-81ae-303b6bba5346
+  short_id: 33CE7B
+  action: update
+  entry_key: test
+  new_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrzjhhh
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T13:57:58.642182'
+  resolved_at: null
+- id: 7ed2d8cb-bb8f-4ca3-be80-084678b4fef0
+  short_id: 7ED2D8
+  action: update
+  entry_key: test
+  new_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrzjhhh
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T13:57:59.071303'
+  resolved_at: null
+- id: 8883b96a-6b1c-4147-9c72-114a8b015abe
+  short_id: 8883B9
+  action: update
+  entry_key: test
+  new_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrzkkjj
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T14:01:54.025254'
+  resolved_at: null
+- id: d5fa38c7-2ed4-4d5e-b403-4de6391f1cbb
+  short_id: D5FA38
+  action: update
+  entry_key: test
+  new_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrzkkjj
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T14:01:54.706538'
+  resolved_at: null
+- id: b5cf950f-da8d-4b22-b6b8-a57cda289cf3
+  short_id: B5CF95
+  action: update
+  entry_key: test
+  new_data:
+    answer: Moto Guzzi
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T14:05:44.975161'
+  resolved_at: null
+- id: 059a25d8-0a18-439f-bf67-eb57c797435f
+  short_id: 059A25
+  action: update
+  entry_key: test
+  new_data:
+    answer: Moto Guzzi
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T14:05:45.406419'
+  resolved_at: null
+- id: d1063a3b-8356-475b-9edf-c200b6e48e3a
+  short_id: D1063A
+  action: create
+  entry_key: testtest
+  new_data:
+    category: general
+    priority: medium
+    synonyms: []
+    answer: Fgdgg
+  old_data: null
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T14:08:24.344382'
+  resolved_at: null
+- id: 975ca052-c274-4de6-bca8-2ae5a1c48fc6
+  short_id: 975CA0
+  action: create
+  entry_key: testtest
+  new_data:
+    category: general
+    priority: medium
+    synonyms: []
+    answer: Fgdgg
+  old_data: null
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T14:08:25.268236'
+  resolved_at: null
+- id: cc310349-8ff6-47e5-a934-2c6d20573206
+  short_id: CC3103
+  action: update
+  entry_key: test
+  new_data:
+    answer: '20:01'
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T20:01:47.394732'
+  resolved_at: null
+- id: 15f9b06b-3b26-4ee7-8c28-c8192626a288
+  short_id: 15F9B0
+  action: update
+  entry_key: test
+  new_data:
+    answer: '20:01'
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T20:01:48.833521'
+  resolved_at: null
+- id: 6c911ee5-321b-4a1d-ab0a-c5dd7d762f9c
+  short_id: 6C911E
+  action: delete
+  entry_key: test
+  new_data: {}
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T20:09:51.461642'
+  resolved_at: null
+- id: a44dee83-edf7-4600-a924-61a3ddc20235
+  short_id: A44DEE
+  action: update
+  entry_key: test
+  new_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  old_data:
+    answer: jfgfjhgfgudztruztezerzrteggtrz
+    category: general
+    priority: medium
+    synonyms: []
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T20:09:54.843999'
+  resolved_at: null
+- id: 6e065fa3-61ff-474b-8565-c088d2cc239b
+  short_id: 6E065F
+  action: create
+  entry_key: guzzi
+  new_data:
+    category: general
+    priority: medium
+    synonyms: []
+    answer: Alfonso Guzzi
+  old_data: null
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T20:11:28.577171'
+  resolved_at: null
+- id: 781f0fcd-0a8d-4be7-94ac-d20d97f946d3
+  short_id: 781F0F
+  action: create
+  entry_key: guzzi
+  new_data:
+    category: general
+    priority: medium
+    synonyms: []
+    answer: Alfonso Guzzi
+  old_data: null
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-27T20:11:29.771499'
+  resolved_at: null
+- id: 93c4a634-1874-492d-ade6-9fbf97f6df36
+  short_id: 93C4A6
+  action: update
+  entry_key: wandern
+  new_data:
+    answer: 'Wandern um Borgo Batone:
+
+
+      Umgebung: Toskanische Hügel, schöne Trails
+
+
+      Schwierigkeit: Leicht bis mittel
+
+
+      Es gibt eine Gruppe Borgo Batone bei Komoot. Dort sind einige Wanderungen gespeichert.
+
+
+      Ausrüstung: Festes Schuhwerk empfohlen!
+
+
+      Tipp:
+
+      • Onsite-Gruppe nach Routen fragen
+
+      • Wasser mitnehmen
+
+      • Schlangen-Bewusstsein (siehe Schlangen-Eintrag)'
+    category: basics
+    priority: low
+    synonyms:
+    - hiking
+    - spazieren
+    - trails
+    - berge
+    - natur
+  old_data:
+    answer: 'Wandern um Borgo Batone:
+
+
+      Umgebung: Toskanische Hügel, schöne Trails
+
+
+      Schwierigkeit: Leicht bis mittel
+
+
+      Ausrüstung: Festes Schuhwerk empfohlen!
+
+
+      Tipp:
+
+      • Onsite-Gruppe nach Routen fragen
+
+      • Wasser mitnehmen
+
+      • Schlangen-Bewusstsein (siehe Schlangen-Eintrag)
+
+      '
+    category: activities
+    priority: low
+    synonyms:
+    - hiking
+    - spazieren
+    - trails
+    - berge
+    - natur
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-28T18:32:23.055089'
+  resolved_at: null
+- id: 17058b65-d26e-4926-ae1d-319563f1af81
+  short_id: 17058B
+  action: create
+  entry_key: quelle
+  new_data:
+    category: general
+    priority: medium
+    synonyms:
+    - quelle
+    - wasser
+    - brunnen
+    answer: "Die Quelle ist hier. Auf dem Weg dorthin findet ihr die beiden Zisternen,\
+      \ die hinter einem Zaun liegen.  https://www.google.com/maps?q=43.9317440,10.4162580&entry=gps&shh=CAE&lucs=,94297699,94284457,94231188,94280568,47071704,94218641,94282134,94286869&g_ep=CAISEjI2LjE2LjAuODk4OTU0MjE1MBgAINeCAypILDk0Mjk3Njk5LDk0Mjg0NDU3LDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDk0Mjg2ODY5QgJERQ%3D%3D&skid=4ceea7bf-acd7-46e7-9533-cd31540ab885&g_st=isi\
+      \ \n\nDen Weg zur Quelle findest du auf Komoot “BB Wassereinspeisung”. Die Gruppe\
+      \ heisst Borgo Batone. \nhttps://www.komoot.com/de-DE/tour/2916690812?ref=itd&share_token=a3riG6U0cF7gDNNg1PPN5ooSolhjtm2b93qsvXooh9AFOImRge&ref=its\
+      \ \n\nSowohl Zisternen als auch die Quelle sind abgeschlossen. Für die Zisterne\
+      \ und für die Quelle benötigt ihr Schlüssel. Diese hängen am Schlüsselbrett\
+      \ unter Quelle. Nehmt alle mit, bevor ihr euch auf den Weg macht. Ebenfalls\
+      \ solltet ihr eine Gartenschere dabei haben und festes Schuhwerk, lange Hose,\
+      \ da der Weg häufig zuwächst."
+  old_data: null
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-28T19:03:19.174563'
+  resolved_at: null
+- id: c49b5321-bf61-4b52-b5ec-5b6d9b42d2e4
+  short_id: C49B53
+  action: create
+  entry_key: quelle
+  new_data:
+    category: general
+    priority: medium
+    synonyms:
+    - quelle
+    - wasser
+    - brunnen
+    answer: "Die Quelle ist hier. Auf dem Weg dorthin findet ihr die beiden Zisternen,\
+      \ die hinter einem Zaun liegen.  https://www.google.com/maps?q=43.9317440,10.4162580&entry=gps&shh=CAE&lucs=,94297699,94284457,94231188,94280568,47071704,94218641,94282134,94286869&g_ep=CAISEjI2LjE2LjAuODk4OTU0MjE1MBgAINeCAypILDk0Mjk3Njk5LDk0Mjg0NDU3LDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDk0Mjg2ODY5QgJERQ%3D%3D&skid=4ceea7bf-acd7-46e7-9533-cd31540ab885&g_st=isi\
+      \ \n\nDen Weg zur Quelle findest du auf Komoot “BB Wassereinspeisung”. Die Gruppe\
+      \ heisst Borgo Batone. \nhttps://www.komoot.com/de-DE/tour/2916690812?ref=itd&share_token=a3riG6U0cF7gDNNg1PPN5ooSolhjtm2b93qsvXooh9AFOImRge&ref=its\
+      \ \n\nSowohl Zisternen als auch die Quelle sind abgeschlossen. Für die Zisterne\
+      \ und für die Quelle benötigt ihr Schlüssel. Diese hängen am Schlüsselbrett\
+      \ unter Quelle. Nehmt alle mit, bevor ihr euch auf den Weg macht. Ebenfalls\
+      \ solltet ihr eine Gartenschere dabei haben und festes Schuhwerk, lange Hose,\
+      \ da der Weg häufig zuwächst."
+  old_data: null
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-28T19:03:22.226618'
+  resolved_at: null
+- id: 49902361-0b42-433c-b2da-c5c3f0880122
+  short_id: '499023'
+  action: update
+  entry_key: wandern
+  new_data:
+    answer: "Wandern um Borgo Batone:\n\nUmgebung: Toskanische Hügel, schöne Trails\n\
+      \nSchwierigkeit: Leicht bis mittel\n\nAusrüstung: Festes Schuhwerk empfohlen!\n\
+      \nTipp:\n• Onsite-Gruppe nach Routen fragen\n• Wasser mitnehmen\n• Schlangen-Bewusstsein\
+      \ (siehe Schlangen-Eintrag)\n\nEs gibt auf eine Borgo Batone Gruppe. \nhttps://www.komoot.com/de-DE/tour/2916690812?ref=itd&share_token=a3riG6U0cF7gDNNg1PPN5ooSolhjtm2b93qsvXooh9AFOImRge&ref=its"
+    category: basics
+    priority: low
+    synonyms:
+    - hiking
+    - spazieren
+    - trails
+    - berge
+    - natur
+  old_data:
+    answer: 'Wandern um Borgo Batone:
+
+
+      Umgebung: Toskanische Hügel, schöne Trails
+
+
+      Schwierigkeit: Leicht bis mittel
+
+
+      Ausrüstung: Festes Schuhwerk empfohlen!
+
+
+      Tipp:
+
+      • Onsite-Gruppe nach Routen fragen
+
+      • Wasser mitnehmen
+
+      • Schlangen-Bewusstsein (siehe Schlangen-Eintrag)
+
+      '
+    category: activities
+    priority: low
+    synonyms:
+    - hiking
+    - spazieren
+    - trails
+    - berge
+    - natur
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-28T19:10:15.191270'
+  resolved_at: null
+- id: 494a97af-1cf9-4b2a-9b44-2db973ffc3aa
+  short_id: 494A97
+  action: update
+  entry_key: wandern
+  new_data:
+    answer: "Wandern um Borgo Batone:\n\nUmgebung: Toskanische Hügel, schöne Trails\n\
+      \nSchwierigkeit: Leicht bis mittel\n\nAusrüstung: Festes Schuhwerk empfohlen!\n\
+      \nTipp:\n• Onsite-Gruppe nach Routen fragen\n• Wasser mitnehmen\n• Schlangen-Bewusstsein\
+      \ (siehe Schlangen-Eintrag)\n\nEs gibt auf eine Borgo Batone Gruppe. \nhttps://www.komoot.com/de-DE/tour/2916690812?ref=itd&share_token=a3riG6U0cF7gDNNg1PPN5ooSolhjtm2b93qsvXooh9AFOImRge&ref=its"
+    category: basics
+    priority: low
+    synonyms:
+    - hiking
+    - spazieren
+    - trails
+    - berge
+    - natur
+  old_data:
+    answer: 'Wandern um Borgo Batone:
+
+
+      Umgebung: Toskanische Hügel, schöne Trails
+
+
+      Schwierigkeit: Leicht bis mittel
+
+
+      Ausrüstung: Festes Schuhwerk empfohlen!
+
+
+      Tipp:
+
+      • Onsite-Gruppe nach Routen fragen
+
+      • Wasser mitnehmen
+
+      • Schlangen-Bewusstsein (siehe Schlangen-Eintrag)
+
+      '
+    category: activities
+    priority: low
+    synonyms:
+    - hiking
+    - spazieren
+    - trails
+    - berge
+    - natur
+  editor: kb-editor
+  status: pending
+  created_at: '2026-04-28T19:10:18.388396'
+  resolved_at: null

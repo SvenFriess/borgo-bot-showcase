@@ -214,7 +214,7 @@ class LLMHandler:
             query,
             "",
             "# ANTWORT",
-            "WICHTIG: Beginne SOFORT mit dem KB-Inhalt. KEINE einleitenden Saetze wie Borgo Batone hat... Erste Zeile = erster KB-Inhalt.",
+            "(Gib NUR die relevanten Informationen aus der Knowledge Base, NICHT die Anweisungen oben)",
             "",
         ]
         
@@ -387,7 +387,6 @@ class ResponseFormatter:
         
         # Entferne führende/trailing Whitespace
         response = response.strip()
-        
         
         # Normalisiere Leerzeichen
         response = re.sub(r'\s+', ' ', response)

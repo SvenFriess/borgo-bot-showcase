@@ -199,6 +199,21 @@ class BorgoBotInstance:
                         if self.features['response_validation']:
                             response = self.response_formatter.format(response)
                         
+                        # last_changed Metadaten anhängen
+                        try:
+                            kb = self.context_manager.knowledge_base
+                            matched_key = context_meta['keywords_used'][0] if context_meta.get('keywords_used') else None
+                            if matched_key and matched_key in kb:
+                                entry = kb[matched_key]
+                                lc = entry.get('last_changed')
+                                lc_by = entry.get('last_changed_by')
+                                if lc:
+                                    response += f"\n\n─────────────────\n🕐 Zuletzt geändert: {lc}"
+                                    if lc_by:
+                                        response += f" · {lc_by}"
+                        except Exception:
+                            pass
+
                         log_entry.success = True
                         log_entry.response_length = len(response)
                         self._finalize_log(log_entry, response, start_time)

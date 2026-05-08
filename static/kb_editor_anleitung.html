@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borgo-Bot · Knowledge Base Editor Anleitung</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #B85042;
+            --terracotta-light: #D4736A;
+            --olive: #5A6B3C;
+            --olive-light: #7A8B5C;
+            --sand: #E7E8D1;
+            --sage: #A7BEAE;
+            --cream: #FBF9F3;
+            --charcoal: #2D2D2D;
+            --stone: #6B6B6B;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--cream);
+            color: var(--charcoal);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Hero Header */
+        header {
+            background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-light) 100%);
+            color: var(--white);
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .logo span {
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--charcoal);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover {
+            background: var(--sand);
+            color: var(--terracotta);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--terracotta);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--sand);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            color: var(--olive);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--stone);
+        }
+
+        /* Info Cards */
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--terracotta);
+        }
+
+        .card.success {
+            border-left-color: var(--olive);
+        }
+
+        .card.info {
+            border-left-color: var(--sage);
+        }
+
+        .card h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--charcoal);
+        }
+
+        /* Steps */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem 1.5rem 1.5rem 4rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            position: relative;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 1.25rem;
+            top: 1.5rem;
+            width: 2rem;
+            height: 2rem;
+            background: var(--terracotta);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .step h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--charcoal);
+        }
+
+        .step p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Code blocks */
+        code {
+            background: var(--sand);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 0.9em;
+            color: var(--terracotta);
+        }
+
+        pre {
+            background: var(--charcoal);
+            color: var(--sand);
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        /* Keyboard shortcuts */
+        kbd {
+            background: var(--white);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0.15rem 0.5rem;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.85em;
+            box-shadow: 0 2px 0 #bbb;
+        }
+
+        /* Tips list */
+        .tips {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips li {
+            padding: 0.75rem 0 0.75rem 2.5rem;
+            position: relative;
+            border-bottom: 1px solid var(--sand);
+        }
+
+        .tips li:last-child {
+            border-bottom: none;
+        }
+
+        .tips li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+            top: 0.75rem;
+        }
+
+        /* Warning/Important */
+        .warning {
+            background: #FFF3CD;
+            border-left: 4px solid #FFC107;
+            padding: 1rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1.5rem 0;
+        }
+
+        .warning::before {
+            content: '⚠️ ';
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h4 {
+            font-family: 'Fraunces', serif;
+            color: var(--terracotta);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature p {
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* Back to Editor Button */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--terracotta);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .cta-button:hover {
+            background: var(--terracotta-light);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--charcoal);
+            color: var(--sand);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--terracotta-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .logo {
+                font-size: 1.8rem;
+            }
+            
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            nav a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .step {
+                padding-left: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Borgo-Bot 🤖 <span>KB Editor</span></div>
+    <p>Anleitung für die Knowledge Base Verwaltung</p>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="#uebersicht">Übersicht</a></li>
+        <li><a href="#navigation">Navigation</a></li>
+        <li><a href="#bearbeiten">Bearbeiten</a></li>
+        <li><a href="#keywords">Keywords</a></li>
+        <li><a href="#tipps">Tipps</a></li>
+    </ul>
+</nav>
+
+<main>
+
+    <!-- Übersicht -->
+    <section id="uebersicht">
+        <h2>📚 Übersicht</h2>
+        
+        <p>Der Knowledge Base Editor ermöglicht die einfache Verwaltung aller Wissenseinträge, die der Borgo-Bot für seine Antworten verwendet. Änderungen werden sofort wirksam – kein Neustart erforderlich!</p>
+
+        <div class="feature-grid">
+            <div class="feature">
+                <div class="feature-icon">🔍</div>
+                <h4>Suchen & Filtern</h4>
+                <p>Finde Einträge schnell per Suchfeld oder Kategorie-Filter</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✏️</div>
+                <h4>Direkt Bearbeiten</h4>
+                <p>Antworten und Keywords inline anpassen</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏷️</div>
+                <h4>Keywords verwalten</h4>
+                <p>Synonyme hinzufügen für bessere Erkennung</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">➕</div>
+                <h4>Neue Einträge</h4>
+                <p>Wissensbasis einfach erweitern</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <section id="navigation">
+        <h2>🧭 Navigation im Editor</h2>
+
+        <h3>Einträge durchsuchen</h3>
+        <div class="card">
+            <h4>🔍 Suchfeld</h4>
+            <p>Tippe einen Begriff ein, um alle Einträge zu filtern. Die Suche durchsucht Titel, Inhalte und Keywords gleichzeitig.</p>
+        </div>
+
+        <div class="card info">
+            <h4>📁 Kategorie-Filter</h4>
+            <p>Wähle im Dropdown eine Kategorie aus, um nur Einträge dieser Kategorie anzuzeigen:</p>
+            <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                <li><strong>ACTIVITIES</strong> – Ausflüge, Strand, Wandern</li>
+                <li><strong>BASICS</strong> – WLAN, Check-in, Allgemeines</li>
+                <li><strong>FACILITIES</strong> – Pizzaofen, Pool, Waschmaschine</li>
+                <li><strong>SAFETY</strong> – Schlangen, Notfälle</li>
+                <li><strong>RULES</strong> – Hunde, Müll, Hausregeln</li>
+            </ul>
+        </div>
+
+        <h3>Eintrag öffnen</h3>
+        <p>Klicke auf einen Eintrag in der Liste, um die Details anzuzeigen. Der Eintrag öffnet sich rechts (Desktop) oder darunter (Mobil).</p>
+    </section>
+
+    <!-- Bearbeiten -->
+    <section id="bearbeiten">
+        <h2>✏️ Einträge bearbeiten</h2>
+
+        <div class="steps">
+            <div class="step">
+                <h4>Eintrag auswählen</h4>
+                <p>Klicke in der linken Liste auf den Eintrag, den du bearbeiten möchtest.</p>
+            </div>
+            <div class="step">
+                <h4>Inhalt anpassen</h4>
+                <p>Bearbeite den Text im Antwort-Feld. Der Bot gibt diese Antwort bei passenden Fragen aus.</p>
+            </div>
+            <div class="step">
+                <h4>Speichern</h4>
+                <p>Klicke auf <code>Speichern</code>. Die Änderung ist sofort aktiv!</p>
+            </div>
+        </div>
+
+        <div class="warning">
+            Änderungen am Antwort-Text sollten <strong>faktisch korrekt</strong> sein. Der Bot gibt den Text oft wörtlich wieder!
+        </div>
+
+        <h3>Neuen Eintrag erstellen</h3>
+        <div class="steps">
+            <div class="step">
+                <h4>Plus-Button klicken</h4>
+                <p>Klicke oben auf <code>+ Neu</code> oder das Plus-Symbol.</p>
+            </div>
+            <div class="step">
+                <h4>Felder ausfüllen</h4>
+                <p><strong>Key:</strong> Eindeutiger Name (z.B. <code>parkplaetze</code>)<br>
+                <strong>Kategorie:</strong> Passende Kategorie wählen<br>
+                <strong>Antwort:</strong> Der vollständige Antworttext</p>
+            </div>
+            <div class="step">
+                <h4>Keywords hinzufügen</h4>
+                <p>Wichtig: Füge relevante Keywords hinzu, damit der Bot die Frage erkennt!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keywords -->
+    <section id="keywords">
+        <h2>🏷️ Keywords & Synonyme</h2>
+
+        <p>Keywords sind der Schlüssel zur Fragenrkennung! Der Bot analysiert die Nutzerfrage und sucht nach passenden Keywords.</p>
+
+        <div class="card success">
+            <h4>Gute Keywords</h4>
+            <p>Verwende <strong>verschiedene Schreibweisen</strong> und <strong>Synonyme</strong>:</p>
+            <pre><code>pool, schwimmbad, schwimmen, baden, swimming pool, piscina</code></pre>
+        </div>
+
+        <div class="card">
+            <h4>So funktioniert's</h4>
+            <p>Wenn ein Gast fragt: <em>"Wo kann ich hier schwimmen?"</em></p>
+            <p>→ Bot findet Keyword <code>schwimmen</code> → Zeigt Pool-Eintrag</p>
+        </div>
+
+        <h3>Keywords hinzufügen</h3>
+        <div class="steps">
+            <div class="step">
+                <h4>Eintrag öffnen</h4>
+                <p>Wähle den Eintrag, dem du Keywords hinzufügen möchtest.</p>
+            </div>
+            <div class="step">
+                <h4>Keyword-Feld finden</h4>
+                <p>Scrolle zum Bereich "Keywords" oder "Synonyme".</p>
+            </div>
+            <div class="step">
+                <h4>Neue Keywords eingeben</h4>
+                <p>Füge neue Begriffe hinzu, getrennt durch Komma. Denke an:</p>
+                <ul style="margin-top: 0.5rem;">
+                    <li>Singular & Plural (<code>hund, hunde</code>)</li>
+                    <li>Englisch (<code>dog, dogs</code>)</li>
+                    <li>Italienisch (<code>cane</code>)</li>
+                    <li>Umgangssprache (<code>wuff</code>)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="warning">
+            Fehlende Keywords = Bot erkennt Frage nicht! Im Zweifel lieber zu viele Keywords als zu wenige.
+        </div>
+    </section>
+
+    <!-- Tipps -->
+    <section id="tipps">
+        <h2>💡 Tipps & Best Practices</h2>
+
+        <ul class="tips">
+            <li><strong>Kurze, präzise Antworten</strong> – Gäste lesen auf dem Handy, halte Texte kompakt.</li>
+            <li><strong>Konkrete Infos</strong> – Zahlen, Zeiten, Orte sind hilfreicher als vage Beschreibungen.</li>
+            <li><strong>Mehrsprachige Keywords</strong> – Deutsch, Englisch, Italienisch für internationale Gäste.</li>
+            <li><strong>Testen nach Änderungen</strong> – Schicke eine Testfrage an den Bot in der DEV-Gruppe.</li>
+            <li><strong>Einträge zählen</strong> – Oben rechts siehst du die Gesamtzahl der Einträge.</li>
+        </ul>
+
+        <h3>Häufige Fehler vermeiden</h3>
+        <div class="card">
+            <h4>❌ Zu wenige Keywords</h4>
+            <p>Problem: Gast fragt "Wo parke ich?" – aber nur <code>parkplatz</code> als Keyword.</p>
+            <p>Lösung: Ergänze <code>parken, auto, stellplatz, parking, car</code></p>
+        </div>
+
+        <div class="card">
+            <h4>❌ Veraltete Informationen</h4>
+            <p>Problem: WLAN-Passwort hat sich geändert.</p>
+            <p>Lösung: Regelmäßig prüfen und aktualisieren!</p>
+        </div>
+
+        <h3>Test-Workflow</h3>
+        <div class="steps">
+            <div class="step">
+                <h4>Änderung speichern</h4>
+                <p>Bearbeite den Eintrag im Editor und speichere.</p>
+            </div>
+            <div class="step">
+                <h4>DEV-Gruppe öffnen</h4>
+                <p>Öffne Signal und gehe zur Borgo-Bot DEV Gruppe.</p>
+            </div>
+            <div class="step">
+                <h4>Test-Frage senden</h4>
+                <p>Schreibe: <code>!bot [Deine Testfrage]</code></p>
+            </div>
+            <div class="step">
+                <h4>Antwort prüfen</h4>
+                <p>Stimmt die Antwort? Wenn nicht, Keywords oder Text anpassen.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/" class="cta-button">
+                ← Zurück zum Editor
+            </a>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>Borgo-Bot Knowledge Base Editor · Borgo Batone 🇮🇹</p>
+    <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">
+        Bei Fragen: <a href="mailto:onsite@borgobatone.it">onsite@borgobatone.it</a>
+    </p>
+</footer>
+
+</body>
+</html>

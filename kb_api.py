@@ -32,7 +32,9 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Borgo-Bot KB Editor", version="1.0")
 from fastapi.staticfiles import StaticFiles
-app.mount("/static", StaticFiles(directory="/home/bot/borgo-bot/static"), name="static")
+_static_dir = Path("/home/bot/borgo-bot/static")
+if _static_dir.exists():
+    app.mount("/static", StaticFiles(directory=str(_static_dir)), name="static")
 
 # ─── Models ───────────────────────────────────────────────────────────────────
 
@@ -173,7 +175,7 @@ HTML = """<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Borgo-Bot · Knowledge Base</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -191,6 +193,7 @@ HTML = """<!DOCTYPE html>
     --white: #fdfcf8;
     --shadow: 0 2px 16px rgba(44,36,22,0.10);
     --radius: 10px;
+    --header-h: 56px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -199,189 +202,218 @@ HTML = """<!DOCTYPE html>
     background: var(--sand);
     color: var(--ink);
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
   /* ── Header ── */
   header {
     background: var(--terra);
     color: var(--white);
-    padding: 18px 32px;
+    padding: 0 20px;
+    height: var(--header-h);
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 2px 12px rgba(184,80,66,0.3);
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    z-index: 200;
   }
   header h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: 600;
     letter-spacing: 0.02em;
+    white-space: nowrap;
   }
-  header h1 span { opacity: 0.7; font-weight: 400; }
+  header h1 span { opacity: 0.65; font-weight: 400; }
   #stats-bar {
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     opacity: 0.85;
     display: flex;
-    gap: 16px;
+    gap: 14px;
+    white-space: nowrap;
   }
-  #stats-bar b { opacity: 1; }
 
-  /* ── Layout ── */
+  /* ── Desktop layout ── */
   .layout {
     display: grid;
     grid-template-columns: 300px 1fr;
     flex: 1;
-    height: calc(100vh - 62px);
+    height: calc(100dvh - var(--header-h));
+    overflow: hidden;
   }
 
   /* ── Sidebar ── */
   .sidebar {
-    max-height: calc(100vh - 62px);
-    height: 100%;
     background: var(--white);
     border-right: 1px solid var(--sand-dark);
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    height: 100%;
   }
   .sidebar-top {
-    padding: 16px;
+    padding: 12px;
     border-bottom: 1px solid var(--sand-dark);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    flex-shrink: 0;
   }
   #search {
     width: 100%;
-    padding: 8px 12px;
+    padding: 10px 14px;
     border: 1.5px solid var(--sand-dark);
     border-radius: var(--radius);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
+    font-size: 1rem;
     background: var(--sand);
     color: var(--ink);
     outline: none;
     transition: border-color 0.2s;
+    -webkit-appearance: none;
   }
   #search:focus { border-color: var(--terra); }
   #cat-filter {
-    padding: 7px 10px;
+    padding: 10px 14px;
     border: 1.5px solid var(--sand-dark);
     border-radius: var(--radius);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     background: var(--sand);
     color: var(--ink);
     outline: none;
     cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a4f3f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
   }
   #cat-filter:focus { border-color: var(--terra); }
+
   .sidebar-list {
     flex: 1;
     overflow-y: auto;
-    padding: 8px 0;
+    -webkit-overflow-scrolling: touch;
+    padding: 6px 0;
   }
   .entry-item {
-    padding: 10px 16px;
+    padding: 12px 16px;
     cursor: pointer;
     border-left: 3px solid transparent;
     transition: all 0.15s;
     display: flex;
     flex-direction: column;
     gap: 2px;
+    min-height: 52px;
+    justify-content: center;
   }
-  .entry-item:hover { background: var(--sand); border-left-color: var(--terra-light); }
+  .entry-item:active { background: var(--sand); }
   .entry-item.active { background: #fdf0ee; border-left-color: var(--terra); }
   .entry-key {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--ink);
   }
   .entry-pending {
     font-size: 0.75rem;
     margin-left: 4px;
-    opacity: 0.9;
   }
   .entry-cat {
-    font-size: 0.74rem;
+    font-size: 0.72rem;
     color: var(--ink-light);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
   .btn-new {
     flex-shrink: 0;
-    margin: 12px 16px;
-    padding: 10px;
+    margin: 10px 12px;
+    padding: 13px;
     background: var(--terra);
     color: var(--white);
     border: none;
     border-radius: var(--radius);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s;
     letter-spacing: 0.02em;
+    min-height: 48px;
   }
-  .btn-new:hover { background: var(--terra-dark); }
+  .btn-new:active { background: var(--terra-dark); }
 
-  /* ── Editor ── */
+  /* ── Editor (desktop) ── */
   .editor {
     display: flex;
     flex-direction: column;
     background: var(--white);
     overflow: hidden;
+    height: 100%;
   }
   .editor-header {
-    padding: 20px 28px 16px;
+    padding: 16px 24px 14px;
     border-bottom: 1px solid var(--sand-dark);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
+    gap: 12px;
+    flex-shrink: 0;
   }
   .editor-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     font-weight: 600;
     color: var(--terra);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  .editor-actions { display: flex; gap: 10px; }
+  .editor-actions { display: flex; gap: 8px; flex-shrink: 0; }
   .btn {
-    padding: 8px 18px;
+    padding: 9px 16px;
     border-radius: var(--radius);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 500;
     cursor: pointer;
     border: none;
     transition: all 0.15s;
+    min-height: 40px;
+    white-space: nowrap;
   }
   .btn-save { background: var(--sage); color: var(--ink); }
-  .btn-save:hover { background: var(--sage-dark); }
+  .btn-save:active { background: var(--sage-dark); }
   .btn-delete { background: #f5e8e7; color: var(--terra); }
-  .btn-delete:hover { background: #f0d0cc; }
+  .btn-delete:active { background: #f0d0cc; }
   .btn-cancel { background: var(--sand); color: var(--ink-light); }
-  .btn-cancel:hover { background: var(--sand-dark); }
+  .btn-cancel:active { background: var(--sand-dark); }
 
   .editor-body {
     flex: 1;
     overflow-y: auto;
-    padding: 24px 28px;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 24px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
   }
   .field-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
   }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   label {
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.07em;
@@ -389,15 +421,24 @@ HTML = """<!DOCTYPE html>
   }
   input[type=text], select, textarea {
     width: 100%;
-    padding: 10px 14px;
+    padding: 11px 14px;
     border: 1.5px solid var(--sand-dark);
     border-radius: var(--radius);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.92rem;
+    font-size: 1rem;
     color: var(--ink);
     background: var(--white);
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 46px;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a4f3f' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
   }
   input[type=text]:focus, select:focus, textarea:focus {
     border-color: var(--terra);
@@ -406,7 +447,7 @@ HTML = """<!DOCTYPE html>
   input[readonly] { background: var(--sand); color: var(--ink-light); cursor: default; }
   textarea {
     resize: vertical;
-    min-height: 180px;
+    min-height: 160px;
     line-height: 1.6;
   }
 
@@ -417,34 +458,37 @@ HTML = """<!DOCTYPE html>
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     color: var(--ink-light);
     text-align: center;
     padding: 40px;
   }
-  .empty-icon { font-size: 3rem; opacity: 0.4; }
-  .empty-state h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; }
-  .empty-state p { font-size: 0.88rem; opacity: 0.7; }
+  .empty-icon { font-size: 2.8rem; opacity: 0.35; }
+  .empty-state h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600; }
+  .empty-state p { font-size: 0.88rem; opacity: 0.7; line-height: 1.5; }
 
   /* ── Toast ── */
   #toast {
     position: fixed;
     bottom: 24px;
-    right: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(12px);
     padding: 12px 20px;
-    border-radius: var(--radius);
-    font-size: 0.88rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
     font-weight: 500;
     color: var(--white);
-    box-shadow: var(--shadow);
+    box-shadow: 0 4px 20px rgba(44,36,22,0.25);
     opacity: 0;
-    transform: translateY(8px);
     transition: all 0.25s;
     pointer-events: none;
     z-index: 1000;
+    white-space: nowrap;
+    max-width: calc(100vw - 32px);
+    text-align: center;
   }
-  #toast.show { opacity: 1; transform: translateY(0); }
-  #toast.pending { background: #e8a020; }
+  #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #toast.pending { background: #c28010; }
   #toast.success { background: var(--sage-dark); }
   #toast.error { background: var(--terra); }
 
@@ -452,55 +496,156 @@ HTML = """<!DOCTYPE html>
   .overlay {
     display: none;
     position: fixed; inset: 0;
-    background: rgba(44,36,22,0.4);
+    background: rgba(44,36,22,0.45);
     z-index: 500;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
+    padding: 16px;
   }
   .overlay.show { display: flex; }
   .dialog {
     background: var(--white);
-    border-radius: 14px;
-    padding: 28px 32px;
-    max-width: 360px;
-    box-shadow: 0 8px 40px rgba(44,36,22,0.2);
+    border-radius: 16px;
+    padding: 24px 24px 28px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 8px 40px rgba(44,36,22,0.25);
     text-align: center;
   }
   .dialog h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; margin-bottom: 8px; }
-  .dialog p { font-size: 0.88rem; color: var(--ink-light); margin-bottom: 20px; }
-  .dialog-btns { display: flex; gap: 10px; justify-content: center; }
+  .dialog p { font-size: 0.9rem; color: var(--ink-light); margin-bottom: 20px; line-height: 1.4; }
+  .dialog-btns { display: flex; gap: 10px; }
+  .dialog-btns .btn { flex: 1; padding: 13px; font-size: 0.95rem; min-height: 50px; }
 
-
-  /* ── Mobile Responsive ── */
+  /* ════════════════════════════════════════════
+     MOBILE – alles unter 768px
+  ════════════════════════════════════════════ */
   @media (max-width: 768px) {
+
+    body { overflow: auto; }
+
     .layout {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto 1fr;
+      display: block;
       height: auto;
-      min-height: calc(100vh - 62px);
+      overflow: visible;
     }
+
+    /* Sidebar ist standardmäßig sichtbar */
+    /* Sidebar nimmt volle verfügbare Höhe, Button immer sichtbar */
     .sidebar {
-      max-height: 45vh;
-      height: 45vh;
+      height: calc(100dvh - var(--header-h));
+      max-height: none;
       border-right: none;
-      border-bottom: 1px solid var(--sand-dark);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .editor {
-      min-height: 55vh;
+    .sidebar-list {
+      flex: 1;
+      max-height: none;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
+    .btn-new {
+      margin-bottom: calc(10px + env(safe-area-inset-bottom, 60px));
+    }
+
+    /* Editor ist standardmäßig versteckt */
+    .editor {
+      display: none;
+      position: fixed;
+      inset: 0;
+      top: var(--header-h);
+      z-index: 100;
+      height: calc(100dvh - var(--header-h));
+      overflow: hidden;
+      background: var(--white);
+    }
+    /* Editor wird angezeigt wenn mobile-editor-open aktiv */
+    body.mobile-editor-open .editor {
+      display: flex;
+    }
+    body.mobile-editor-open .sidebar {
+      display: none;
+    }
+
+    /* Mobile editor header: back + title + save */
+    .editor-header {
+      padding: 12px 14px;
+      gap: 8px;
+    }
+    .editor-title {
+      font-size: 1.1rem;
+      flex: 1;
+    }
+    /* Verstecke Abbrechen-Button auf Mobile (Back-Button übernimmt) */
+    .btn-cancel { display: none; }
+
+    /* Back button – nur mobile */
+    .btn-back {
+      display: flex !important;
+      align-items: center;
+      justify-content: center;
+      background: var(--sand);
+      color: var(--ink);
+      border: none;
+      border-radius: var(--radius);
+      padding: 0 12px;
+      min-height: 44px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .editor-body {
+      padding: 16px;
+      gap: 14px;
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     .field-row {
       grid-template-columns: 1fr;
+      gap: 14px;
     }
-    header {
-      padding: 12px 16px;
+
+    /* Save-Bar: normales Flex-Element, kein fixed */
+    .mobile-save-bar {
+      display: flex !important;
+      flex-shrink: 0;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)) 14px;
+      background: var(--white);
+      border-top: 1px solid var(--sand-dark);
+      gap: 10px;
+      box-shadow: 0 -4px 16px rgba(44,36,22,0.08);
     }
-    header h1 {
-      font-size: 1.3rem;
+    .mobile-save-bar .btn {
+      flex: 1;
+      padding: 14px;
+      font-size: 1rem;
+      min-height: 52px;
+      border-radius: 12px;
     }
+
+    /* Desktop-Actions im Header verstecken auf Mobile */
+    .editor-actions .btn-save,
+    .editor-actions .btn-delete {
+      display: none;
+    }
+
+    textarea { min-height: 140px; }
+
+    header h1 span { display: none; }
+    header h1 { font-size: 1.25rem; }
   }
 
-  ::-webkit-scrollbar { width: 6px; }
+  /* Back button standardmäßig unsichtbar (Desktop) */
+  .btn-back { display: none; }
+  /* Mobile save bar standardmäßig unsichtbar (Desktop) */
+  .mobile-save-bar { display: none; }
+
+  ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--sand-dark); border-radius: 3px; }
 </style>
@@ -544,8 +689,8 @@ HTML = """<!DOCTYPE html>
     <h3>Eintrag löschen?</h3>
     <p id="confirm-text">Dieser Eintrag wird dauerhaft gelöscht.</p>
     <div class="dialog-btns">
-      <button class="btn btn-cancel" onclick="closeConfirm()">Abbrechen</button>
-      <button class="btn btn-delete" onclick="confirmDelete()">Löschen</button>
+      <button class="btn btn-cancel" style="display:flex" onclick="closeConfirm()">Abbrechen</button>
+      <button class="btn btn-delete" style="display:flex" onclick="confirmDelete()">Löschen</button>
     </div>
   </div>
 </div>
@@ -557,12 +702,28 @@ let allEntries = [];
 let currentKey = null;
 let isNew = false;
 let pendingDeleteKey = null;
+const isMobile = () => window.innerWidth <= 768;
 
-// XSS-Schutz: HTML-Sonderzeichen escapen
 function esc(str) {
   const d = document.createElement('div');
   d.textContent = str ?? '';
   return d.innerHTML;
+}
+
+function openMobileEditor() {
+  if (isMobile()) document.body.classList.add('mobile-editor-open');
+}
+function closeMobileEditor() {
+  document.body.classList.remove('mobile-editor-open');
+  currentKey = null;
+  isNew = false;
+  document.getElementById('editor-panel').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">🌿</div>
+      <h2>Knowledge Base Editor</h2>
+      <p>Wähle einen Eintrag aus der Liste<br>oder erstelle einen neuen.</p>
+    </div>`;
+  document.querySelectorAll('.entry-item').forEach(el => el.classList.remove('active'));
 }
 
 async function loadEntries() {
@@ -580,7 +741,7 @@ function renderList(entries) {
     const div = document.createElement('div');
     const pendingBadge = e._pending ? `<span class="entry-pending">⏳</span>` : '';
     div.className = 'entry-item' + (e.key === currentKey ? ' active' : '');
-    div.innerHTML = `<span class="entry-key">${esc(e.key)}</span>${pendingBadge}<span class="entry-cat">${esc(e.category)}</span>`;
+    div.innerHTML = `<span class="entry-key">${esc(e.key)}${pendingBadge}</span><span class="entry-cat">${esc(e.category)}</span>`;
     div.dataset.key = e.key;
     div.addEventListener('click', () => openEntry(div.dataset.key));
     list.appendChild(div);
@@ -603,24 +764,26 @@ function openEntry(key) {
   isNew = false;
   const e = allEntries.find(x => x.key === key);
   if (!e) return;
-  renderEditor(e, false);
+  renderEditor(e);
   document.querySelectorAll('.entry-item').forEach(el => {
-    el.classList.toggle('active', el.querySelector('.entry-key').textContent === key);
+    el.classList.toggle('active', el.dataset.key === key);
   });
+  openMobileEditor();
 }
 
 function newEntry() {
   currentKey = null;
   isNew = true;
-  renderEditor({ key:'', category:'general', priority:'medium', synonyms:[], content:'' }, true);
+  renderEditor({ key:'', category:'general', priority:'medium', synonyms:[], content:'' });
   document.querySelectorAll('.entry-item').forEach(el => el.classList.remove('active'));
+  openMobileEditor();
 }
 
-function renderEditor(e, editable) {
+function renderEditor(e) {
   const panel = document.getElementById('editor-panel');
-  // Struktur ohne Userdaten aufbauen, Werte per JS setzen (XSS-sicher)
   panel.innerHTML = `
     <div class="editor-header">
+      <button class="btn-back" onclick="closeMobileEditor()">←</button>
       <div class="editor-title" id="ed-title"></div>
       <div class="editor-actions">
         ${!isNew ? `<button class="btn btn-delete" id="btn-del">Löschen</button>` : ''}
@@ -659,18 +822,23 @@ function renderEditor(e, editable) {
         <textarea id="f-content" placeholder="Antwort für Gäste…"></textarea>
       </div>
     </div>
+    <!-- Mobile: Floating Save-Bar -->
+    <div class="mobile-save-bar">
+      ${!isNew ? `<button class="btn btn-delete" onclick="askDeleteCurrent()">🗑️ Löschen</button>` : ''}
+      <button class="btn btn-save" onclick="saveEntry()">✓ Speichern</button>
+    </div>
   `;
-  // Werte sicher über DOM-Properties setzen (kein HTML-Parsing)
+
   document.getElementById('ed-title').textContent = isNew ? 'Neuer Eintrag' : e.key;
   document.getElementById('f-key').value = e.key ?? '';
   document.getElementById('f-syn').value = (e.synonyms || []).join(', ');
   document.getElementById('f-content').value = e.content ?? '';
-  // Selects auf korrekten Wert setzen
+
   const catSel = document.getElementById('f-cat');
   for (const opt of catSel.options) { if (opt.value === e.category) opt.selected = true; }
   const prioSel = document.getElementById('f-prio');
   for (const opt of prioSel.options) { if (opt.value === e.priority) opt.selected = true; }
-  // Löschen-Button via data-Attribut (kein inline-onclick mit Userdaten)
+
   const delBtn = document.getElementById('btn-del');
   if (delBtn) {
     delBtn.dataset.key = e.key;
@@ -715,16 +883,23 @@ async function saveEntry() {
       toast(isNew ? `✅ "${key}" erstellt` : `✅ "${currentKey}" gespeichert`, 'success');
     }
     await loadEntries();
-    if (result.status !== 'pending' || isNew) openEntry(isNew ? key : currentKey);
+    if (isNew) {
+      closeMobileEditor();
+    } else {
+      openEntry(currentKey);
+    }
   } catch(e) {
     toast('Verbindungsfehler', 'error');
   }
 }
 
+function askDeleteCurrent() {
+  if (currentKey) askDelete(currentKey);
+}
+
 function askDelete(key) {
   pendingDeleteKey = key;
-  // textContent ist XSS-sicher — kein innerHTML nötig
-  document.getElementById('confirm-text').textContent = `"${key}" wird dauerhaft gelöscht.`;
+  document.getElementById('confirm-text').textContent = `"${key}" wird zur Löschung vorgemerkt.`;
   document.getElementById('confirm-overlay').classList.add('show');
 }
 function closeConfirm() {
@@ -738,9 +913,14 @@ async function confirmDelete() {
   try {
     const res = await fetch(`/api/entries/${key}`, { method: 'DELETE' });
     if (!res.ok) { toast('Fehler beim Löschen', 'error'); return; }
-    toast(`🗑️ "${key}" gelöscht`, 'success');
+    const result = await res.json();
+    if (result.status === 'pending') {
+      toast(`⏳ Löschung #${result.id} wartet auf Admin-Freigabe`, 'pending');
+    } else {
+      toast(`🗑️ "${key}" gelöscht`, 'success');
+    }
     currentKey = null;
-    document.getElementById('editor-panel').innerHTML = `<div class="empty-state"><div class="empty-icon">🌿</div><h2>Eintrag gelöscht</h2><p>Wähle einen Eintrag aus der Liste.</p></div>`;
+    closeMobileEditor();
     await loadEntries();
   } catch(e) { toast('Verbindungsfehler', 'error'); }
 }
@@ -748,7 +928,12 @@ async function confirmDelete() {
 function cancelEdit() {
   currentKey = null;
   isNew = false;
-  document.getElementById('editor-panel').innerHTML = `<div class="empty-state"><div class="empty-icon">🌿</div><h2>Knowledge Base Editor</h2><p>Wähle einen Eintrag aus der Liste<br>oder erstelle einen neuen.</p></div>`;
+  document.getElementById('editor-panel').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">🌿</div>
+      <h2>Knowledge Base Editor</h2>
+      <p>Wähle einen Eintrag aus der Liste<br>oder erstelle einen neuen.</p>
+    </div>`;
   document.querySelectorAll('.entry-item').forEach(el => el.classList.remove('active'));
 }
 
@@ -758,7 +943,7 @@ function toast(msg, type='success') {
   el.textContent = msg;
   el.className = `show ${type}`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.className = '', 3000);
+  toastTimer = setTimeout(() => el.className = '', 3500);
 }
 
 loadEntries();
@@ -788,4 +973,3 @@ if __name__ == "__main__":
         print(f"✅ YAML gefunden: {YAML_PATH}")
 
     uvicorn.run(app, host="0.0.0.0", port=PORT, log_level="warning")
-
